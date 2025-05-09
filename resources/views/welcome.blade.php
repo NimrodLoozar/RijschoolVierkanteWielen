@@ -724,7 +724,7 @@
                     </div>
                 </div>
                 <p class="mt-6 text-sm text-gray-500 text-center sm:text-left">
-                    © 2024 Your Company, Inc. All rights reserved.
+                    © 2025 Rijschool Vierkante Wiellen, Inc. All rights reserved.
                 </p>
             </div>
         </div>
