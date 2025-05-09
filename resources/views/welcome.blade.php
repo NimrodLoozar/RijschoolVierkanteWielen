@@ -9,7 +9,7 @@
 
     <link rel="icon" href="/favicon.ico" sizes="any">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.jpg">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -32,6 +32,10 @@
 </head>
 
 <body>
+    <!-- Preloader -->
+    <div id="preloader" class="fixed inset-0 z-50 flex items-center justify-center bg-white">
+        <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-indigo-600"></div>
+    </div>
 
     <header class="absolute inset-x-0 top-0 z-50">
         @if (Route::has('login'))
@@ -320,8 +324,8 @@
                                 op tijden die jou uitkomen, zodat je je rijlessen kunt plannen rond jouw drukke schema.
                             </p>
                         </div>
-                        <div class="@container flex flex-1 items-center max-lg:py-6 lg:pb-2">
-                            <img class="h-[min(152px,40cqw)] object-cover"
+                        <div class="@container flex flex-1 items-center justify-center max-lg:py-6 lg:pb-2">
+                            <img class="h-[min(152px,40cqw)] object-cover bg-transparant"
                                 src="{{ asset('img/flexible_schedule.jpg') }}" alt="">
                         </div>
                     </div>
@@ -460,6 +464,63 @@
             </div>
         </form>
     </div>
+
+    {{-- Newsletter --}}
+    <div class="relative isolate overflow-hidden py-16 sm:py-24 lg:py-32">
+        <div class="absolute inset-0 -z-10 w-full h-full overflow-hidden">
+            <img src="{{ asset('img/newsletter_background.jpg') }}" alt=""
+                class="absolute inset-0 -z-10 w-full h-full object-cover object-center opacity-90">
+        </div>
+        <div class="mx-auto max-w-7xl px-6 lg:px-8">
+            <div class="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-2">
+                <div class="max-w-xl lg:max-w-lg">
+                    <h2 class="text-4xl font-semibold tracking-tight text-white">Subscribe to our newsletter</h2>
+                    <p class="mt-4 text-lg text-gray-300">Nostrud amet eu ullamco nisi aute in ad minim nostrud
+                        adipisicing velit quis. Duis tempor incididunt dolore.</p>
+                    <div class="mt-6 flex max-w-md gap-x-4">
+                        <label for="email-address" class="sr-only">Email address</label>
+                        <input id="email-address" name="email" type="email" autocomplete="email" required
+                            class="min-w-0 flex-auto rounded-md bg-white/5 px-3.5 py-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
+                            placeholder="Enter your email">
+                        <button type="submit"
+                            class="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Subscribe</button>
+                    </div>
+                </div>
+                <dl class="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:pt-2">
+                    <div class="flex flex-col items-start">
+                        <div class="rounded-md bg-white/5 p-2 ring-1 ring-white/10">
+                            <svg class="size-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" aria-hidden="true" data-slot="icon">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" />
+                            </svg>
+                        </div>
+                        <dt class="mt-4 text-base font-semibold text-white">Weekly articles</dt>
+                        <dd class="mt-2 text-base/7 text-gray-400">Non laboris consequat cupidatat laborum magna.
+                            Eiusmod non irure cupidatat duis commodo amet.</dd>
+                    </div>
+                    <div class="flex flex-col items-start">
+                        <div class="rounded-md bg-white/5 p-2 ring-1 ring-white/10">
+                            <svg class="size-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" aria-hidden="true" data-slot="icon">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M10.05 4.575a1.575 1.575 0 1 0-3.15 0v3m3.15-3v-1.5a1.575 1.575 0 0 1 3.15 0v1.5m-3.15 0 .075 5.925m3.075.75V4.575m0 0a1.575 1.575 0 0 1 3.15 0V15M6.9 7.575a1.575 1.575 0 1 0-3.15 0v8.175a6.75 6.75 0 0 0 6.75 6.75h2.018a5.25 5.25 0 0 0 3.712-1.538l1.732-1.732a5.25 5.25 0 0 0 1.538-3.712l.003-2.024a.668.668 0 0 1 .198-.471 1.575 1.575 0 1 0-2.228-2.228 3.818 3.818 0 0 0-1.12 2.687M6.9 7.575V12m6.27 4.318A4.49 4.49 0 0 1 16.35 15m.002 0h-.002" />
+                            </svg>
+                        </div>
+                        <dt class="mt-4 text-base font-semibold text-white">No spam</dt>
+                        <dd class="mt-2 text-base/7 text-gray-400">Officia excepteur ullamco ut sint duis proident non
+                            adipisicing. Voluptate incididunt anim.</dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+        <div class="absolute top-0 left-1/2 -z-10 -translate-x-1/2 blur-3xl xl:-top-6" aria-hidden="true">
+            <div class="aspect-1155/678 w-[72.1875rem] bg-linear-to-tr from-[#ff80b5] to-[#9089fc] opacity-30"
+                style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)">
+            </div>
+        </div>
+    </div>
+
 
     {{-- Instructors --}}
     <div class="bg-white py-24 sm:py-32">
@@ -702,6 +763,30 @@
                 if (!isOpen) {
                     answer.style.maxHeight = answer.scrollHeight + 'px';
                     icon.classList.add('rotate-180');
+                }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const preloader = document.getElementById('preloader');
+            const images = document.querySelectorAll('img');
+            let loadedImages = 0;
+
+            const checkAllImagesLoaded = () => {
+                loadedImages++;
+                if (loadedImages === images.length) {
+                    preloader.style.opacity = '0';
+                    setTimeout(() => preloader.style.display = 'none', 500); // Smooth fade-out
+                }
+            };
+
+            images.forEach(img => {
+                if (img.complete) {
+                    checkAllImagesLoaded();
+                } else {
+                    img.addEventListener('load', checkAllImagesLoaded);
+                    img.addEventListener('error', checkAllImagesLoaded); // Handle broken images
                 }
             });
         });
