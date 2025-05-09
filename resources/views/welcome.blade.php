@@ -263,7 +263,11 @@
     </div>
 
     {{-- Onze diensten --}}
-    <div class="bg-gray-50 py-24 sm:py-32">
+    <div class="py-24 sm:py-32 relative">
+        <div class="absolute inset-0 -z-10 w-full h-full overflow-hidden">
+            <img src="{{ asset('img/white_tire.jpg') }}" alt=""
+                class="absolute inset-0 -z-10 w-full h-full object-cover object-center opacity-50">
+        </div>
         <div class="mx-auto max-w-2xl px-6 lg:max-w-7xl lg:px-8">
             <h2 class="text-center text-base/7 font-semibold text-indigo-600">Onze diensten</h2>
             <p
@@ -474,16 +478,16 @@
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
             <div class="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-2">
                 <div class="max-w-xl lg:max-w-lg">
-                    <h2 class="text-4xl font-semibold tracking-tight text-white">Subscribe to our newsletter</h2>
+                    <h2 class="text-4xl font-semibold tracking-tight text-white">Abonneer je op onze nieuwsbrief</h2>
                     <p class="mt-4 text-lg text-gray-300">Nostrud amet eu ullamco nisi aute in ad minim nostrud
                         adipisicing velit quis. Duis tempor incididunt dolore.</p>
                     <div class="mt-6 flex max-w-md gap-x-4">
-                        <label for="email-address" class="sr-only">Email address</label>
+                        <label for="email-address" class="sr-only">E-mailadres</label>
                         <input id="email-address" name="email" type="email" autocomplete="email" required
                             class="min-w-0 flex-auto rounded-md bg-white/5 px-3.5 py-2 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
-                            placeholder="Enter your email">
+                            placeholder="Voer je e-mailadres in">
                         <button type="submit"
-                            class="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Subscribe</button>
+                            class="flex-none rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Abonneren</button>
                     </div>
                 </div>
                 <dl class="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:pt-2">
@@ -495,7 +499,7 @@
                                     d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z" />
                             </svg>
                         </div>
-                        <dt class="mt-4 text-base font-semibold text-white">Weekly articles</dt>
+                        <dt class="mt-4 text-base font-semibold text-white">Wekelijkse artikelen</dt>
                         <dd class="mt-2 text-base/7 text-gray-400">Non laboris consequat cupidatat laborum magna.
                             Eiusmod non irure cupidatat duis commodo amet.</dd>
                     </div>
@@ -507,7 +511,7 @@
                                     d="M10.05 4.575a1.575 1.575 0 1 0-3.15 0v3m3.15-3v-1.5a1.575 1.575 0 0 1 3.15 0v1.5m-3.15 0 .075 5.925m3.075.75V4.575m0 0a1.575 1.575 0 0 1 3.15 0V15M6.9 7.575a1.575 1.575 0 1 0-3.15 0v8.175a6.75 6.75 0 0 0 6.75 6.75h2.018a5.25 5.25 0 0 0 3.712-1.538l1.732-1.732a5.25 5.25 0 0 0 1.538-3.712l.003-2.024a.668.668 0 0 1 .198-.471 1.575 1.575 0 1 0-2.228-2.228 3.818 3.818 0 0 0-1.12 2.687M6.9 7.575V12m6.27 4.318A4.49 4.49 0 0 1 16.35 15m.002 0h-.002" />
                             </svg>
                         </div>
-                        <dt class="mt-4 text-base font-semibold text-white">No spam</dt>
+                        <dt class="mt-4 text-base font-semibold text-white">Geen spam</dt>
                         <dd class="mt-2 text-base/7 text-gray-400">Officia excepteur ullamco ut sint duis proident non
                             adipisicing. Voluptate incididunt anim.</dd>
                     </div>
@@ -522,14 +526,14 @@
     </div>
 
 
-    {{-- Instructors --}}
+    {{-- Instructeurs --}}
     <div class="bg-white py-24 sm:py-32">
         <div class="mx-auto grid max-w-7xl gap-20 px-6 lg:px-8 xl:grid-cols-3">
             <div class="max-w-xl">
-                <h2 class="text-3xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-4xl">Meet our
-                    leadership</h2>
-                <p class="mt-6 text-lg/8 text-gray-600">We’re a dynamic group of individuals who are passionate about
-                    what we do and dedicated to delivering the best results for our clients.</p>
+                <h2 class="text-3xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-4xl">Ontmoet ons
+                    leiderschapsteam</h2>
+                <p class="mt-6 text-lg/8 text-gray-600">We zijn een dynamische groep individuen die gepassioneerd zijn
+                    over wat we doen en toegewijd zijn aan het leveren van de beste resultaten voor onze klanten.</p>
             </div>
             <ul role="list" class="grid gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 xl:col-span-2">
                 <li>
@@ -539,12 +543,12 @@
                             alt="">
                         <div>
                             <h3 class="text-base/7 font-semibold tracking-tight text-gray-900">Leslie Alexander</h3>
-                            <p class="text-sm/6 font-semibold text-indigo-600">Co-Founder / CEO</p>
+                            <p class="text-sm/6 font-semibold text-indigo-600">Medeoprichter / CEO</p>
                         </div>
                     </div>
                 </li>
 
-                <!-- More people... -->
+                <!-- Meer mensen... -->
             </ul>
         </div>
     </div>
@@ -642,7 +646,11 @@
     </section>
 
     {{-- Footer --}}
-    <footer class="bg-gray-900 shadow">
+    <footer class="shadow relative">
+        <div class="absolute inset-0 -z-10 w-full h-full overflow-hidden">
+            <img src="{{ asset('img/newsletter_background.jpg') }}" alt=""
+                class="absolute inset-0 -z-10 w-full h-full object-cover object-center opacity-90">
+        </div>
         <div class="w-full mx-auto p-4 sm:p-6 lg:p-8 max-w-none">
             <div class="md:flex md:justify-between">
                 <div class="mb-6 md:mb-0">
@@ -654,8 +662,8 @@
                 </div>
                 <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-4">
                     <div>
-                        <h2 class="mb-6 text-sm font-semibold text-gray-600 uppercase">Solutions</h2>
-                        <ul class="text-gray-400">
+                        <h2 class="mb-6 text-sm font-semibold text-gray-400 uppercase">Solutions</h2>
+                        <ul class="text-gray-200">
                             <li><a href="#" class="hover:underline">Marketing</a></li>
                             <li><a href="#" class="hover:underline">Analytics</a></li>
                             <li><a href="#" class="hover:underline">Automation</a></li>
@@ -664,16 +672,16 @@
                         </ul>
                     </div>
                     <div>
-                        <h2 class="mb-6 text-sm font-semibold text-gray-600 uppercase">Support</h2>
-                        <ul class="text-gray-400">
+                        <h2 class="mb-6 text-sm font-semibold text-gray-400 uppercase">Support</h2>
+                        <ul class="text-gray-200">
                             <li><a href="#" class="hover:underline">Submit ticket</a></li>
                             <li><a href="#" class="hover:underline">Documentation</a></li>
                             <li><a href="#" class="hover:underline">Guides</a></li>
                         </ul>
                     </div>
                     <div>
-                        <h2 class="mb-6 text-sm font-semibold text-gray-600 uppercase">Company</h2>
-                        <ul class="text-gray-400">
+                        <h2 class="mb-6 text-sm font-semibold text-gray-400 uppercase">Company</h2>
+                        <ul class="text-gray-200">
                             <li><a href="#" class="hover:underline">About</a></li>
                             <li><a href="#" class="hover:underline">Blog</a></li>
                             <li><a href="#" class="hover:underline">Jobs</a></li>
@@ -681,8 +689,8 @@
                         </ul>
                     </div>
                     <div>
-                        <h2 class="mb-6 text-sm font-semibold text-gray-600 uppercase">Legal</h2>
-                        <ul class="text-gray-400">
+                        <h2 class="mb-6 text-sm font-semibold text-gray-400 uppercase">Legal</h2>
+                        <ul class="text-gray-200">
                             <li><a href="#" class="hover:underline">Terms of service</a></li>
                             <li><a href="#" class="hover:underline">Privacy policy</a></li>
                             <li><a href="#" class="hover:underline">License</a></li>
