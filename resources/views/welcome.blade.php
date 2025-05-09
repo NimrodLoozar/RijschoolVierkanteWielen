@@ -59,7 +59,7 @@
                 <div class="hidden lg:flex lg:gap-x-12">
                     <a href="#About" class="text-sm/6 font-semibold text-gray-100">About</a>
                     <a href="#Contact" class="text-sm/6 font-semibold text-gray-100">Contact</a>
-                    <a href="#" class="text-sm/6 font-semibold text-gray-100">FAQ</a>
+                    <a href="#FAQ" class="text-sm/6 font-semibold text-gray-100">FAQ</a>
                 </div>
                 <div class="hidden lg:flex lg:flex-1 lg:justify-end">
                     @auth
@@ -107,7 +107,7 @@
                                 class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-100 hover:bg-gray-50">About</a>
                             <a href="#Contact"
                                 class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-100 hover:bg-gray-50">Contact</a>
-                            <a href="#"
+                            <a href="#FAQ"
                                 class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-100 hover:bg-gray-50">FAQ</a>
                         </div>
                         <div class="hidden lg:flex lg:flex-1 lg:justify-end">
@@ -490,7 +490,7 @@
 
 
     {{-- FAQ --}}
-    <section class="w-full px-4 sm:px-6 lg:px-8 py-10 relative">
+    <section id="FAQ" class="w-full px-4 sm:px-6 lg:px-8 py-10 relative">
         <div class="absolute inset-0 -z-10 w-full h-full overflow-hidden">
             <img src="{{ asset('img/white_stripe.jpg') }}" alt=""
                 class="absolute inset-0 -z-10 w-full h-full object-cover object-right md:object-center">
