@@ -27,7 +27,6 @@ class Student extends Model
         'user_id',
         'relation_number',
         'is_active',
-        'note',
     ];
 
     /**
