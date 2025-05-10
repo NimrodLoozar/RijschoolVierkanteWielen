@@ -10,38 +10,102 @@
             <div class="p-6 text-gray-900 dark:text-gray-100">
                 <form method="POST" action="{{ route('students.store') }}">
                     @csrf
+                    @if ($errors->any())
+                        <div class="mb-4">
+                            <div class="text-red-600 font-medium">
+                                {{ __('Er zijn fouten opgetreden:') }}
+                            </div>
+                            <ul class="mt-2 text-sm text-red-600">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <div class="mb-4">
                         <label for="first_name"
                             class="block text-sm font-medium text-gray-700 dark:text-gray-300">Voornaam</label>
                         <input type="text" name="first_name" id="first_name"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            required>
+                            class="bg-gray-200 text-gray-900 p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                            placeholder="Voornaam" required>
                     </div>
                     <div class="mb-4">
                         <label for="middle_name"
                             class="block text-sm font-medium text-gray-700 dark:text-gray-300">Tussenvoegsel</label>
                         <input type="text" name="middle_name" id="middle_name"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                            class="bg-gray-200 text-gray-900 p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                            placeholder="Tussenvoegsel">
                     </div>
                     <div class="mb-4">
                         <label for="last_name"
                             class="block text-sm font-medium text-gray-700 dark:text-gray-300">Achternaam</label>
                         <input type="text" name="last_name" id="last_name"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            required>
+                            class="bg-gray-200 text-gray-900 p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                            placeholder="Achternaam" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="username"
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300">Gebruikersnaam</label>
+                        <input type="text" name="username" id="username"
+                            class="bg-gray-200 text-gray-900 p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                            placeholder="Gebruikersnaam" required>
                     </div>
                     <div class="mb-4">
                         <label for="email"
                             class="block text-sm font-medium text-gray-700 dark:text-gray-300">E-mail</label>
                         <input type="email" name="email" id="email"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                            class="bg-gray-200 text-gray-900 p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                            placeholder="Email" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="birth_date"
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300">Geboortedatum</label>
+                        <input type="date" name="birth_date" id="birth_date"
+                            class="bg-gray-200 text-gray-900 p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                             required>
                     </div>
                     <div class="mb-4">
-                        <label for="phone"
-                            class="block text-sm font-medium text-gray-700 dark:text-gray-300">Telefoonnummer</label>
-                        <input type="text" name="phone" id="phone"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        <label for="street"
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300">Straat</label>
+                        <input type="text" name="street" id="street"
+                            class="bg-gray-200 text-gray-900 p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                            placeholder="Straat" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="house_number"
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300">Huisnummer</label>
+                        <input type="text" name="house_number" id="house_number"
+                            class="bg-gray-200 text-gray-900 p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                            placeholder="Huisnummer" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="postal_code"
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300">Postcode</label>
+                        <input type="text" name="postal_code" id="postal_code"
+                            class="bg-gray-200 text-gray-900 p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                            placeholder="Postcode" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="city"
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300">Stad</label>
+                        <input type="text" name="city" id="city"
+                            class="bg-gray-200 text-gray-900 p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                            placeholder="Stad" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="password"
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300">Wachtwoord</label>
+                        <input type="password" name="password" id="password"
+                            class="bg-gray-200 text-gray-900 p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                            placeholder="Wachtwoord" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="password_confirmation"
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300">Bevestig
+                            Wachtwoord</label>
+                        <input type="password" name="password_confirmation" id="password_confirmation"
+                            class="bg-gray-200 text-gray-900 p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                            placeholder="Bevestig Wachtwoord" required>
                     </div>
                     <div class="flex justify-end">
                         <button type="submit"
