@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Instructor;
+use App\Models\Student;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -36,6 +38,20 @@ class DatabaseSeeder extends Seeder
             'note' => 'Test user contact details',
         ]);
 
+        DB::table('roles')->insert([
+            'user_id' => $testUser->id,
+            'name' => 'Leerling',
+            'is_active' => true,
+            'note' => 'Test user role details',
+        ]);
+
+        DB::table('students')->insert([
+            'user_id' => $testUser->id,
+            'relation_number' => 'RN123456',
+            'is_active' => true,
+            'note' => 'Test student details',
+        ]);
+
         $adminUser = User::factory()->create([
             'first_name' => 'Admin',
             'middle_name' => NULL,
@@ -57,5 +73,15 @@ class DatabaseSeeder extends Seeder
             'is_active' => true,
             'note' => 'Admin user contact details',
         ]);
+
+        DB::table('roles')->insert([
+            'user_id' => $adminUser->id,
+            'name' => 'Admin',
+            'is_active' => true,
+            'note' => 'Admin user role details',
+        ]);
+
+        Student::factory(10)->create();
+        Instructor::factory(10)->create();
     }
 }
