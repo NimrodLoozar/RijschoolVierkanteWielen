@@ -25,6 +25,5 @@ class Role extends Model
         'user_id',
         'name',
         'is_active',
-        'note',
     ];
 }
