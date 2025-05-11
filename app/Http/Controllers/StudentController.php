@@ -30,6 +30,7 @@ class StudentController extends Controller
                 'roles.name as role_name'
             )
             ->where('roles.name', 'Leerling')
+            ->orderBy('students.created_at', 'desc') // Order by creation date, descending
             ->get()
             ->toArray(); // Convert the result to an array
 
