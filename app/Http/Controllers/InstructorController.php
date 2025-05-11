@@ -30,6 +30,7 @@ class InstructorController extends Controller
                 'roles.name as role_name'
             )
             ->where('roles.name', 'Instructeur')
+            ->orderBy('instructors.created_at', 'desc') // Order by creation date, descending
             ->get()
             ->toArray();
         return view('instructors.index', compact('instructors'));
@@ -115,13 +116,91 @@ class InstructorController extends Controller
 
     public function edit($id)
     {
-        // Logica om een formulier voor het bewerken van een instructeur weer te geven
-        return view('instructors.edit', ['instructor' => $id]);
+        $instructor = DB::table('instructors')
+            ->join('users', 'instructors.user_id', '=', 'users.id')
+            ->join('contacts', 'instructors.user_id', '=', 'contacts.user_id')
+            ->join('roles', 'instructors.user_id', '=', 'roles.user_id')
+            ->select(
+                'instructors.id',
+                'users.first_name',
+                'users.middle_name',
+                'users.last_name',
+                'users.username',
+                'contacts.email',
+                'users.birth_date',
+                'contacts.street',
+                'contacts.house_number',
+                'contacts.postal_code',
+                'contacts.city',
+            )
+            ->where('instructors.id', $id)
+            ->first(); // Fetch a single record
+
+        return view('instructors.edit', compact('instructor')); // Pass the single object
     }
 
     public function update(Request $request, $id)
     {
-        // Logica om de gegevens van een instructeur bij te werken
-        return redirect()->route('instructors.index');
+        Log::info('Start update van instructeur met ID: ' . $id);
+
+        $instructor = Instructor::findOrFail($id);
+        Log::info('Instructeur gevonden: ', $instructor->toArray());
+
+        $user = $instructor->user;
+        Log::info('Gebruiker gekoppeld aan instructeur: ', $user->toArray());
+
+        $request->validate([
+            'first_name' => ['required', 'string', 'max:255'],
+            'middle_name' => ['nullable', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255', 'unique:users,username,' . $user->id],
+            'street' => ['required', 'string', 'max:255'],
+            'house_number' => ['required', 'string', 'max:255'],
+            'postal_code' => ['required', 'string', 'max:255'],
+            'city' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:contacts,email,' . $user->id . ',user_id'],
+            'birth_date' => ['required', 'date'],
+        ]);
+        Log::info('Validatie succesvol uitgevoerd.');
+
+        try {
+            $user->update([
+                'first_name' => $request->first_name,
+                'middle_name' => $request->middle_name,
+                'last_name' => $request->last_name,
+                'username' => $request->username,
+                'birth_date' => $request->birth_date,
+            ]);
+            Log::info('Gebruiker succesvol bijgewerkt: ', $user->toArray());
+
+            $contact = Contact::where('user_id', $user->id)->firstOrFail();
+            Log::info('Contactpersoon gevonden: ', $contact->toArray());
+
+            $contact->update([
+                'email' => $request->email,
+                'street' => $request->street,
+                'house_number' => $request->house_number,
+                'postal_code' => $request->postal_code,
+                'city' => $request->city,
+            ]);
+            Log::info('Contactpersoon succesvol bijgewerkt: ', $contact->toArray());
+
+            Log::info('Update van instructeur met ID ' . $id . ' succesvol afgerond.');
+            return redirect()->route('instructors.index')->with('success', 'Instructor updated successfully.');
+        } catch (Exception $e) {
+            Log::error('Fout bij het bijwerken van de instructeur: ' . $e->getMessage());
+            return redirect()->back()->withErrors(['error' => 'Er is een fout opgetreden bij het bijwerken van de instructor.']);
+        }
+    }
+    public function destroy($id)
+    {
+        // Logica om een instructeur te verwijderen
+        try {
+            $instructor = Instructor::findOrFail($id);
+            $instructor->delete();
+            return redirect()->route('instructors.index')->with('success', 'Instructor deleted successfully.');
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'Er is een fout opgetreden bij het verwijderen van de instructor.']);
+        }
     }
 }
