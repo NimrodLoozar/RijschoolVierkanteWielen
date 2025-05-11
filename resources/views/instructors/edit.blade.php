@@ -13,22 +13,20 @@
                     @method('PATCH')
                     @if ($errors->any())
                         <div class="mb-4">
-                            <div class="text-red-600 font-medium">
-                                {{ __('Er zijn fouten opgetreden:') }}
-                            </div>
-                            <ul class="mt-2 text-sm text-red-600">
+                            <ul class="mt-2 text-sm text-gray-300 bg-red-600 p-2 rounded-bl-xl rounded-tr-xl">
+                                <li>{{ __('Er zijn fouten opgetreden:') }}</li>
                                 @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
+                                    <li>- {{ $error }}</li>
                                 @endforeach
                             </ul>
                         </div>
                     @endif
                     <div class="mb-4">
                         <label for="first_name"
-                            class="block text-sm font-medium text-gray-700 dark:text-gray-300">Voornaam</label>
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300">Voornaam*</label>
                         <input type="text" name="first_name" id="first_name"
                             class="bg-gray-200 text-gray-900 p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            placeholder="Voornaam" required value="{{ old('first_name', $instructor->first_name) }}">
+                            placeholder="Voornaam" value="{{ old('first_name', $instructor->first_name) }}">
                     </div>
                     <div class="mb-4">
                         <label for="middle_name"
@@ -39,60 +37,59 @@
                     </div>
                     <div class="mb-4">
                         <label for="last_name"
-                            class="block text-sm font-medium text-gray-700 dark:text-gray-300">Achternaam</label>
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300">Achternaam*</label>
                         <input type="text" name="last_name" id="last_name"
                             class="bg-gray-200 text-gray-900 p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            placeholder="Achternaam" required value="{{ old('last_name', $instructor->last_name) }}">
+                            placeholder="Achternaam" value="{{ old('last_name', $instructor->last_name) }}">
                     </div>
                     <div class="mb-4">
                         <label for="username"
-                            class="block text-sm font-medium text-gray-700 dark:text-gray-300">Gebruikersnaam</label>
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300">Gebruikersnaam*</label>
                         <input type="text" name="username" id="username"
                             class="bg-gray-200 text-gray-900 p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            placeholder="Gebruikersnaam" required value="{{ old('username', $instructor->username) }}">
+                            placeholder="Gebruikersnaam" value="{{ old('username', $instructor->username) }}">
                     </div>
                     <div class="mb-4">
                         <label for="email"
-                            class="block text-sm font-medium text-gray-700 dark:text-gray-300">E-mail</label>
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300">E-mail*</label>
                         <input type="email" name="email" id="email"
                             class="bg-gray-200 text-gray-900 p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            placeholder="Email" required value="{{ old('email', $instructor->email) }}">
+                            placeholder="Email" value="{{ old('email', $instructor->email) }}">
                     </div>
                     <div class="mb-4">
                         <label for="birth_date"
-                            class="block text-sm font-medium text-gray-700 dark:text-gray-300">Geboortedatum</label>
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300">Geboortedatum*</label>
                         <input type="date" name="birth_date" id="birth_date"
                             class="bg-gray-200 text-gray-900 p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            required value="{{ old('birth_date', $instructor->birth_date) }}">
+                            value="{{ old('birth_date', $instructor->birth_date) }}">
                     </div>
                     <div class="mb-4">
                         <label for="street"
-                            class="block text-sm font-medium text-gray-700 dark:text-gray-300">Straat</label>
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300">Straat*</label>
                         <input type="text" name="street" id="street"
                             class="bg-gray-200 text-gray-900 p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            placeholder="Straat" required value="{{ old('street', $instructor->street) }}">
+                            placeholder="Straat" value="{{ old('street', $instructor->street) }}">
                     </div>
                     <div class="mb-4">
                         <label for="house_number"
-                            class="block text-sm font-medium text-gray-700 dark:text-gray-300">Huisnummer</label>
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300">Huisnummer*</label>
                         <input type="text" name="house_number" id="house_number"
                             class="bg-gray-200 text-gray-900 p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            placeholder="Huisnummer" required
-                            value="{{ old('house_number', $instructor->house_number) }}">
+                            placeholder="Huisnummer" value="{{ old('house_number', $instructor->house_number) }}">
                     </div>
                     <div class="mb-4">
                         <label for="postal_code"
-                            class="block text-sm font-medium text-gray-700 dark:text-gray-300">Postcode</label>
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300">Postcode*</label>
                         <input type="text" name="postal_code" id="postal_code"
                             class="bg-gray-200 text-gray-900 p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            placeholder="Postcode" required value="{{ old('postal_code', $instructor->postal_code) }}">
+                            placeholder="Postcode" value="{{ old('postal_code', $instructor->postal_code) }}">
                     </div>
                     <div class="mb-4">
                         <label for="city"
-                            class="block text-sm font-medium text-gray-700 dark:text-gray-300">Stad</label>
+                            class="block text-sm font-medium text-gray-700 dark:text-gray-300">Stad*</label>
                         <input type="text" name="city" id="city"
                             class="bg-gray-200 text-gray-900 p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            placeholder="Stad" required value="{{ old('city', $instructor->city) }}">
+                            placeholder="Stad" value="{{ old('city', $instructor->city) }}">
                     </div>
                     <div class="flex justify-end">
                         <button type="submit"
