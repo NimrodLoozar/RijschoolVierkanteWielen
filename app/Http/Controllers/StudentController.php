@@ -119,18 +119,92 @@ class StudentController extends Controller
     public function edit($id)
     {
         // Logica om een formulier voor het bewerken van een student weer te geven
-        return view('students.edit', ['student' => $id]);
+        $student = DB::table('students')
+            ->join('users', 'students.user_id', '=', 'users.id')
+            ->join('contacts', 'students.user_id', '=', 'contacts.user_id')
+            ->join('roles', 'students.user_id', '=', 'roles.user_id')
+            ->select(
+                'students.id',
+                'users.first_name',
+                'users.middle_name',
+                'users.last_name',
+                'users.username',
+                'users.birth_date',
+                'contacts.email',
+                'contacts.street',
+                'contacts.house_number',
+                'contacts.postal_code',
+                'contacts.city',
+                'roles.name as role_name'
+            )
+            ->where('students.id', $id)
+            ->first();
+
+        return view('students.edit', compact('student'));
     }
 
     public function update(Request $request, $id)
     {
-        // Logica om de gegevens van een student bij te werken
-        return redirect()->route('students.index');
-    }
+        Log::info('Start update van leerling met ID: ' . $id);
 
+        $student = Student::findOrFail($id);
+        Log::info('Leerling gevonden: ', $student->toArray());
+
+        $user = $student->user;
+        Log::info('Gebruiker gekoppeld aan leerling: ', $user->toArray());
+
+        $request->validate([
+            'first_name' => ['required', 'string', 'max:255'],
+            'middle_name' => ['nullable', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255', 'unique:users,username,' . $user->id],
+            'street' => ['required', 'string', 'max:255'],
+            'house_number' => ['required', 'string', 'max:255'],
+            'postal_code' => ['required', 'string', 'max:255'],
+            'city' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:contacts,email,' . $user->id . ',user_id'],
+            'birth_date' => ['required', 'date'],
+        ]);
+        Log::info('Validatie succesvol uitgevoerd.');
+
+        try {
+            $user->update([
+                'first_name' => $request->first_name,
+                'middle_name' => $request->middle_name,
+                'last_name' => $request->last_name,
+                'username' => $request->username,
+                'birth_date' => $request->birth_date,
+            ]);
+            Log::info('Gebruiker succesvol bijgewerkt: ', $user->toArray());
+
+            $contact = Contact::where('user_id', $user->id)->firstOrFail();
+            Log::info('Contactpersoon gevonden: ', $contact->toArray());
+
+            $contact->update([
+                'email' => $request->email,
+                'street' => $request->street,
+                'house_number' => $request->house_number,
+                'postal_code' => $request->postal_code,
+                'city' => $request->city,
+            ]);
+            Log::info('Contactpersoon succesvol bijgewerkt: ', $contact->toArray());
+
+            Log::info('Update van leerling met ID ' . $id . ' succesvol afgerond.');
+            return redirect()->route('students.index')->with('success', 'Instructor updated successfully.');
+        } catch (Exception $e) {
+            Log::error('Fout bij het bijwerken van de leerling: ' . $e->getMessage());
+            return redirect()->back()->withErrors(['error' => 'Er is een fout opgetreden bij het bijwerken van de instructor.']);
+        }
+    }
     public function destroy($id)
     {
-        // Logica om een student te verwijderen
-        return redirect()->route('students.index');
+        // Logica om een leerling te verwijderen
+        try {
+            $student = Student::findOrFail($id);
+            $student->delete();
+            return redirect()->route('students.index')->with('success', 'Instructor deleted successfully.');
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'Er is een fout opgetreden bij het verwijderen van de instructor.']);
+        }
     }
 }
