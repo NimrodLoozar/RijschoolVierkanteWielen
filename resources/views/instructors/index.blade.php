@@ -1,18 +1,28 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Instructeurs') }}
-        </h2>
-        <label class="flex items-center">
-            <span class="mr-2 text-gray-900 dark:text-gray-200">Toon Data</span>
-            <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
-                <input type="checkbox" id="dataToggle"
-                    class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
-                    checked />
-                <label for="dataToggle"
-                    class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+        <div class="mb-4 flex justify-between items-center">
+            <div>
+                <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                    {{ __('Instructeurs') }}
+                </h2>
+                <label class="flex items-center">
+                    <span class="mr-2 text-gray-900 dark:text-gray-200">Toon Data</span>
+                    <div
+                        class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+                        <input type="checkbox" id="dataToggle"
+                            class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
+                            checked />
+                        <label for="dataToggle"
+                            class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                    </div>
+                </label>
             </div>
-        </label>
+
+            <a href="{{ route('instructors.create') }}"
+                class="bg-green-600 text-white px-5 py-2.5 rounded-lg transition duration-300 hover:bg-green-700 transform hover:scale-105">
+                {{ __('Instructeur toevoegen') }}
+            </a>
+        </div>
     </x-slot>
 
     <div class="py-12">
@@ -79,7 +89,8 @@
                 </div>
             @else
                 <div id="noinstructorsError"
-                    class="bg-red-600 px-4 py-4 rounded relative dark:bg-red-800 dark:border-red-400" role="alert">
+                    class="w-full bg-red-600 px-4 py-4 rounded relative dark:bg-red-800 dark:border-red-400"
+                    role="alert">
                     {{-- <strong class="font-bold">Error!</strong> --}}
                     <span class="block sm:inline text-red-500 dark:text-gray-100">Geen instructeurs gevonden. Probeer
                         later
@@ -88,7 +99,7 @@
                 </div>
             @endif
             <div id="errorContainer"
-                class="hidden ml-64 bg-red-600 px-4 py-4 rounded relative dark:bg-red-800 dark:border-red-400">
+                class="w-full hidden bg-red-600 px-4 py-4 rounded relative dark:bg-red-800 dark:border-red-400">
                 <p class="text-red-500 dark:text-gray-100">Geen instructeurs gevonden. Probeer later
                     opnieuw of voeg instructeurs
                     toe.</p>
