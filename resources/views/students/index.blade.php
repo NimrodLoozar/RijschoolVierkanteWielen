@@ -138,10 +138,10 @@
                                 </svg>
                             </div>
                             <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                                <h3 class="text-base font-semibold text-gray-900" id="modal-title">Verwijder Instructeur
+                                <h3 class="text-base font-semibold text-gray-900" id="modal-title">Verwijder Leerling
                                 </h3>
                                 <div class="mt-2">
-                                    <p class="text-sm text-gray-500">Weet u zeker dat u deze instructeur wilt
+                                    <p class="text-sm text-gray-500">Weet u zeker dat u deze leerling wilt
                                         verwijderen?
                                         Deze actie kan niet ongedaan worden gemaakt.</p>
                                 </div>
