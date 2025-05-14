@@ -22,6 +22,12 @@
                         <x-nav-link :href="route('instructors.index')" :active="request()->routeIs('instructors.*')">
                             {{ __('Instructors') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('autos.index')" :active="request()->routeIs('autos.*')">
+                            {{ __('Autos') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('packages.index')" :active="request()->routeIs('packages.*')">
+                            {{ __('Packages') }}
+                        </x-nav-link>
                     @endif
                 </div>
             </div>

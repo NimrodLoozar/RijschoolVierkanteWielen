@@ -85,5 +85,6 @@ class DatabaseSeeder extends Seeder
         Instructor::factory(10)->create();
 
         $this->call(AutoSeeder::class);
+        $this->call(PackageSeeder::class);
     }
 }

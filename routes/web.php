@@ -5,6 +5,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\AutoController;
+use App\Http\Controllers\PackageController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 
@@ -44,6 +45,7 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::delete('/instructors/{instructor}', [InstructorController::class, 'destroy'])->name('instructors.destroy');
 
     Route::get('/autos', [AutoController::class, 'index'])->name('autos.index');
+    Route::get('/packages', [PackageController::class, 'index'])->name('packages.index');
 });
 
 Route::post('/toggle-maintenance', [MaintenanceController::class, 'toggle'])->name('toggle.maintenance');
