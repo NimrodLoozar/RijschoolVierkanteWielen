@@ -37,6 +37,7 @@ class Instructor extends Model
      */
     protected $fillable = [
         'user_id',
+        'number',
         'is_active',
         'note',
     ];
