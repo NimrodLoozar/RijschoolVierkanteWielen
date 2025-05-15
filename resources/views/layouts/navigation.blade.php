@@ -17,10 +17,10 @@
                     </x-nav-link>
                     @if (auth()->user() && auth()->user()->hasRole('Admin'))
                         <x-nav-link :href="route('students.index')" :active="request()->routeIs('students.*')">
-                            {{ __('Students') }}
+                            {{ __('Leerlingen') }}
                         </x-nav-link>
                         <x-nav-link :href="route('instructors.index')" :active="request()->routeIs('instructors.*')">
-                            {{ __('Instructors') }}
+                            {{ __('Instructeurs') }}
                         </x-nav-link>
                     @endif
                 </div>
