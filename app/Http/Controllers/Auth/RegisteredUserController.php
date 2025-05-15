@@ -29,22 +29,42 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        // dd($request->all()); // Voeg dit toe om de invoer te controleren
+
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'first_name' => ['required', 'string', 'max:255'],
+            'middle_name' => ['nullable', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255', 'unique:users,username'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:contacts,email'],
+            'birth_date' => ['required', 'date'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        // dd([
+        //     'first_name' => $request->first_name,
+        //     'middle_name' => $request->middle_name,
+        //     'last_name' => $request->last_name,
+        //     'username' => $request->username,
+        //     'birth_date' => $request->birth_date,
+        //     'password' => Hash::make($request->password),
+        //     'is_active' => true,
+        // ]);
+
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
+            'first_name' => $request->first_name,
+            'middle_name' => $request->middle_name,
+            'last_name' => $request->last_name,
+            'username' => $request->username,
+            'birth_date' => $request->birth_date,
             'password' => Hash::make($request->password),
+            'is_active' => true,
         ]);
 
         event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect(route('dashboard', [], false));
     }
 }

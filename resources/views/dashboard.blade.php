@@ -12,6 +12,22 @@
                     {{ __("You're logged in!") }}
                 </div>
             </div>
+
+            <!-- Maintenance Mode Toggle -->
+            <div class="mt-6 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
+                <form method="POST" action="{{ route('toggle.maintenance') }}">
+                    @csrf
+                    <label for="maintenance-toggle" class="flex items-center">
+                        <input type="checkbox" id="maintenance-toggle" name="maintenance_mode" value="1"
+                            class="mr-2" {{ $isMaintenanceMode ? 'checked' : '' }}>
+                        <span class="text-gray-900 dark:text-gray-100">Maintenance Mode</span>
+                    </label>
+                    <button type="submit"
+                        class="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
+                        Save
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 </x-app-layout>
