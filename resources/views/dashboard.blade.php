@@ -30,4 +30,20 @@
             </div>
         </div>
     </div>
+
+     <!-- Add Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        function toggleBookings() {
+            const stats = document.getElementById('bookingStats');
+            const button = event.target;
+            if (stats.classList.contains('hidden')) {
+                stats.classList.remove('hidden');
+                button.textContent = 'Verberg boekingen';
+            } else {
+                stats.classList.add('hidden');
+                button.textContent = 'Toon boekingen';
+            }
+        }
+    </script>
 </x-app-layout>
