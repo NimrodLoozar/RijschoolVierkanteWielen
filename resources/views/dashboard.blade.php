@@ -23,17 +23,6 @@
                 <div
                     class="w-full lg:w-1/3 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-8 lg:mb-0">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
-                        <h3 class="text-2xl font-bold mb-4">Mijn Gegevens</h3>
-
-
-                        <h4 class="text-xl font-semibold">Naam</h4>
-                        <br>
-                        <p>{{ Auth::user()->name }}</p>
-
-                        
-                    </div>
-
-                    <div class="p-6 text-gray-900 dark:text-gray-100">
                         <h3 class="text-2xl font-bold mb-4">Facturen</h3>
                         <a href="{{ route('invoices.index') }}" class="text-blue-500 hover:underline">
                             Bekijk facturen
@@ -128,10 +117,10 @@
             const button = event.target;
             if (stats.classList.contains('hidden')) {
                 stats.classList.remove('hidden');
-                button.textContent = 'Verberg boekingen';
+                button.textContent = 'Verberg Placeholder';
             } else {
                 stats.classList.add('hidden');
-                button.textContent = 'Toon boekingen';
+                button.textContent = 'Toon Placeholder';
             }
         }
     </script>
