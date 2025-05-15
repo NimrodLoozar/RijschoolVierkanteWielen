@@ -119,4 +119,64 @@
             </div>
         </div>
     </div>
+
+     <!-- Add Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        function toggleBookings() {
+            const stats = document.getElementById('bookingStats');
+            const button = event.target;
+            if (stats.classList.contains('hidden')) {
+                stats.classList.remove('hidden');
+                button.textContent = 'Verberg boekingen';
+            } else {
+                stats.classList.add('hidden');
+                button.textContent = 'Toon boekingen';
+            }
+        }
+
+        // Revenue Chart
+        const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const revenueData = @json($bookingStats['monthlyRevenue']);
+        
+        const labels = Object.keys(revenueData).map(month => monthNames[month - 1]);
+        const values = Object.values(revenueData);
+
+        const ctx = document.getElementById('revenueChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Maandelijkse Omzet (€)',
+                    data: values,
+                    backgroundColor: 'rgba(59, 130, 246, 0.5)',
+                    borderColor: 'rgb(59, 130, 246)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return '€' + value.toLocaleString();
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return '€' + context.parsed.y.toLocaleString();
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 </x-app-layout>
