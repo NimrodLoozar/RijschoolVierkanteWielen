@@ -3,21 +3,21 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Payment;
+use App\Models\Invoice;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Payment>
- */
 class PaymentFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
+    protected $model = Payment::class;
+
+    public function definition()
     {
         return [
-            //
+            'invoice_id' => Invoice::inRandomOrder()->first()->id ?? 1, // picks random invoice id or fallback to 1
+            'date' => $this->faker->dateTimeBetween('-1 year', 'now')->format('Y-m-d'),
+            'status' => $this->faker->randomElement(['betaald', 'openstaand']),
+            'is_active' => 1,
+            'note' => $this->faker->optional()->sentence(),
         ];
     }
 }

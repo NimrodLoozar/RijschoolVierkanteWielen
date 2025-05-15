@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\InstructorController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PaymentController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -37,6 +38,10 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::get('/instructors/{instructor}/edit', [InstructorController::class, 'edit'])->name('instructors.edit');
     Route::patch('/instructors/{instructor}', [InstructorController::class, 'update'])->name('instructors.update');
     Route::delete('/instructors/{instructor}', [InstructorController::class, 'destroy'])->name('instructors.destroy');
+
+
+    Route::get('betalingen', [PaymentController::class, 'index'])->name('overzicht');
+
 });
 
 require __DIR__ . '/auth.php';

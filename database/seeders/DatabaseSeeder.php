@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Existing user, contact, role, student, instructor seeding
         $testUser = User::factory()->create([
             'first_name' => 'Test',
             'middle_name' => NULL,
@@ -83,5 +84,11 @@ class DatabaseSeeder extends Seeder
 
         Student::factory(10)->create();
         Instructor::factory(10)->create();
+
+        // New invoice and payment seeding
+        $this->call([
+            InvoiceSeeder::class,
+            PaymentSeeder::class,
+        ]);
     }
 }
