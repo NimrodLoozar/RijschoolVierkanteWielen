@@ -19,7 +19,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Payment::factory(20)->create();
         // Create a test user (student)
         $testUser = User::factory()->create([
             'first_name' => 'Test',
@@ -90,9 +89,6 @@ class DatabaseSeeder extends Seeder
         // Create users
         User::factory(20)->create();
 
-        // Create invoices
-        Invoice::factory(20)->create();
-
         // Create students first
         $students = Student::factory(10)->create();
 
@@ -111,12 +107,29 @@ class DatabaseSeeder extends Seeder
             }
         }
         
-        // Create invoices for some registrations
+        // Create invoices for registrations first
+        $invoices = [];
         foreach ($registrations as $registration) {
             // 80% chance of creating an invoice for this registration
             if (rand(1, 100) <= 80) {
-                Invoice::factory()->create([
+                $invoices[] = Invoice::factory()->create([
                     'registration_id' => $registration->id,
+                ]);
+            }
+        }
+
+        // Create additional invoices to ensure we have at least 20
+        while (count($invoices) < 20) {
+            $invoices[] = Invoice::factory()->create();
+        }
+
+        // Now create payments for the invoices
+        foreach ($invoices as $invoice) {
+            // Create 1-2 payments per invoice
+            $paymentCount = rand(1, 2);
+            for ($i = 0; $i < $paymentCount; $i++) {
+                Payment::factory()->create([
+                    'invoice_id' => $invoice->id
                 ]);
             }
         }
