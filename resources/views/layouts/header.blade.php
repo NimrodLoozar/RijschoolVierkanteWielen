@@ -1,16 +1,15 @@
-<header class="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-1 py-1 bg-blue-400 custom-shadow">
+<header class="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-1 py-1 bg-sky-400 custom-shadow">
     <div class="flex">
-        <a href="{{ url('/') }}"><img src="{{ asset('img/aviation_18222397.png') }}" class="w-16" alt=""></a>
+        <a href="{{ url('/') }}"><img class="h-14 w-auto mr-6 ml-6" src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&amp;shade=600"></a>
         <div>
             <h1 class="text-2xl font-bold">Rijschool Vierkantewielen</h1>
             <p class="text-sm italic">Uw rid, onze instructie</p>
         </div>
-        <a href="{{ url('/about') }}" class="ml-4 text-lg font-semibold text-white hover:text-gray-300">About</a>
-        <a href="{{ url('/contact') }}" class="ml-4 text-lg font-semibold text-white hover:text-gray-300">Contact</a>
-        <a href="{{ url('/packages') }}" class="ml-4 text-lg font-semibold text-white hover:text-gray-300">Packages</a>
-        <a href="{{ url('/destinations') }}"
-            class="ml-4 text-lg font-semibold text-white hover:text-gray-300">Destinations</a>
-    </div>
+        <a href="{{ url('') }}" class="ml-4 text-lg font-semibold text-white hover:text-gray-300">placeholder</a>
+        <a href="{{ url('') }}" class="ml-4 text-lg font-semibold text-white hover:text-gray-300">placeholder</a>
+        <a href="{{ url('') }}" class="ml-4 text-lg font-semibold text-white hover:text-gray-300">placeholder</a>
+        <a href="{{ url('') }}" class="ml-4 text-lg font-semibold text-white hover:text-gray-300">placeholder</a>
+        </div>
     @if (Route::has('login'))
         <nav class="flex"></nav>
         @auth

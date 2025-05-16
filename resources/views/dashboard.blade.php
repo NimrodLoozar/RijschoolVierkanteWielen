@@ -1,4 +1,5 @@
 <x-app-layout>
+    <x-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-200 leading-tight">
             {{ __('Dashboard') }}
@@ -20,19 +21,18 @@
 
             <div class="flex flex-col lg:flex-row gap-8">
                 <!-- Gebruikersgegevens -->
-                <div
-                    class="w-full lg:w-1/3 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-8 lg:mb-0">
+                <div class="w-full lg:w-1/3 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-8 lg:mb-0">
+                    <div class="p-6 text-gray-900 dark:text-gray-100">
+                    <h3 class="text-2xl font-bold mb-4">Accounts</h3>
+                        <a href="{{ route('accounts.index') }}" class="text-blue-500 hover:underline">
+                            Bekijk accounts
+                        </a>    
+                    </div>
+
                     <div class="p-6 text-gray-900 dark:text-gray-100">
                         <h3 class="text-2xl font-bold mb-4">Facturen</h3>
                         <a href="{{ route('invoices.index') }}" class="text-blue-500 hover:underline">
                             Bekijk facturen
-                        </a>
-                    </div>
-
-                    <div class="p-6 text-gray-900 dark:text-gray-100">
-                        <h3 class="text-2xl font-bold mb-4">Accounts</h3>
-                        <a href="{{ route('accounts.index') }}" class="text-blue-500 hover:underline">
-                            Bekijk accounts
                         </a>
                     </div>
                 </div>
@@ -124,4 +124,5 @@
             }
         }
     </script>
+    </x-layout>
 </x-app-layout>
