@@ -1,4 +1,5 @@
 <x-app-layout>
+    <x-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Dashboard') }}
@@ -19,25 +20,24 @@
             @endif
 
             <div class="flex flex-col lg:flex-row gap-8">
-                <!-- Gebruikersgegevens -->
-                <div
-                    class="w-full lg:w-1/3 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-8 lg:mb-0">
+                <!-- account & facturen buttons -->
+                <div class="w-full lg:w-1/3 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-8 lg:mb-0">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
-                        <h3 class="text-2xl font-bold mb-4">Facturen</h3>
-                        <a href="{{ route('invoices.index') }}" class="text-blue-500 hover:underline">
-                            Bekijk facturen
-                        </a>
+                    <h3 class="text-2xl font-bold mb-4">Accounts</h3>
+                        <a href="{{ route('accounts.index') }}" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mb-4">
+                            Bekijk accounts
+                        </a>    
                     </div>
 
                     <div class="p-6 text-gray-900 dark:text-gray-100">
-                        <h3 class="text-2xl font-bold mb-4">Accounts</h3>
-                        <a href="{{ route('accounts.index') }}" class="text-blue-500 hover:underline">
-                            Bekijk accounts
+                        <h3 class="text-2xl font-bold mb-4">Facturen</h3>
+                        <a href="{{ route('invoices.index') }}" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mb-4">
+                            Bekijk facturen
                         </a>
                     </div>
                 </div>
 
-                <!-- Boekinggegevens -->
+                <!-- vul in -->
                 <div class="w-full lg:w-2/3 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-8 lg:mb-0">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
                         <div class="flex justify-between items-center mb-4">
@@ -66,7 +66,7 @@
 
             <!-- Bottom Section -->
             <div class="mt-8 flex flex-col lg:flex-row gap-8">
-                <!-- Omzet per maand -->
+                <!-- vul in -->
                 <div class="w-full lg:w-2/3 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
                         <div class="flex justify-between items-center mb-4">
@@ -78,7 +78,7 @@
                     </div>
                 </div>
 
-                <!-- populairste bestemmingen -->
+                <!-- vul in -->
                 <div class="w-full lg:w-1/3 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
                         <div class="flex justify-between items-center mb-4">
@@ -109,7 +109,7 @@
         </div>
     </div>
 
-     <!-- Add Chart.js -->
+     <!-- Add Chart.js voor Tonen & verbergen -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         function toggleBookings() {
@@ -124,4 +124,5 @@
             }
         }
     </script>
+    </x-layout>
 </x-app-layout>
