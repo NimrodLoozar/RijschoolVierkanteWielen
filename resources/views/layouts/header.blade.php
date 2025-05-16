@@ -5,16 +5,16 @@
             <h1 class="text-2xl font-bold">Rijschool Vierkantewielen</h1>
             <p class="text-sm italic">Uw rid, onze instructie</p>
         </div>
-        <a href="{{ url('') }}" class="ml-4 text-lg font-semibold text-white hover:text-gray-300">placeholder</a>
-        <a href="{{ url('') }}" class="ml-4 text-lg font-semibold text-white hover:text-gray-300">placeholder</a>
-        <a href="{{ url('') }}" class="ml-4 text-lg font-semibold text-white hover:text-gray-300">placeholder</a>
-        <a href="{{ url('') }}" class="ml-4 text-lg font-semibold text-white hover:text-gray-300">placeholder</a>
+        <a href="{{ url('') }}" class="ml-6 mt-3 text-lg font-semibold text-black hover:text-gray-600">placeholder</a>
+        <a href="{{ url('') }}" class="ml-6 mt-3 text-lg font-semibold text-black hover:text-gray-600">placeholder</a>
+        <a href="{{ url('') }}" class="ml-6 mt-3 text-lg font-semibold text-black hover:text-gray-600">placeholder</a>
+        <a href="{{ url('') }}" class="ml-6 mt-3 text-lg font-semibold text-black hover:text-gray-600">placeholder</a>
         </div>
     @if (Route::has('login'))
         <nav class="flex"></nav>
         @auth
             <a href="{{ url('/dashboard') }}"
-                class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]">
+                class="rounded-md px-3 py-2 text-black ring-1 text-lg ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20]">
                 Dashboard
             </a>
         @else
