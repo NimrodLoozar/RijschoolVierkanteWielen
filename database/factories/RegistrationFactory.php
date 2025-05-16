@@ -1,23 +1,21 @@
 <?php
 
+
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Student;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Registration>
- */
 class RegistrationFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [
-            //
+            'student_id' => Student::inRandomOrder()->first()->id ?? Student::factory(),
+            'package_id' => \App\Models\Package::factory(),
+            'start_date' => $this->faker->date(),
+            'is_active' => true,
+            'note' => $this->faker->optional()->sentence(),
         ];
     }
 }
