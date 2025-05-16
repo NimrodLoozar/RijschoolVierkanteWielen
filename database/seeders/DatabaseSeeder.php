@@ -10,6 +10,7 @@ use App\Models\Registration;
 use Illuminate\Support\Facades\DB;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Database\Seeders\PackageSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -94,7 +95,7 @@ class DatabaseSeeder extends Seeder
 
         // Ensure packages exist for registrations
         $this->ensurePackagesExist();
-        
+
         // Create registrations for existing students
         $registrations = [];
         foreach ($students as $student) {
@@ -106,7 +107,7 @@ class DatabaseSeeder extends Seeder
                 ]);
             }
         }
-        
+
         // Create invoices for some registrations
         foreach ($registrations as $registration) {
             // 80% chance of creating an invoice for this registration
@@ -116,6 +117,9 @@ class DatabaseSeeder extends Seeder
                 ]);
             }
         }
+
+        // Create instructors
+        Instructor::factory(5)->create();
     }
 
     /**
@@ -174,5 +178,8 @@ class DatabaseSeeder extends Seeder
                 ],
             ]);
         }
+
+        $this->call(AutoSeeder::class);
+        $this->call(PackageSeeder::class);
     }
 }

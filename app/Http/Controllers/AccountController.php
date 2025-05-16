@@ -119,7 +119,7 @@ class AccountController extends Controller
     {
         try {
             $account = collect(DB::select('CALL spGetAccountById(?)', [$id]))->first();
-            
+
             if (!$account) {
                 return redirect()->route('account.index')
                     ->with('error', 'Account niet gevonden.');
@@ -139,7 +139,7 @@ class AccountController extends Controller
     {
         try {
             $account = collect(DB::select('CALL spGetAccountById(?)', [$id]))->first();
-            
+
             if (!$account) {
                 return redirect()->route('account.index')
                     ->with('error', 'Account niet gevonden.');
@@ -164,8 +164,8 @@ class AccountController extends Controller
             'birth_date' => 'nullable|date',
             'passport_number' => 'nullable|string|max:50',
             'passport_expiry' => 'nullable|date|after:today',
-            'relation_number' => 'required|string|unique:customers,relation_number,'.$id,
-            'email' => 'required|email|unique:contacts,email,'.$id.',customer_id',
+            'relation_number' => 'required|string|unique:customers,relation_number,' . $id,
+            'email' => 'required|email|unique:contacts,email,' . $id . ',customer_id',
             'mobile' => 'required|string|max:20',
             'street' => 'nullable|string|max:255',
             'house_number' => 'nullable|string|max:10',
@@ -228,7 +228,7 @@ class AccountController extends Controller
         try {
             // Check if account exists
             $account = collect(DB::select('CALL spGetAccountById(?)', [$id]))->first();
-            
+
             if (!$account) {
                 return redirect()->route('account.index')
                     ->with('error', 'Account niet gevonden.');
@@ -237,7 +237,6 @@ class AccountController extends Controller
             DB::select('CALL spDeleteAccount(?)', [$id]);
             return redirect()->route('account.index')
                 ->with('success', 'Account is succesvol verwijderd.');
-                
         } catch (\Exception $e) {
             Log::error('Error deleting account: ' . $e->getMessage());
             return redirect()->route('account.index')
