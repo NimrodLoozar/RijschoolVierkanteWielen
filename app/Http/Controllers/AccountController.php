@@ -34,7 +34,7 @@ class AccountController extends Controller
 
         // Paginate the collection
         $currentPage = request('page', 1);
-        $perPage = 30;
+        $perPage = 15; // Number of items per page
         $paginatedAccounts = new LengthAwarePaginator(
             $accountsCollection->forPage($currentPage, $perPage),
             $accountsCollection->count(),

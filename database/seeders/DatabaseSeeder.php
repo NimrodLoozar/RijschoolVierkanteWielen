@@ -84,6 +84,12 @@ class DatabaseSeeder extends Seeder
             'note' => 'Admin user role details',
         ]);
 
+        // Create users
+        User::factory(20)->create();
+
+        // Create invoices
+        Invoice::factory(20)->create();
+
         // Create students first
         $students = Student::factory(10)->create();
 
