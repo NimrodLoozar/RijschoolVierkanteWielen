@@ -8,11 +8,9 @@ use App\Models\Instructor;
 use App\Models\Registration;
 use App\Models\Invoice;
 use App\Models\Payment;
-use App\Models\Registration;
 use Illuminate\Support\Facades\DB;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,6 +19,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        Payment::factory(20)->create();
         // Create a test user (student)
         $testUser = User::factory()->create([
             'first_name' => 'Test',

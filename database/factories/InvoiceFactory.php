@@ -6,7 +6,6 @@ use App\Models\Registration;
 use App\Models\User;
 use App\Models\Invoice;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\Registration;
 
 class InvoiceFactory extends Factory
 {

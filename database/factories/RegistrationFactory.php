@@ -7,7 +7,6 @@ use App\Models\Student;
 use App\Models\Package;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\DB;
-use App\Models\Student;
 
 class RegistrationFactory extends Factory
 {
