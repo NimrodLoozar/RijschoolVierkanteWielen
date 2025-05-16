@@ -41,25 +41,32 @@
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                                 @foreach ($autos as $auto)
-                                    <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-500">
+                                    <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-500">
                                             {{ $auto->brand }}
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                                             {{ $auto->model }}
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                                             {{ $auto->license_plate }}
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                                             {{ ucfirst($auto->fuel) }}
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                                             {{ $auto->is_active ? 'Ja' : 'Nee' }}
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                                             @if ($auto->photo)
-                                                <img src="{{ asset($auto->photo) }}" alt="Foto van {{ $auto->brand }}" width="100">
+                                                <img src="{{ asset($auto->photo) }}" alt="Foto van {{ $auto->brand }}"
+                                                    width="100">
                                             @else
                                                 Geen foto beschikbaar
                                             @endif
@@ -71,8 +78,10 @@
                     </div>
                 </div>
             @else
-                <div class="w-full bg-red-600 px-4 py-4 rounded relative dark:bg-red-800 dark:border-red-400" role="alert">
-                    <span class="block sm:inline text-red-500 dark:text-gray-100">Geen auto's gevonden. Probeer later opnieuw of voeg auto's toe.</span>
+                <div class="w-full bg-red-600 px-4 py-4 rounded relative dark:bg-red-800 dark:border-red-400"
+                    role="alert">
+                    <span class="block sm:inline text-red-500 dark:text-gray-100">Geen auto's gevonden. Probeer later
+                        opnieuw of voeg auto's toe.</span>
                 </div>
             @endif
         </div>

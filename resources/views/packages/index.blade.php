@@ -37,20 +37,25 @@
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                                 @foreach ($packages as $package)
-                                    <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-500">
+                                    <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-500">
                                             {{ ucfirst($package->type) }}
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                                             {{ $package->lesson_count }}
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                                             €{{ number_format($package->price_per_lesson, 2) }}
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                                             {{ $package->is_active ? 'Ja' : 'Nee' }}
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                                             {{ $package->note ?? 'Geen opmerking' }}
                                         </td>
                                     </tr>
@@ -60,8 +65,10 @@
                     </div>
                 </div>
             @else
-                <div class="w-full bg-red-600 px-4 py-4 rounded relative dark:bg-red-800 dark:border-red-400" role="alert">
-                    <span class="block sm:inline text-red-500 dark:text-gray-100">Geen lespakketten gevonden. Voeg pakketten toe of probeer later opnieuw.</span>
+                <div class="w-full bg-red-600 px-4 py-4 rounded relative dark:bg-red-800 dark:border-red-400"
+                    role="alert">
+                    <span class="block sm:inline text-red-500 dark:text-gray-100">Geen lespakketten gevonden. Voeg
+                        pakketten toe of probeer later opnieuw.</span>
                 </div>
             @endif
         </div>
