@@ -8,6 +8,9 @@ use App\Models\Instructor;
 use App\Models\Registration;
 use App\Models\Invoice;
 use App\Models\Payment;
+use App\Models\Registration;
+use Illuminate\Support\Facades\DB;
+// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -85,34 +88,90 @@ class DatabaseSeeder extends Seeder
             'note' => 'Admin user role details',
         ]);
 
-        // Seed students and instructors
+        // Create students first
         $students = Student::factory(10)->create();
-        Instructor::factory(10)->create();
 
-        // Seed registrations for students
-        $students->each(function ($student) {
-            Registration::factory()->create([
-                'student_id' => $student->id,
-                'start_date' => now(),
-                'is_active' => true,
-            ]);
-        });
+        // Ensure packages exist for registrations
+        $this->ensurePackagesExist();
+        
+        // Create registrations for existing students
+        $registrations = [];
+        foreach ($students as $student) {
+            // Create 1-3 registrations for each student
+            $count = rand(1, 3);
+            for ($i = 0; $i < $count; $i++) {
+                $registrations[] = Registration::factory()->create([
+                    'student_id' => $student->id,
+                ]);
+            }
+        }
+        
+        // Create invoices for some registrations
+        foreach ($registrations as $registration) {
+            // 80% chance of creating an invoice for this registration
+            if (rand(1, 100) <= 80) {
+                Invoice::factory()->create([
+                    'registration_id' => $registration->id,
+                ]);
+            }
+        }
+    }
 
-        // Now that registrations exist, seed invoices
-        $registrations = Registration::all();
-        $registrations->each(function ($registration, $index) {
-            Invoice::factory()->create([
-                'registration_id' => $registration->id,
-                'invoice_number' => 'INV-2025' . str_pad($index + 1, 3, '0', STR_PAD_LEFT),
+    /**
+     * Ensure packages exist in the database.
+     */
+    private function ensurePackagesExist(): void
+    {
+        // Check if packages already exist
+        if (DB::table('packages')->count() === 0) {
+            // Create default packages with the columns that exist in the packages table
+            DB::table('packages')->insert([
+                [
+                    'type' => 'package1',
+                    'lesson_count' => 20,
+                    'price_per_lesson' => 59.75, // 1195 ÷ 20 = 59.75
+                    'is_active' => true,
+                    'note' => 'Standaardpakket (20 rijlessen + CBR examen)',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+                [
+                    'type' => 'package2',
+                    'lesson_count' => 30,
+                    'price_per_lesson' => 59.83, // 1795 ÷ 30 = 59.83
+                    'is_active' => true,
+                    'note' => 'Premiumpakket (30 rijlessen + CBR examen + 1 herexamen)',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+                [
+                    'type' => 'package3',
+                    'lesson_count' => 15,
+                    'price_per_lesson' => 93.00, // 1395 ÷ 15 = 93.00
+                    'is_active' => true,
+                    'note' => 'Spoedpakket (15 rijlessen intensief + CBR examen)',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+                [
+                    'type' => 'package1',
+                    'lesson_count' => 1,
+                    'price_per_lesson' => 55.00,
+                    'is_active' => true,
+                    'note' => 'Losse rijles (60 minuten)',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
+                [
+                    'type' => 'package1',
+                    'lesson_count' => 5,
+                    'price_per_lesson' => 99.00, // 495 ÷ 5 = 99.00
+                    'is_active' => true,
+                    'note' => 'Examentraining (5 rijlessen + CBR examen)',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ],
             ]);
-        });
-
-        // Finally, seed payments for the invoices
-        $invoices = Invoice::all();
-        $invoices->each(function ($invoice) {
-            Payment::factory()->create([
-                'invoice_id' => $invoice->id,
-            ]);
-        });
+        }
     }
 }

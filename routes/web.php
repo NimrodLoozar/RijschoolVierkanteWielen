@@ -1,17 +1,23 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\InstructorController;
+use App\Http\Controllers\MaintenanceController;
+use App\Http\Controllers\InvoiceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaymentController;
+use Illuminate\Support\Facades\DB;
 
 Route::get('/', function () {
-    return view('welcome');
+    $isMaintenanceMode = DB::table('settings')->where('key', 'maintenance_mode')->value('value') ?? false;
+    return view('welcome', compact('isMaintenanceMode'));
 })->name('/');
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $isMaintenanceMode = DB::table('settings')->where('key', 'maintenance_mode')->value('value') ?? false;
+    return view('dashboard', compact('isMaintenanceMode'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -42,6 +48,24 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
 
     Route::get('betalingen', [PaymentController::class, 'index'])->name('overzicht');
 
+
+    Route::get('/accounts', [AccountController::class, 'index'])->name('accounts.index');
+    Route::get('/accounts/create', [AccountController::class, 'create'])->name('accounts.create');
+    Route::post('/accounts', [AccountController::class, 'store'])->name('accounts.store');
+    Route::get('/accounts/{accounts}', [AccountController::class, 'show'])->name('accounts.show');
+    Route::get('/accounts/{accounts}/edit', [AccountController::class, 'edit'])->name('accounts.edit');
+    Route::patch('/accounts/{accounts}', [AccountController::class, 'update'])->name('accounts.update');
+    Route::delete('/accounts/{accounts}', [AccountController::class, 'destroy'])->name('accounts.destroy');
+
+    Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices.index');
+    Route::get('/invoices/create', [InvoiceController::class, 'create'])->name('invoices.create');
+    Route::post('/invoices', [InvoiceController::class, 'store'])->name('invoices.store');
+    Route::get('/invoices/{invoice}', [InvoiceController::class, 'show'])->name('invoices.show');
+    Route::get('/invoices/{invoice}/edit', [InvoiceController::class, 'edit'])->name('invoices.edit');
+    Route::patch('/invoices/{invoice}', [InvoiceController::class, 'update'])->name('invoices.update');
+    Route::delete('/invoices/{invoice}', [InvoiceController::class, 'destroy'])->name('invoices.destroy');
 });
+
+Route::post('/toggle-maintenance', [MaintenanceController::class, 'toggle'])->name('toggle.maintenance');
 
 require __DIR__ . '/auth.php';
