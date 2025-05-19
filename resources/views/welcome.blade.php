@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,9 +29,16 @@
 
 <body>
     @if ($isMaintenanceMode)
-        <main class="grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">
-            <div class="text-center">
-                <p class="text-9xl font-semibold text-indigo-600">404</p>
+        <main
+            class="fixed inset-0 z-50 grid min-h-screen min-w-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">
+            <!-- Preloader -->
+            <div id="preloader" class="fixed inset-0 z-50 flex items-center justify-center bg-white">
+                <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-indigo-600"></div>
+            </div>
+
+            <img src="{{ asset('svg/maintenance.svg') }}" alt="Onderhoud"
+                class="absolute inset-0 w-full h-full object-cover opacity-80 pointer-events-none" style="z-index:0;">
+            <div class="text-center relative z-10">
                 <h1 class="mt-4 text-5xl font-semibold tracking-tight text-balance text-gray-900 sm:text-7xl">
                     De website is momenteel in onderhoud.
                 </h1>
@@ -123,7 +131,8 @@
                                     <a href="#About"
                                         class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-700 hover:bg-gray-900">About</a>
                                     <a href="#services"
-                                        class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-700 hover:bg-gray-900">Onze diensten</a>
+                                        class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-700 hover:bg-gray-900">Onze
+                                        diensten</a>
                                     <a href="#Contact"
                                         class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-700 hover:bg-gray-900">Contact</a>
                                     <a href="#instructors"
@@ -162,9 +171,11 @@
                 </div>
                 <div class="mx-auto max-w-7xl p-8 lg:p-10 bg-gray-900/75 rounded-lg ">
                     <div class="mx-auto max-w-2xl lg:mx-0">
-                        <h2 class="text-5xl font-semibold tracking-tight text-white sm:text-7xl">Rijschool Vierkante Wielen</h2>
+                        <h2 class="text-5xl font-semibold tracking-tight text-white sm:text-7xl">Rijschool Vierkante
+                            Wielen</h2>
                         <p class="mt-8 text-lg font-medium text-pretty text-gray-300 sm:text-xl/8">
-                            Ontdek waarom wij de beste keuze zijn voor jouw rijbewijs. Persoonlijke begeleiding en hoge slagingspercentages.</p>
+                            Ontdek waarom wij de beste keuze zijn voor jouw rijbewijs. Persoonlijke begeleiding en hoge
+                            slagingspercentages.</p>
                     </div>
                     <div class="mx-auto mt-10 max-w-2xl lg:mx-0 lg:max-w-none">
                         <div
