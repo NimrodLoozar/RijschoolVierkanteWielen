@@ -47,12 +47,30 @@
                     <div class="bg-gray-50 p-4 rounded-md">
                         <h4 class="font-medium text-gray-700 mb-3">Contact informatie</h4>
                         <div class="grid grid-cols-1 gap-2">
-                            
+                            <div>
+ 				                <span class="block text-sm font-medium text-gray-500">E-mail</span>
+                                <a href="mailto:{{ $account->email }}" class="block text-blue-600 hover:underline">{{ $account->email }}</a>
+                            </div>
+                            <div>
+                                <span class="block text-sm font-medium text-gray-500">Mobiel</span>
+                                <a href="tel:{{ $account->mobile }}" class="block text-blue-600 hover:underline">{{ $account->mobile }}</a>
+                            </div>
                         </div>
 
                     <h4 class="font-medium text-gray-700 mb-3 mt-6">Adresgegevens</h4>
                         <div class="grid grid-cols-1 gap-2">
-                          
+                          @if($account->street || $account->house_number)
+                            <div>
+                                <span class="block text-sm font-medium text-gray-500">Straat en huisnummer</span>
+                                <span class="block">{{ $account->street ?? '' }} {{ $account->house_number ?? '' }}{{ $account->addition ? '-'.$account->addition : '' }}</span>
+                            </div>
+                            @endif
+                            @if($account->postal_code || $account->city)
+                            <div>
+                                <span class="block text-sm font-medium text-gray-500">Postcode en plaats</span>
+                                <span class="block">{{ $account->postal_code ?? '' }} {{ $account->city ?? '' }}</span>
+                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -60,16 +78,16 @@
                 <!-- Accounts actions -->
                 <div class="mt-8 flex flex-wrap gap-3">
                     <a href="{{ route('accounts.index') }}" class="bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded transition duration-200">
-                        Terug naar accounts
+                        Terug
                     </a>
                     <a href="{{ route('accounts.edit', $account->id) }}" class="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded transition duration-200">
-                        Account bewerken
+                        Bewerken
                     </a>
                     <form action="{{ route('accounts.destroy', $account->id) }}" method="POST" class="inline delete-form">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded transition duration-200">
-                            Account verwijderen
+                            Verwijderen
                         </button>
                     </form>
                 </div>

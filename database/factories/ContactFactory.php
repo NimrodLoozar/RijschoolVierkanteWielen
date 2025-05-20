@@ -26,7 +26,6 @@ class ContactFactory extends Factory
             'mobile' => $this->faker->optional()->phoneNumber,
             'email' => $this->faker->unique()->safeEmail,
             'is_active' => $this->faker->boolean,
-            'note' => $this->faker->optional()->text,
         ];
     }
 }
