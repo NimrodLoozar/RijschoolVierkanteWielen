@@ -74,7 +74,7 @@
                 <div class="w-full lg:w-2/3 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
                         <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-2xl font-bold">Placeholder l</h3>
+                            <h3 class="text-2xl font-bold">Placeholder Large</h3>
                         </div>
                         <div>
 
@@ -86,7 +86,7 @@
                 <div class="w-full lg:w-1/3 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
                         <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-2xl font-bold">Placeholder s</h3>
+                            <h3 class="text-2xl font-bold">Placeholder Small</h3>
                         </div>
                         <div class="space-y-4">
 

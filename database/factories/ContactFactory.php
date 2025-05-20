@@ -23,10 +23,9 @@ class ContactFactory extends Factory
             'addition' => $this->faker->optional()->randomLetter,
             'postal_code' => $this->faker->postcode,
             'city' => $this->faker->city,
-            'mobile' => $this->faker->optional()->phoneNumber,
+            'mobile' => $this->faker->phoneNumber(),
             'email' => $this->faker->unique()->safeEmail,
             'is_active' => $this->faker->boolean,
-            'note' => $this->faker->optional()->text,
         ];
     }
 }
