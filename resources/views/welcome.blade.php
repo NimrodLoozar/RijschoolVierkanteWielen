@@ -1,22 +1,17 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Laravel</title>
-
+    <title>Rijschool Vierkantewielen</title>
     <link rel="icon" href="/favicon.ico" sizes="any">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/apple-touch-icon.webp">
-
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-
     <!-- Styles -->
     <style>
         .faq-answer {
@@ -92,7 +87,7 @@
 
                                 @if (Route::has('register'))
                                     <a href="{{ route('register') }}"
-                                        class="ml-1 text-sm/6 font-semibold text-gray-100">Register
+                                        class="ml-1 text-sm/6 font-semibold text-gray-100">Registeer
                                     </a>
                                 @endif
                             @endauth
@@ -128,8 +123,7 @@
                                     <a href="#About"
                                         class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-700 hover:bg-gray-900">About</a>
                                     <a href="#services"
-                                        class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-700 hover:bg-gray-900">Onze
-                                        diensten</a>
+                                        class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-700 hover:bg-gray-900">Onze diensten</a>
                                     <a href="#Contact"
                                         class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-700 hover:bg-gray-900">Contact</a>
                                     <a href="#instructors"
@@ -168,35 +162,34 @@
                 </div>
                 <div class="mx-auto max-w-7xl p-8 lg:p-10 bg-gray-900/75 rounded-lg ">
                     <div class="mx-auto max-w-2xl lg:mx-0">
-                        <h2 class="text-5xl font-semibold tracking-tight text-white sm:text-7xl">Work with us</h2>
-                        <p class="mt-8 text-lg font-medium text-pretty text-gray-300 sm:text-xl/8">Anim aute id magna
-                            aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat
-                            veniam occaecat fugiat.</p>
+                        <h2 class="text-5xl font-semibold tracking-tight text-white sm:text-7xl">Rijschool Vierkante Wielen</h2>
+                        <p class="mt-8 text-lg font-medium text-pretty text-gray-300 sm:text-xl/8">
+                            Ontdek waarom wij de beste keuze zijn voor jouw rijbewijs. Persoonlijke begeleiding en hoge slagingspercentages.</p>
                     </div>
                     <div class="mx-auto mt-10 max-w-2xl lg:mx-0 lg:max-w-none">
                         <div
                             class="grid grid-cols-1 gap-x-8 gap-y-6 text-base/7 font-semibold text-white sm:grid-cols-2 md:flex lg:gap-x-10">
-                            <a href="#">Open roles <span aria-hidden="true">&rarr;</span></a>
-                            <a href="#">Internship program <span aria-hidden="true">&rarr;</span></a>
-                            <a href="#">Our values <span aria-hidden="true">&rarr;</span></a>
-                            <a href="#">Meet our leadership <span aria-hidden="true">&rarr;</span></a>
+                            <a href="#services">Rijlessen <span aria-hidden="true">&rarr;</span></a>
+                            <a href="#instructors">Onze instructeurs <span aria-hidden="true">&rarr;</span></a>
+                            <a href="#FAQ">Veelgestelde vragen <span aria-hidden="true">&rarr;</span></a>
+                            <a href="#Contact">Direct contact <span aria-hidden="true">&rarr;</span></a>
                         </div>
                         <dl class="mt-16 grid grid-cols-1 gap-8 sm:mt-20 sm:grid-cols-2 lg:grid-cols-4">
                             <div class="flex flex-col-reverse gap-1">
-                                <dt class="text-base/7 text-gray-300">Offices worldwide</dt>
-                                <dd class="text-4xl font-semibold tracking-tight text-white">12</dd>
+                                <dt class="text-base/7 text-gray-300">Jaar ervaring</dt>
+                                <dd class="text-4xl font-semibold tracking-tight text-white">15+</dd>
                             </div>
                             <div class="flex flex-col-reverse gap-1">
-                                <dt class="text-base/7 text-gray-300">Full-time colleagues</dt>
-                                <dd class="text-4xl font-semibold tracking-tight text-white">300+</dd>
+                                <dt class="text-base/7 text-gray-300">Geslaagde leerlingen</dt>
+                                <dd class="text-4xl font-semibold tracking-tight text-white">5000+</dd>
                             </div>
                             <div class="flex flex-col-reverse gap-1">
-                                <dt class="text-base/7 text-gray-300">Hours per week</dt>
-                                <dd class="text-4xl font-semibold tracking-tight text-white">40</dd>
+                                <dt class="text-base/7 text-gray-300">Slagingspercentage</dt>
+                                <dd class="text-4xl font-semibold tracking-tight text-white">94%</dd>
                             </div>
                             <div class="flex flex-col-reverse gap-1">
-                                <dt class="text-base/7 text-gray-300">Paid time off</dt>
-                                <dd class="text-4xl font-semibold tracking-tight text-white">Unlimited</dd>
+                                <dt class="text-base/7 text-gray-300">Lesauto's</dt>
+                                <dd class="text-4xl font-semibold tracking-tight text-white">10+</dd>
                             </div>
                         </dl>
                     </div>
@@ -544,8 +537,7 @@
                     </div>
                     <div class="mt-10">
                         <button type="submit"
-                            class="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Let's
-                            talk</button>
+                            class="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Verstuur</button>
                     </div>
                 </form>
             </div>
@@ -598,7 +590,7 @@
                                             d="M10.05 4.575a1.575 1.575 0 1 0-3.15 0v3m3.15-3v-1.5a1.575 1.575 0 0 1 3.15 0v1.5m-3.15 0 .075 5.925m3.075.75V4.575m0 0a1.575 1.575 0 0 1 3.15 0V15M6.9 7.575a1.575 1.575 0 1 0-3.15 0v8.175a6.75 6.75 0 0 0 6.75 6.75h2.018a5.25 5.25 0 0 0 3.712-1.538l1.732-1.732a5.25 5.25 0 0 0 1.538-3.712l.003-2.024a.668.668 0 0 1 .198-.471 1.575 1.575 0 1 0-2.228-2.228 3.818 3.818 0 0 0-1.12 2.687M6.9 7.575V12m6.27 4.318A4.49 4.49 0 0 1 16.35 15m.002 0h-.002" />
                                     </svg>
                                 </div>
-                                <dt class="mt-4 text-base font-semibold text-white">Geen spam</dt>
+                                <dt class="mt-4 text-base font-semibold text-white">Alleen spam</dt>
                                 <dd class="mt-2 text-base/7 text-gray-400">Officia excepteur ullamco ut sint duis
                                     proident
                                     non
@@ -615,7 +607,7 @@
             </div>
 
 
-            {{-- Instructeurs --}}
+            {{-- Instructeurs Pending toch? --}}
             <div id="instructors" class="bg-white py-24 sm:py-32">
                 <div class="mx-auto grid max-w-7xl gap-20 px-6 lg:px-8 xl:grid-cols-3">
                     <div class="max-w-xl">
@@ -752,7 +744,7 @@
                 </div>
             </section>
 
-            {{-- Footer --}}
+            {{-- Footer Pending toch? --}}
             <footer class="shadow relative">
                 <div class="absolute inset-0 -z-10 w-full h-full overflow-hidden">
                     <img src="{{ asset('img/newsletter_background.webp') }}" alt=""
