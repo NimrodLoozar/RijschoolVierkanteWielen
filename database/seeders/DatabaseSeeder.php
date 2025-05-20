@@ -10,6 +10,7 @@ use App\Models\Registration;
 use Illuminate\Support\Facades\DB;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Database\Seeders\PackageSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -83,17 +84,18 @@ class DatabaseSeeder extends Seeder
             'note' => 'Admin user role details',
         ]);
 
-        Student::factory(10)->create();
-        Instructor::factory(10)->create();
+        // Create users
+        User::factory(20)->create();
 
-        $this->call(AutoSeeder::class);
-        $this->call(PackageSeeder::class);
+        // Create invoices
+        Invoice::factory(20)->create();
+
         // Create students first
         $students = Student::factory(10)->create();
 
         // Ensure packages exist for registrations
         $this->ensurePackagesExist();
-        
+
         // Create registrations for existing students
         $registrations = [];
         foreach ($students as $student) {
@@ -105,7 +107,7 @@ class DatabaseSeeder extends Seeder
                 ]);
             }
         }
-        
+
         // Create invoices for some registrations
         foreach ($registrations as $registration) {
             // 80% chance of creating an invoice for this registration
@@ -115,6 +117,9 @@ class DatabaseSeeder extends Seeder
                 ]);
             }
         }
+
+        // Create instructors
+        Instructor::factory(5)->create();
     }
 
     /**
@@ -173,5 +178,8 @@ class DatabaseSeeder extends Seeder
                 ],
             ]);
         }
+
+        $this->call(AutoSeeder::class);
+        $this->call(PackageSeeder::class);
     }
 }

@@ -19,32 +19,36 @@
             @endif
 
             <div class="flex flex-col lg:flex-row gap-8">
-                <!-- Gebruikersgegevens -->
+                <!-- account & facturen buttons -->
                 <div
                     class="w-full lg:w-1/3 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-8 lg:mb-0">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
-                        <h3 class="text-2xl font-bold mb-4">Facturen</h3>
-                        <a href="{{ route('invoices.index') }}" class="text-blue-500 hover:underline">
-                            Bekijk facturen
+                        <h3 class="text-2xl font-bold mb-4">Accounts</h3>
+                        <a href="{{ route('accounts.index') }}"
+                            class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mb-4">
+                            Bekijk accounts
                         </a>
                     </div>
 
                     <div class="p-6 text-gray-900 dark:text-gray-100">
-                        <h3 class="text-2xl font-bold mb-4">Accounts</h3>
-                        <a href="{{ route('accounts.index') }}" class="text-blue-500 hover:underline">
-                            Bekijk accounts
+                        <h3 class="text-2xl font-bold mb-4">Facturen</h3>
+                        <a href="{{ route('invoices.index') }}"
+                            class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mb-4">
+                            Bekijk facturen
                         </a>
                     </div>
                 </div>
 
-                <!-- Boekinggegevens -->
-                <div class="w-full lg:w-2/3 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-8 lg:mb-0">
+                <!-- vul in -->
+                <div
+                    class="w-full lg:w-2/3 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-8 lg:mb-0">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
                         <div class="flex justify-between items-center mb-4">
                             <h3 class="text-2xl font-bold">Placeholder per/</h3>
                         </div>
-                        <button onclick="toggleBookings()" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mb-4">
-                                Toon Placeholder
+                        <button onclick="toggleBookings()"
+                            class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mb-4">
+                            Toon Placeholder
                         </button>
                         <br>
                         <hr>
@@ -52,12 +56,12 @@
                         <div id="bookingStats" class="hidden">
                             <h4 class="text-2xl font-bold mb-4">Placeholder 1</h4>
                             <div class="mb-4">
-                               
+
                             </div>
 
                             <h4 class="text-2xl font-bold mb-4">Placeholder 2</h4>
                             <div>
-                             
+
                             </div>
                         </div>
                     </div>
@@ -66,26 +70,26 @@
 
             <!-- Bottom Section -->
             <div class="mt-8 flex flex-col lg:flex-row gap-8">
-                <!-- Omzet per maand -->
+                <!-- vul in -->
                 <div class="w-full lg:w-2/3 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
                         <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-2xl font-bold">Placeholder l</h3>
+                            <h3 class="text-2xl font-bold">Placeholder Large</h3>
                         </div>
                         <div>
-                           
+
                         </div>
                     </div>
                 </div>
 
-                <!-- populairste bestemmingen -->
+                <!-- vul in -->
                 <div class="w-full lg:w-1/3 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
                         <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-2xl font-bold">Placeholder s</h3>
+                            <h3 class="text-2xl font-bold">Placeholder Small</h3>
                         </div>
                         <div class="space-y-4">
-                           
+
                         </div>
                     </div>
                 </div>
@@ -109,7 +113,7 @@
         </div>
     </div>
 
-     <!-- Add Chart.js -->
+    <!-- Add Chart.js voor Tonen & verbergen -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         function toggleBookings() {
