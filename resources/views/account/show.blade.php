@@ -26,18 +26,18 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Persoonlijke informatie -->
                     <div class="bg-gray-50 p-4 rounded-md">
-                        <h4 class="font-medium text-gray-700 mb-3">Persoonlijke informatie</h4>
+                        <h4 class="font-bold text-gray-700 mb-3">Persoonlijke informatie</h4>
                         <div class="grid grid-cols-1 gap-2">
                             <div>
-                                <span class="block text-sm font-medium text-gray-500">Naam</span>
+                                <span class="block text-m font-medium text-gray-500">Naam</span>
                                 <span class="block">{{ $account->full_name }}</span>
                             </div>
                             <div>
-                                <span class="block text-sm font-medium text-gray-500">Geboortedatum</span>
+                                <span class="block text-m font-medium text-gray-500">Geboortedatum</span>
                                 <span class="block">{{ $account->birth_date ? date('d-m-Y', strtotime($account->birth_date)) : 'Niet geregistreerd' }}</span>
                             </div>
                             <div>
-                                <span class="block text-sm font-medium text-gray-500">Gebruikersnaam</span>
+                                <span class="block text-m font-medium text-gray-500">Gebruikersnaam</span>
                                 <span class="block">{{ $account->username }}</span>
                             </div>
                         </div>
@@ -45,29 +45,29 @@
 
                     <!-- Contact informatie -->
                     <div class="bg-gray-50 p-4 rounded-md">
-                        <h4 class="font-medium text-gray-700 mb-3">Contact informatie</h4>
+                        <h4 class="font-bold text-gray-700 mb-3">Contact informatie</h4>
                         <div class="grid grid-cols-1 gap-2">
                             <div>
- 				                <span class="block text-sm font-medium text-gray-500">E-mail</span>
+ 				                <span class="block text-m font-medium text-gray-500">E-mail</span>
                                 <a href="mailto:{{ $account->email }}" class="block text-blue-600 hover:underline">{{ $account->email }}</a>
                             </div>
                             <div>
-                                <span class="block text-sm font-medium text-gray-500">Mobiel</span>
+                                <span class="block text-m font-medium text-gray-500">Mobiel</span>
                                 <a href="tel:{{ $account->mobile }}" class="block text-blue-600 hover:underline">{{ $account->mobile }}</a>
                             </div>
                         </div>
 
-                    <h4 class="font-medium text-gray-700 mb-3 mt-6">Adresgegevens</h4>
+                    <h4 class="font-bold text-gray-700 mb-3 mt-6">Adresgegevens</h4>
                         <div class="grid grid-cols-1 gap-2">
                           @if($account->street || $account->house_number)
                             <div>
-                                <span class="block text-sm font-medium text-gray-500">Straat en huisnummer</span>
+                                <span class="block text-m font-medium text-gray-500">Straat en huisnummer</span>
                                 <span class="block">{{ $account->street ?? '' }} {{ $account->house_number ?? '' }}{{ $account->addition ? '-'.$account->addition : '' }}</span>
                             </div>
                             @endif
                             @if($account->postal_code || $account->city)
                             <div>
-                                <span class="block text-sm font-medium text-gray-500">Postcode en plaats</span>
+                                <span class="block text-m font-medium text-gray-500">Postcode en plaats</span>
                                 <span class="block">{{ $account->postal_code ?? '' }} {{ $account->city ?? '' }}</span>
                             </div>
                             @endif
