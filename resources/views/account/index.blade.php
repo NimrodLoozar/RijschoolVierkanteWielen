@@ -73,10 +73,10 @@
                                                 <td class="py-3 px-2 sm:px-6 hidden sm:table-cell">{{ $account->birth_date ? date('d-m-Y', strtotime($account->birth_date)) : 'Onbekend' }}</td>
 
                                                 <td class="py-3 px-2 sm:px-6">
-                                                    <span class="text-white py-1 px-2 sm:px-3 rounded-full text-xs font-medium 
+                                                    <span class="text-green-500 bg-green-100 py-1 px-2 sm:px-3 rounded-full text-xs font-medium 
                                                     {{ $account->is_active ? 
-                                                    'bg-green-500 text-white py-1 px-3 rounded-full text-xs font-medium' 
-                                                    : 'bg-red-500  text-white py-1 px-3 rounded-full text-xs font-medium' }}">
+                                                    'py-1 px-3 text-xs font-medium' 
+                                                    : 'py-1 px-3 text-xs font-medium' }}">
                                                         {{ $account->is_active ? 'Actief' : 'Inactief' }}
                                                     </span>
                                                 </td>
@@ -159,26 +159,19 @@
     }
     
     @media (max-width: 640px) {
-        table {getElementById('searchName').addEventListener('input', performSearch);
-            font-size: 0.8rem;t.getElementById('searchUsername').addEventListener('input', performSearch);
+        table {
+            font-size: 0.8rem;
         }
-        ent.querySelectorAll('.delete-form').forEach(form => {
-        .toggle-checkbox {        form.addEventListener('submit', function(e) {
-            transform: scale(0.9);     e.preventDefault();
-        }    if (confirm('Weet je zeker dat je dit account permanent wilt verwijderen? Dit kan niet ongedaan worden gemaakt!')) {
-        .submit();
-        input[type="text"] {       }
-            padding: 0.4rem;        });
+        
+        .toggle-checkbox {
+            transform: scale(0.9);
+        }
+        
+        input[type="text"] {
+            padding: 0.4rem;
             min-width: unset;
             width: 100%;
         }
-    }<style>
-    
-    input[type="text"] {ff;
-        padding: 0.5rem;
-        min-width: 150px;
-    }    .toon {
-</style>        }
     }
     
     input[type="text"] {
