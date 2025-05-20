@@ -5,10 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\LengthAwarePaginator;
-
-// use App\Models\Person;
-// use App\Models\Customer;
-// use App\Models\Contact;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
@@ -18,8 +14,11 @@ class AccountController extends Controller
     /**
      * Toon een lijst van alle klanten.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $searchName = $request->input('searchName', '');
+        $searchUsername = $request->input('searchUsername', '');
+
         // Call the stored procedure
         try {
             $accounts = DB::select('CALL spGetAllAccounts()') ?? [];
@@ -32,6 +31,15 @@ class AccountController extends Controller
         // Convert the result to a collection
         $accountsCollection = collect($accounts);
 
+        // Apply filters if search parameters are provided
+        if (!empty($searchName) || !empty($searchUsername)) {
+            $accountsCollection = $accountsCollection->filter(function ($account) use ($searchName, $searchUsername) {
+                $nameMatch = empty($searchName) || stripos($account->full_name, $searchName) !== false;
+                $usernameMatch = empty($searchUsername) || stripos($account->username, $searchUsername) !== false;
+                return $nameMatch && $usernameMatch;
+            });
+        }
+
         // Paginate the collection
         $currentPage = request('page', 1);
         $perPage = 15; // Number of items per page
@@ -43,7 +51,7 @@ class AccountController extends Controller
             ['path' => request()->url(), 'query' => request()->query()]
         );
 
-        return view('account.index', compact('paginatedAccounts'));
+        return view('account.index', compact('paginatedAccounts', 'searchName', 'searchUsername'));
     }
 
     /**

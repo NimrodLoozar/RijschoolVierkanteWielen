@@ -16,12 +16,20 @@
             @endif
             <div class="flex flex-col space-y-4 md:space-y-0 md:flex-row md:items-center md:space-x-4">
             <!-- Zoek form -->
-                <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
-                    <input type="text" id="searchName" placeholder="naam" 
+                <form method="GET" action="{{ route('accounts.index') }}" class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
+                    <input type="text" name="searchName" id="searchName" placeholder="Achternaam" value="{{ $searchName ?? '' }}"
                         class="w-full sm:w-auto rounded-md border-gray-900 shadow-sm focus:border-indigo-600 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    <input type="text" id="searchUsername" placeholder="gebruikersnaam" 
+                    <input type="text" name="searchUsername" id="searchUsername" placeholder="Gebruikersnaam" value="{{ $searchUsername ?? '' }}"
                         class="w-full sm:w-auto rounded-md border-gray-900 shadow-sm focus:border-indigo-600 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                </div>
+                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+                        Zoeken
+                    </button>
+                    @if($searchName || $searchUsername)
+                        <a href="{{ route('accounts.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 text-center sm:text-left">
+                            Reset
+                        </a>
+                    @endif
+                </form>
 
                 <div class="flex-grow"></div>
                 <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4">
@@ -118,42 +126,6 @@
         }
     });
 
-    function performSearch() {
-        const nameSearch = document.getElementById('searchName').value.toLowerCase();
-        const usernameSearch = document.getElementById('searchUsername').value.toLowerCase();
-        const rows = document.querySelectorAll('tbody tr');
-        let foundAny = false;
-
-        rows.forEach(row => {
-            const name = row.querySelector('td:first-child').textContent.toLowerCase();
-            const username = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
-            const matchName = name.includes(nameSearch);
-            const matchUsername = username.includes(usernameSearch);
-            
-            if ((nameSearch === '' || matchName) && (usernameSearch === '' || matchUsername)) {
-                row.style.display = '';
-                foundAny = true;
-            } else {
-                row.style.display = 'none';
-            }
-        });
-        
-        const noResultsMsg = document.getElementById('noResultsMessage');
-        if (!noResultsMsg) {
-            const table = document.querySelector('table');
-            const noResults = document.createElement('div');
-            noResults.id = 'noResultsMessage';
-            noResults.className = 'p-4 text-center text-red-500 hidden';
-            noResults.innerText = 'Geen accounts gevonden die voldoen aan de zoekcriteria.';
-            table.parentNode.insertBefore(noResults, table.nextSibling);
-        }
-        
-        document.getElementById('noResultsMessage').style.display = foundAny ? 'none' : 'block';
-    }
-
-    document.getElementById('searchName').addEventListener('input', performSearch);
-    document.getElementById('searchUsername').addEventListener('input', performSearch);
-
     document.querySelectorAll('.delete-form').forEach(form => {
         form.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -187,19 +159,26 @@
     }
     
     @media (max-width: 640px) {
-        table {
-            font-size: 0.8rem;
+        table {getElementById('searchName').addEventListener('input', performSearch);
+            font-size: 0.8rem;t.getElementById('searchUsername').addEventListener('input', performSearch);
         }
-        
-        .toggle-checkbox {
-            transform: scale(0.9);
-        }
-        
-        input[type="text"] {
-            padding: 0.4rem;
+        ent.querySelectorAll('.delete-form').forEach(form => {
+        .toggle-checkbox {        form.addEventListener('submit', function(e) {
+            transform: scale(0.9);     e.preventDefault();
+        }    if (confirm('Weet je zeker dat je dit account permanent wilt verwijderen? Dit kan niet ongedaan worden gemaakt!')) {
+        .submit();
+        input[type="text"] {       }
+            padding: 0.4rem;        });
             min-width: unset;
             width: 100%;
         }
+    }<style>
+    
+    input[type="text"] {ff;
+        padding: 0.5rem;
+        min-width: 150px;
+    }    .toon {
+</style>        }
     }
     
     input[type="text"] {
