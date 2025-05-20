@@ -73,10 +73,7 @@
                                                 <td class="py-3 px-2 sm:px-6 hidden sm:table-cell">{{ $account->birth_date ? date('d-m-Y', strtotime($account->birth_date)) : 'Onbekend' }}</td>
 
                                                 <td class="py-3 px-2 sm:px-6">
-                                                    <span class="text-green-500 bg-green-100 py-1 px-2 sm:px-3 rounded-full text-xs font-medium 
-                                                    {{ $account->is_active ? 
-                                                    'py-1 px-3 text-xs font-medium' 
-                                                    : 'py-1 px-3 text-xs font-medium' }}">
+                                                    <span class="{{ $account->is_active ? 'text-green-500 bg-green-100' : 'text-red-500 bg-red-100' }} py-1 px-2 sm:px-3 rounded-full text-xs font-medium">
                                                         {{ $account->is_active ? 'Actief' : 'Inactief' }}
                                                     </span>
                                                 </td>
@@ -108,7 +105,7 @@
     </div>
 
     <div id="errorContainer" class="py-12 hidden text-center mx-auto">
-        <p class="text-red-500">Geen accounts gevonden. Probeer later opnieuw.</p>
+        <p class="text-red-500">Geen accounts gevonden. Maak een nieuw account aan.</p>
     </div>
 </div>
 </x-layout>

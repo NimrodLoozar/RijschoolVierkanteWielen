@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full">
 
 <head>
     <meta charset="utf-8">
@@ -24,8 +24,8 @@
     @vite(['resources/js/app.js'])
 </head>
 
-<body class="font-sans antialiased bg-gray-900">
-    <div class="min-h-screen bg-gray-900 text-gray-900">
+<body class="flex flex-col min-h-screen font-sans antialiased bg-gray-900">
+    <div class="flex flex-col flex-grow min-h-screen">
         @include('layouts.navigation')
 
         <!-- Page Heading -->
@@ -34,13 +34,18 @@
                 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                     {{ $header }}
                 </div>
-
             </header>
         @endisset
+
         <!-- Page Content -->
-        <main>
+        <main class="flex-grow">
             {{ $slot }}
         </main>
+
+        <!-- Footer -->
+        <div class="mt-auto">
+            @include('layouts.footer')
+        </div>
     </div>
 </body>
 
