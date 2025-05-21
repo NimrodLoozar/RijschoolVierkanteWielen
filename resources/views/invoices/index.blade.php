@@ -1,9 +1,9 @@
 <x-layout>
-    <h2 class="mt-20 ml-8 font-semibold text-xl text-gray-800 leading-tight">
+    <h2 class="mt-24 ml-4 sm:ml-8 font-semibold text-xl text-gray-800 leading-tight">
         {{ __('Facturen') }}
     </h2>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <div class="py-6 sm:py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             @if (session('error'))
                 <div class="bg-red-500 text-white p-4 rounded">
                     {{ session('error') }}
@@ -14,6 +14,182 @@
                     {{ session('success') }}
                 </div>
             @endif
+            <div class="flex flex-col space-y-4 md:space-y-0 md:flex-row md:items-center md:space-x-4">
+            <!-- Zoek form -->
+                <form method="GET" action="{{ route('invoices.index') }}" class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
+                    <input type="text" name="searchInvoiceNumber" id="searchInvoiceNumber" placeholder="Factuurnummer" value="{{ $searchInvoiceNumber ?? '' }}"
+                        class="w-full sm:w-auto rounded-md border-gray-900 shadow-sm focus:border-indigo-600 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    <input type="text" name="searchCustomer" id="searchCustomer" placeholder="Klant" value="{{ $searchCustomer ?? '' }}"
+                        class="w-full sm:w-auto rounded-md border-gray-900 shadow-sm focus:border-indigo-600 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    <select name="searchStatus" id="searchStatus" class="w-full sm:w-auto rounded-md border-gray-900 shadow-sm focus:border-indigo-600 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <option value="">Alle statussen</option>
+                        <option value="paid" {{ isset($searchStatus) && $searchStatus == 'paid' ? 'selected' : '' }}>Betaald</option>
+                        <option value="unpaid" {{ isset($searchStatus) && $searchStatus == 'unpaid' ? 'selected' : '' }}>Onbetaald</option>
+                    </select>
+                    <input type="date" name="searchDateFrom" id="searchDateFrom" placeholder="Datum vanaf" value="{{ $searchDateFrom ?? '' }}" 
+                        class="w-full sm:w-auto rounded-md border-gray-900 shadow-sm focus:border-indigo-600 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    <input type="date" name="searchDateTo" id="searchDateTo" placeholder="Datum tot" value="{{ $searchDateTo ?? '' }}"
+                        class="w-full sm:w-auto rounded-md border-gray-900 shadow-sm focus:border-indigo-600 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+                        Zoeken
+                    </button>
+                    @if(isset($searchInvoiceNumber) || isset($searchCustomer) || isset($searchStatus) || isset($searchDateFrom) || isset($searchDateTo))
+                        <a href="{{ route('invoices.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 text-center sm:text-left">
+                            Reset
+                        </a>
+                    @endif
+                </form>
 
-</div>
+                <div class="flex-grow"></div>
+                <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4">
+                    <label class="flex items-center">
+                        <span class="mr-2 text-black !important" style="color: black !important;">Toon Data</span>
+                        <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+                            <input type="checkbox" id="dataToggle"
+                                class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
+                                checked />
+                            <label for="dataToggle"
+                                class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                        </div>
+                    </label>
+                    <a href="{{ route('invoices.create') }}" class="w-full sm:w-auto text-center bg-blue-600 text-white px-5 py-3 rounded-md transition duration-300 hover:bg-green-700 transform hover:scale-105">Factuur Aanmaken</a>
+                </div>
+            </div>
+        </div>
+
+        <div id="dataContainer">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col lg:flex-row gap-8">
+                    <div class="w-full overflow-x-auto">
+                        <div class="bg-white shadow-lg rounded-lg my-6">
+                            @if (isset($invoices) && count($invoices) > 0)
+                                <div class="overflow-x-auto">
+                                    <table class="min-w-full table-auto">
+                                        <thead>
+                                            <tr class="bg-gray-100 text-gray-800 uppercase text-sm font-medium leading-normal">
+                                                <th class="py-4 px-2 sm:px-6 text-left">Factuurnummer</th>
+                                                <th class="py-4 px-2 sm:px-6 text-left">Klant</th>
+                                                <th class="py-4 px-2 sm:px-6 text-left hidden sm:table-cell">Datum</th>
+                                                <th class="py-4 px-2 sm:px-6 text-left">Bedrag</th>
+                                                <th class="py-4 px-2 sm:px-6 text-left">Status</th>
+                                                <th class="py-4 px-2 sm:px-6 text-left hidden sm:table-cell">Lessen</th>
+                                                <th class="py-4 px-2 sm:px-6 text-left">Acties</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="text-gray-800 text-sm font-light">
+                                            @foreach ($invoices as $invoice)
+                                                <tr class="border-b border-gray-200 hover:bg-gray-50">
+                                                    <td class="py-3 px-2 sm:px-6 truncate max-w-[100px] sm:max-w-none">{{ $invoice->invoice_number }}</td>
+                                                    <td class="py-3 px-2 sm:px-6 truncate max-w-[100px] sm:max-w-none">{{ $invoice->customer_name }}</td>
+                                                    <td class="py-3 px-2 sm:px-6 hidden sm:table-cell">{{ date('d-m-Y', strtotime($invoice->date)) }}</td>
+                                                    <td class="py-3 px-2 sm:px-6">€ {{ number_format($invoice->amount, 2, ',', '.') }}</td>
+                                                    <td class="py-3 px-2 sm:px-6">
+                                                        <span class="{{ $invoice->status == 'paid' ? 'text-green-500 bg-green-100' : 'text-red-500 bg-red-100' }} py-1 px-2 sm:px-3 rounded-full text-xs font-medium">
+                                                            {{ $invoice->status == 'paid' ? 'Betaald' : 'Onbetaald' }}
+                                                        </span>
+                                                    </td>
+                                                    <td class="py-3 px-2 sm:px-6 hidden sm:table-cell">{{ $invoice->lesson_count ?? 0 }}</td>
+                                                    <td class="py-3 px-2 sm:px-6 flex space-x-1 sm:space-x-2">
+                                                        <a href="{{ route('invoices.show', $invoice->id) }}" class="text-blue-500 hover:underline p-1" title="Details bekijken">ⓘ</a>
+                                                        <a href="{{ route('invoices.edit', $invoice->id) }}" class="text-yellow-500 hover:underline p-1" title="Bewerken">✎</a>
+                                                        @if($invoice->status != 'paid')
+                                                            <a href="{{ route('invoices.markAsPaid', $invoice->id) }}" class="text-green-500 hover:underline p-1" title="Markeren als betaald">✓</a>
+                                                        @endif
+                                                        <form action="{{ route('invoices.destroy', $invoice->id) }}" method="POST" class="delete-form">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="text-red-500 hover:underline p-1" title="Verwijderen">🗑️</button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            @else
+                                <p class="text-red-500 p-6 text-center mx-auto">Geen facturen gevonden die voldoen aan de zoekcriteria.</p>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    @if(isset($invoices) && method_exists($invoices, 'links'))
+                        {{ $invoices->appends(request()->query())->links() }}
+                    @endif
+                </div>
+            </div>
+        </div>
+
+        <div id="errorContainer" class="py-12 hidden text-center mx-auto">
+            <p class="text-red-500">Geen facturen gevonden. Maak een nieuwe factuur aan.</p>
+        </div>
+    </div>
 </x-layout>
+
+<script>
+    document.getElementById('dataToggle').addEventListener('change', function() {
+        const dataContainer = document.getElementById('dataContainer');
+        const errorContainer = document.getElementById('errorContainer');
+        if (this.checked) {
+            dataContainer.classList.remove('hidden');
+            errorContainer.classList.add('hidden');
+        } else {
+            dataContainer.classList.add('hidden');
+            errorContainer.classList.remove('hidden');
+        }
+    });
+
+    document.querySelectorAll('.delete-form').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (confirm('Weet je zeker dat je deze factuur permanent wilt verwijderen? Dit kan niet ongedaan worden gemaakt!')) {
+                this.submit();
+            }
+        });
+    });
+</script>
+
+<style>
+    h2 {
+        color: #fff;
+    }
+
+    .toon {
+        color: #fff;
+    }
+
+    .toggle-checkbox:checked {
+        right: 0;
+        border-color: #38A169;
+    }
+
+    .toggle-checkbox:checked+.toggle-label {
+        background-color: #38A169;
+    }
+
+    .overflow-x-auto {
+        overflow-x: auto;
+    }
+    
+    @media (max-width: 640px) {
+        table {
+            font-size: 0.8rem;
+        }
+        
+        .toggle-checkbox {
+            transform: scale(0.9);
+        }
+        
+        input[type="text"], input[type="date"], select {
+            padding: 0.4rem;
+            min-width: unset;
+            width: 100%;
+        }
+    }
+    
+    input[type="text"], input[type="date"], select {
+        padding: 0.5rem;
+        min-width: 150px;
+    }
+</style>
