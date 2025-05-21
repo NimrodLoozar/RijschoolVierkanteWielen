@@ -12,18 +12,16 @@ class PaymentFactory extends Factory
 
 public function definition()
 {
-    $invoice = Invoice::inRandomOrder()->first();
-
-    if (!$invoice) {
-        throw new \Exception('No invoices found. Seed invoices before seeding payments.');
-    }
+    // If 'invoice_id' was provided (like in your seeder), use that, else pick random
+    $invoiceId = $this->faker->randomElement(Invoice::pluck('id')->toArray());
 
     return [
-        'invoice_id' => $invoice->id,
+        'invoice_id' => $this->invoice_id ?? $invoiceId,  // allow override
         'date' => $this->faker->dateTimeBetween('-1 year', 'now')->format('Y-m-d'),
         'status' => $this->faker->randomElement(['betaald', 'openstaand']),
-        'is_active' => 1
+        'is_active' => 1,
     ];
 }
+
 
 }

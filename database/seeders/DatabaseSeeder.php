@@ -119,8 +119,11 @@ class DatabaseSeeder extends Seeder
         }
 
         // Create additional invoices to ensure we have at least 20
-        while (count($invoices) < 20) {
-            $invoices[] = Invoice::factory()->create();
+        $existingInvoiceCount = Invoice::count();
+        
+        while ($existingInvoiceCount < 20) {
+            Invoice::factory()->create();
+            $existingInvoiceCount++;
         }
 
         // Now create payments for the invoices
