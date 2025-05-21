@@ -16,11 +16,21 @@ class InvoiceController extends Controller
     public function index(Request $request)
     {
         $searchInvoiceNumber = $request->input('searchInvoiceNumber', '');
+        $searchCustomer = $request->input('searchCustomer', '');
         $searchStatus = $request->input('searchStatus', '');
+        $searchDateFrom = $request->input('searchDateFrom', '');
+        $searchDateTo = $request->input('searchDateTo', '');
 
         // Call the stored procedure
         try {
             $invoices = DB::select('CALL spGetAllInvoices()') ?? [];
+            
+            // Debug: Log the count of invoices returned by the SP
+            Log::info('Invoices returned by SP: ' . count($invoices));
+            
+            if (empty($invoices)) {
+                Log::warning('No invoices returned by spGetAllInvoices()');
+            }
         } catch (\Exception $e) {
             // Log the error and return an empty array
             Log::error('Failed to fetch invoices: ' . $e->getMessage());
@@ -31,12 +41,25 @@ class InvoiceController extends Controller
         $invoicesCollection = collect($invoices);
 
         // Apply filters if search parameters are provided
-        if (!empty($searchInvoiceNumber) || !empty($searchStatus)) {
-            $invoicesCollection = $invoicesCollection->filter(function ($invoice) use ($searchInvoiceNumber, $searchStatus) {
+        if (!empty($searchInvoiceNumber) || !empty($searchCustomer) || !empty($searchStatus) || !empty($searchDateFrom) || !empty($searchDateTo)) {
+            $invoicesCollection = $invoicesCollection->filter(function ($invoice) use ($searchInvoiceNumber, $searchCustomer, $searchStatus, $searchDateFrom, $searchDateTo) {
                 $invoiceNumberMatch = empty($searchInvoiceNumber) || stripos($invoice->invoice_number, $searchInvoiceNumber) !== false;
-                $statusMatch = empty($searchStatus) || stripos($invoice->status, $searchStatus) !== false;
-                return $invoiceNumberMatch && $statusMatch;
+                $customerMatch = empty($searchCustomer) || stripos($invoice->student_name ?? '', $searchCustomer) !== false;
+                $statusMatch = empty($searchStatus) || $invoice->status == $searchStatus;
+                
+                $dateMatch = true;
+                if (!empty($searchDateFrom)) {
+                    $dateMatch = $dateMatch && $invoice->invoice_date >= $searchDateFrom;
+                }
+                if (!empty($searchDateTo)) {
+                    $dateMatch = $dateMatch && $invoice->invoice_date <= $searchDateTo;
+                }
+                
+                return $invoiceNumberMatch && $customerMatch && $statusMatch && $dateMatch;
             });
+            
+            // Debug: Log filtered count
+            Log::info('Filtered invoices count: ' . $invoicesCollection->count());
         }
 
         // Paginate the collection
@@ -50,7 +73,14 @@ class InvoiceController extends Controller
             ['path' => request()->url(), 'query' => request()->query()]
         );
 
-        return view('invoices.index', compact('paginatedInvoices', 'searchInvoiceNumber', 'searchStatus'));
+        return view('invoices.index', compact(
+            'paginatedInvoices', 
+            'searchInvoiceNumber',
+            'searchCustomer',
+            'searchStatus',
+            'searchDateFrom',
+            'searchDateTo'
+        ));
     }
 
     /**
@@ -208,6 +238,47 @@ class InvoiceController extends Controller
             Log::error('Error deleting invoice: ' . $e->getMessage());
             return redirect()->route('invoices.index')
                 ->with('error', 'Er is een fout opgetreden bij het verwijderen van de factuur.');
+        }
+    }
+
+    /**
+     * Markeer een factuur als betaald.
+     */
+    public function markAsPaid($id)
+    {
+        try {
+            // Check if invoice exists
+            $invoice = collect(DB::select('CALL spGetInvoiceById(?)', [$id]))->first();
+
+            if (!$invoice) {
+                return redirect()->route('invoices.index')
+                    ->with('error', 'Factuur niet gevonden.');
+            }
+
+            if ($invoice->status === 'paid') {
+                return redirect()->route('invoices.index')
+                    ->with('info', 'Deze factuur is al gemarkeerd als betaald.');
+            }
+
+            // Use the existing update stored procedure to change status to 'paid'
+            DB::select('CALL spUpdateInvoice(?, ?, ?, ?, ?, ?, ?, ?, ?)', [
+                $id,
+                $invoice->invoice_number,
+                $invoice->invoice_date,
+                'paid', // Change status to paid
+                $invoice->amount_excl_vat,
+                $invoice->vat,
+                $invoice->amount_incl_vat,
+                $invoice->note ?? null,
+                $invoice->is_active ?? true,
+            ]);
+
+            return redirect()->route('invoices.index')
+                ->with('success', 'Factuur is succesvol gemarkeerd als betaald.');
+        } catch (\Exception $e) {
+            Log::error('Error marking invoice as paid: ' . $e->getMessage());
+            return redirect()->route('invoices.index')
+                ->with('error', 'Er is een fout opgetreden bij het markeren van de factuur als betaald.');
         }
     }
 }

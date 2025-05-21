@@ -14,31 +14,55 @@
                     {{ session('success') }}
                 </div>
             @endif
+            <br>
             <div class="flex flex-col space-y-4 md:space-y-0 md:flex-row md:items-center md:space-x-4">
-            <!-- Zoek form -->
-                <form method="GET" action="{{ route('invoices.index') }}" class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
-                    <input type="text" name="searchInvoiceNumber" id="searchInvoiceNumber" placeholder="Factuurnummer" value="{{ $searchInvoiceNumber ?? '' }}"
-                        class="w-full sm:w-auto rounded-md border-gray-900 shadow-sm focus:border-indigo-600 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    <input type="text" name="searchCustomer" id="searchCustomer" placeholder="Klant" value="{{ $searchCustomer ?? '' }}"
-                        class="w-full sm:w-auto rounded-md border-gray-900 shadow-sm focus:border-indigo-600 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    <select name="searchStatus" id="searchStatus" class="w-full sm:w-auto rounded-md border-gray-900 shadow-sm focus:border-indigo-600 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <option value="">Alle statussen</option>
-                        <option value="paid" {{ isset($searchStatus) && $searchStatus == 'paid' ? 'selected' : '' }}>Betaald</option>
-                        <option value="unpaid" {{ isset($searchStatus) && $searchStatus == 'unpaid' ? 'selected' : '' }}>Onbetaald</option>
-                    </select>
-                    <input type="date" name="searchDateFrom" id="searchDateFrom" placeholder="Datum vanaf" value="{{ $searchDateFrom ?? '' }}" 
-                        class="w-full sm:w-auto rounded-md border-gray-900 shadow-sm focus:border-indigo-600 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    <input type="date" name="searchDateTo" id="searchDateTo" placeholder="Datum tot" value="{{ $searchDateTo ?? '' }}"
-                        class="w-full sm:w-auto rounded-md border-gray-900 shadow-sm focus:border-indigo-600 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-                        Zoeken
+                <!-- Compact Search Form -->
+                <div class="w-full md:w-auto">
+                    <button id="toggleFilters" class="flex items-center text-blue-600 mb-2 font-medium">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clip-rule="evenodd" />
+                        </svg>
+                        Filters {{ isset($searchInvoiceNumber) || isset($searchCustomer) || isset($searchStatus) || isset($searchDateFrom) || isset($searchDateTo) ? '(Actief)' : '' }}
                     </button>
-                    @if(isset($searchInvoiceNumber) || isset($searchCustomer) || isset($searchStatus) || isset($searchDateFrom) || isset($searchDateTo))
-                        <a href="{{ route('invoices.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 text-center sm:text-left">
-                            Reset
-                        </a>
-                    @endif
-                </form>
+                    
+                    <div id="filterSection" class="{{ isset($searchInvoiceNumber) || isset($searchCustomer) || isset($searchStatus) || isset($searchDateFrom) || isset($searchDateTo) ? '' : 'hidden' }} bg-gray-50 p-3 rounded-md mb-3">
+                        <form method="GET" action="{{ route('invoices.index') }}" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                            <div>
+                                <input type="text" name="searchInvoiceNumber" id="searchInvoiceNumber" placeholder="Factuurnummer" value="{{ $searchInvoiceNumber ?? '' }}"
+                                    class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-600 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            </div>
+                            <div>
+                                <input type="text" name="searchCustomer" id="searchCustomer" placeholder="Klant" value="{{ $searchCustomer ?? '' }}"
+                                    class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-600 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            </div>
+                            <div>
+                                <select name="searchStatus" id="searchStatus" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-600 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                    <option value="">Alle statussen</option>
+                                    <option value="paid" {{ isset($searchStatus) && $searchStatus == 'paid' ? 'selected' : '' }}>Betaald</option>
+                                    <option value="unpaid" {{ isset($searchStatus) && $searchStatus == 'unpaid' ? 'selected' : '' }}>Onbetaald</option>
+                                </select>
+                            </div>
+                            <div>
+                                <input type="date" name="searchDateFrom" id="searchDateFrom" placeholder="Datum vanaf" value="{{ $searchDateFrom ?? '' }}" 
+                                    class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-600 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            </div>
+                            <div>
+                                <input type="date" name="searchDateTo" id="searchDateTo" placeholder="Datum tot" value="{{ $searchDateTo ?? '' }}"
+                                    class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-600 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            </div>
+                            <div class="flex gap-2 items-center">
+                                <button type="submit" class="flex-1 bg-blue-500 text-white px-3 py-2 rounded-md hover:bg-blue-600">
+                                    Zoeken
+                                </button>
+                                @if(isset($searchInvoiceNumber) || isset($searchCustomer) || isset($searchStatus) || isset($searchDateFrom) || isset($searchDateTo))
+                                    <a href="{{ route('invoices.index') }}" class="flex-1 bg-gray-500 text-white px-3 py-2 rounded-md hover:bg-gray-600 text-center">
+                                        Reset
+                                    </a>
+                                @endif
+                            </div>
+                        </form>
+                    </div>
+                </div>
 
                 <div class="flex-grow"></div>
                 <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4">
@@ -62,7 +86,7 @@
                 <div class="flex flex-col lg:flex-row gap-8">
                     <div class="w-full overflow-x-auto">
                         <div class="bg-white shadow-lg rounded-lg my-6">
-                            @if (isset($invoices) && count($invoices) > 0)
+                            @if (isset($paginatedInvoices) && count($paginatedInvoices) > 0)
                                 <div class="overflow-x-auto">
                                     <table class="min-w-full table-auto">
                                         <thead>
@@ -77,12 +101,12 @@
                                             </tr>
                                         </thead>
                                         <tbody class="text-gray-800 text-sm font-light">
-                                            @foreach ($invoices as $invoice)
+                                            @foreach ($paginatedInvoices as $invoice)
                                                 <tr class="border-b border-gray-200 hover:bg-gray-50">
                                                     <td class="py-3 px-2 sm:px-6 truncate max-w-[100px] sm:max-w-none">{{ $invoice->invoice_number }}</td>
-                                                    <td class="py-3 px-2 sm:px-6 truncate max-w-[100px] sm:max-w-none">{{ $invoice->customer_name }}</td>
-                                                    <td class="py-3 px-2 sm:px-6 hidden sm:table-cell">{{ date('d-m-Y', strtotime($invoice->date)) }}</td>
-                                                    <td class="py-3 px-2 sm:px-6">€ {{ number_format($invoice->amount, 2, ',', '.') }}</td>
+                                                    <td class="py-3 px-2 sm:px-6 truncate max-w-[100px] sm:max-w-none">{{ $invoice->student_name }}</td>
+                                                    <td class="py-3 px-2 sm:px-6 hidden sm:table-cell">{{ date('d-m-Y', strtotime($invoice->invoice_date)) }}</td>
+                                                    <td class="py-3 px-2 sm:px-6">€ {{ number_format($invoice->amount_incl_vat, 2, ',', '.') }}</td>
                                                     <td class="py-3 px-2 sm:px-6">
                                                         <span class="{{ $invoice->status == 'paid' ? 'text-green-500 bg-green-100' : 'text-red-500 bg-red-100' }} py-1 px-2 sm:px-3 rounded-full text-xs font-medium">
                                                             {{ $invoice->status == 'paid' ? 'Betaald' : 'Onbetaald' }}
@@ -114,8 +138,8 @@
                 </div>
 
                 <div class="mt-4">
-                    @if(isset($invoices) && method_exists($invoices, 'links'))
-                        {{ $invoices->appends(request()->query())->links() }}
+                    @if(isset($paginatedInvoices) && method_exists($paginatedInvoices, 'links'))
+                        {{ $paginatedInvoices->appends(request()->query())->links() }}
                     @endif
                 </div>
             </div>
@@ -147,6 +171,12 @@
                 this.submit();
             }
         });
+    });
+
+    // Toggle filter section
+    document.getElementById('toggleFilters').addEventListener('click', function() {
+        const filterSection = document.getElementById('filterSection');
+        filterSection.classList.toggle('hidden');
     });
 </script>
 
@@ -190,6 +220,5 @@
     
     input[type="text"], input[type="date"], select {
         padding: 0.5rem;
-        min-width: 150px;
     }
 </style>
