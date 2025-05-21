@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Http\Controllers\PaymentController;
+
 use Illuminate\Http\Request;
 use App\Models\Payment;
 
