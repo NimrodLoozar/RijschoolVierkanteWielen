@@ -109,6 +109,7 @@ class DatabaseSeeder extends Seeder
         }
 
         // Create invoices for some registrations
+        $invoices = [];
         foreach ($registrations as $registration) {
             // 80% chance of creating an invoice for this registration
             if (rand(1, 100) <= 80) {
@@ -118,8 +119,15 @@ class DatabaseSeeder extends Seeder
             }
         }
 
+        // Create additional invoices if we have less than 20
+        while (count($invoices) < 20) {
+            $invoices[] = Invoice::factory()->create();
+        }
+
         // Create instructors
         Instructor::factory(5)->create();
+
+        Payment::factory(5)->create();
     }
 
     /**
