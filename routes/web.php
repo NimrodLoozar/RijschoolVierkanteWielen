@@ -51,7 +51,7 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::get('/packages', [PackageController::class, 'index'])->name('packages.index');
 
 
-    Route::get('betalingen', [PaymentController::class, 'index'])->name('overzicht');
+    Route::get('/betalingen', [PaymentController::class, 'index'])->name('betalingen.index');
 
 
     Route::get('/accounts', [AccountController::class, 'index'])->name('accounts.index');
