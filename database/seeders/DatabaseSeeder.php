@@ -11,6 +11,7 @@ use App\Models\Payment;
 use Illuminate\Support\Facades\DB;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Database\Seeders\PackageSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -94,7 +95,7 @@ class DatabaseSeeder extends Seeder
 
         // Ensure packages exist for registrations
         $this->ensurePackagesExist();
-        
+
         // Create registrations for existing students
         $registrations = [];
         foreach ($students as $student) {
@@ -106,9 +107,8 @@ class DatabaseSeeder extends Seeder
                 ]);
             }
         }
-        
-        // Create invoices for registrations first
-        $invoices = [];
+
+        // Create invoices for some registrations
         foreach ($registrations as $registration) {
             // 80% chance of creating an invoice for this registration
             if (rand(1, 100) <= 80) {
@@ -118,24 +118,8 @@ class DatabaseSeeder extends Seeder
             }
         }
 
-        // Create additional invoices to ensure we have at least 20
-        $existingInvoiceCount = Invoice::count();
-        
-        while ($existingInvoiceCount < 20) {
-            Invoice::factory()->create();
-            $existingInvoiceCount++;
-        }
-
-        // Now create payments for the invoices
-        foreach ($invoices as $invoice) {
-            // Create 1-2 payments per invoice
-            $paymentCount = rand(1, 2);
-            for ($i = 0; $i < $paymentCount; $i++) {
-                Payment::factory()->create([
-                    'invoice_id' => $invoice->id
-                ]);
-            }
-        }
+        // Create instructors
+        Instructor::factory(5)->create();
     }
 
     /**
@@ -194,5 +178,8 @@ class DatabaseSeeder extends Seeder
                 ],
             ]);
         }
+
+        $this->call(AutoSeeder::class);
+        $this->call(PackageSeeder::class);
     }
 }

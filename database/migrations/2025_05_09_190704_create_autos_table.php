@@ -19,6 +19,7 @@ return new class extends Migration
             $table->enum('fuel', ['electric', 'gasoline']);
             $table->boolean('is_active')->default(true);
             $table->text('note')->nullable();
+            $table->string('photo')->nullable(); // Add a column for the photo
             $table->timestamps();
         });
     }
