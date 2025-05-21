@@ -28,6 +28,9 @@
                         <x-nav-link :href="route('packages.index')" :active="request()->routeIs('packages.*')">
                             {{ __('Packages') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('betalingen.index')" :active="request()->routeIs('betalingen.*')">
+                            {{ __('Payments') }}
+                        </x-nav-link>
                     @endif
                 </div>
             </div>

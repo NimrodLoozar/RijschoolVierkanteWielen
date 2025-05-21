@@ -2,11 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\Instructor;
-use App\Models\Student;
 use App\Models\User;
-use App\Models\Invoice;
+use App\Models\Student;
+use App\Models\Instructor;
 use App\Models\Registration;
+use App\Models\Invoice;
+use App\Models\Payment;
 use Illuminate\Support\Facades\DB;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -19,13 +20,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Create a test user (student)
         $testUser = User::factory()->create([
             'first_name' => 'Test',
-            'middle_name' => NULL,
+            'middle_name' => null,
             'last_name' => 'User',
             'username' => 'Testuser',
             'birth_date' => '1990-01-01',
-            'password' => bcrypt('Test1234'), // password
+            'password' => bcrypt('Test1234'),
         ]);
 
         DB::table('contacts')->insert([
@@ -33,7 +35,7 @@ class DatabaseSeeder extends Seeder
             'user_id' => $testUser->id,
             'street' => 'Example Street',
             'house_number' => '123',
-            'addition' => NULL,
+            'addition' => null,
             'postal_code' => '1234AB',
             'city' => 'Example City',
             'mobile' => '0612345678',
@@ -55,13 +57,14 @@ class DatabaseSeeder extends Seeder
             'note' => 'Test student details',
         ]);
 
+        // Create an admin user
         $adminUser = User::factory()->create([
             'first_name' => 'Admin',
-            'middle_name' => NULL,
+            'middle_name' => null,
             'last_name' => 'User',
             'username' => 'Adminuser',
             'birth_date' => '1985-01-01',
-            'password' => bcrypt('Admin1234'), // password
+            'password' => bcrypt('Admin1234'),
         ]);
 
         DB::table('contacts')->insert([
@@ -69,7 +72,7 @@ class DatabaseSeeder extends Seeder
             'user_id' => $adminUser->id,
             'street' => 'Admin Street',
             'house_number' => '456',
-            'addition' => NULL,
+            'addition' => null,
             'postal_code' => '5678CD',
             'city' => 'Admin City',
             'mobile' => '0698765432',
@@ -86,9 +89,6 @@ class DatabaseSeeder extends Seeder
 
         // Create users
         User::factory(20)->create();
-
-        // Create invoices
-        Invoice::factory(20)->create();
 
         // Create students first
         $students = Student::factory(10)->create();
@@ -109,17 +109,25 @@ class DatabaseSeeder extends Seeder
         }
 
         // Create invoices for some registrations
+        $invoices = [];
         foreach ($registrations as $registration) {
             // 80% chance of creating an invoice for this registration
             if (rand(1, 100) <= 80) {
-                Invoice::factory()->create([
+                $invoices[] = Invoice::factory()->create([
                     'registration_id' => $registration->id,
                 ]);
             }
         }
 
+        // Create additional invoices if we have less than 20
+        while (count($invoices) < 20) {
+            $invoices[] = Invoice::factory()->create();
+        }
+
         // Create instructors
         Instructor::factory(5)->create();
+
+        Payment::factory(5)->create();
     }
 
     /**
