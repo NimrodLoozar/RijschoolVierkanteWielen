@@ -37,7 +37,6 @@ class InvoiceFactory extends Factory
             'amount_incl_vat' => $amountInclVat,
             'status' => $isPaid ? 'betaald' : 'onbetaald',
             'is_active' => true,
-            'note' => $this->faker->optional(30)->sentence(),
             'created_at' => $invoiceDate,
             'updated_at' => $invoiceDate,
         ];
