@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -70,7 +71,7 @@
                             </button>
                         </div>
                         <div class="hidden lg:flex lg:gap-x-12">
-                            <a href="#About" class="text-sm/6 font-semibold text-gray-100">About</a>
+                            <a href="#About" class="text-sm/6 font-semibold text-gray-100">Over ons</a>
                             <a href="#services" class="text-sm/6 font-semibold text-gray-100">Onze diensten</a>
                             <a href="#Contact" class="text-sm/6 font-semibold text-gray-100">Contact</a>
                             <a href="#instructors" class="text-sm/6 font-semibold text-gray-100">Instructeurs</a>
@@ -121,9 +122,11 @@
                             <div class="-my-6 divide-y divide-gray-500/10">
                                 <div class="space-y-2 py-6">
                                     <a href="#About"
-                                        class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-700 hover:bg-gray-900">About</a>
+                                        class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-700 hover:bg-gray-900">Over
+                                        ons</a>
                                     <a href="#services"
-                                        class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-700 hover:bg-gray-900">Onze diensten</a>
+                                        class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-700 hover:bg-gray-900">Onze
+                                        diensten</a>
                                     <a href="#Contact"
                                         class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-700 hover:bg-gray-900">Contact</a>
                                     <a href="#instructors"
@@ -162,9 +165,11 @@
                 </div>
                 <div class="mx-auto max-w-7xl p-8 lg:p-10 bg-gray-900/75 rounded-lg ">
                     <div class="mx-auto max-w-2xl lg:mx-0">
-                        <h2 class="text-5xl font-semibold tracking-tight text-white sm:text-7xl">Rijschool Vierkante Wielen</h2>
+                        <h2 class="text-5xl font-semibold tracking-tight text-white sm:text-7xl">Rijschool Vierkante
+                            Wielen</h2>
                         <p class="mt-8 text-lg font-medium text-pretty text-gray-300 sm:text-xl/8">
-                            Ontdek waarom wij de beste keuze zijn voor jouw rijbewijs. Persoonlijke begeleiding en hoge slagingspercentages.</p>
+                            Ontdek waarom wij de beste keuze zijn voor jouw rijbewijs. Persoonlijke begeleiding en hoge
+                            slagingspercentages.</p>
                     </div>
                     <div class="mx-auto mt-10 max-w-2xl lg:mx-0 lg:max-w-none">
                         <div
