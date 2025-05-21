@@ -22,48 +22,52 @@
                 <!-- account & facturen buttons -->
                 <div
                     class="w-full lg:w-1/3 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-8 lg:mb-0">
-                    <div class="p-6 text-gray-900 dark:text-gray-100">
-                        <h3 class="text-2xl font-bold mb-4">Accounts</h3>
-                        <a href="{{ route('accounts.index') }}"
-                            class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mb-4">
-                            Bekijk accounts
-                        </a>
-                    </div>
+                    @if (auth()->user() && auth()->user()->hasRole('Admin'))
+                        <div class="p-6 text-gray-900 dark:text-gray-100">
+                            <h3 class="text-2xl font-bold mb-4">Accounts</h3>
+                            <a href="{{ route('accounts.index') }}"
+                                class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mb-4">
+                                Bekijk accounts
+                            </a>
+                        </div>
 
-                    <div class="p-6 text-gray-900 dark:text-gray-100">
-                        <h3 class="text-2xl font-bold mb-4">Facturen</h3>
-                        <a href="{{ route('invoices.index') }}"
-                            class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mb-4">
-                            Bekijk facturen
-                        </a>
-                    </div>
+                        <div class="p-6 text-gray-900 dark:text-gray-100">
+                            <h3 class="text-2xl font-bold mb-4">Facturen</h3>
+                            <a href="{{ route('invoices.index') }}"
+                                class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mb-4">
+                                Bekijk facturen
+                            </a>
+                        </div>
+                    @endif
                 </div>
 
                 <!-- vul in -->
                 <div
                     class="w-full lg:w-2/3 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-8 lg:mb-0">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-2xl font-bold">Placeholder per/</h3>
-                        </div>
-                        <button onclick="toggleBookings()"
-                            class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mb-4">
-                            Toon Placeholder
-                        </button>
-                        <br>
-                        <hr>
-                        <br>
-                        <div id="bookingStats" class="hidden">
-                            <h4 class="text-2xl font-bold mb-4">Placeholder 1</h4>
-                            <div class="mb-4">
-
+                        @if (auth()->user() && auth()->user()->hasRole('Admin'))
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-2xl font-bold">Placeholder per/</h3>
                             </div>
+                            <button onclick="toggleBookings()"
+                                class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mb-4">
+                                Toon Placeholder
+                            </button>
+                            <br>
+                            <hr>
+                            <br>
+                            <div id="bookingStats" class="hidden">
+                                <h4 class="text-2xl font-bold mb-4">Placeholder 1</h4>
+                                <div class="mb-4">
 
-                            <h4 class="text-2xl font-bold mb-4">Placeholder 2</h4>
-                            <div>
+                                </div>
 
+                                <h4 class="text-2xl font-bold mb-4">Placeholder 2</h4>
+                                <div>
+
+                                </div>
                             </div>
-                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -72,44 +76,50 @@
             <div class="mt-8 flex flex-col lg:flex-row gap-8">
                 <!-- vul in -->
                 <div class="w-full lg:w-2/3 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900 dark:text-gray-100">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-2xl font-bold">Placeholder Large</h3>
-                        </div>
-                        <div>
+                    @if (auth()->user() && auth()->user()->hasRole('Admin'))
+                        <div class="p-6 text-gray-900 dark:text-gray-100">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-2xl font-bold">Placeholder Large</h3>
+                            </div>
+                            <div>
 
+                            </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
 
                 <!-- vul in -->
                 <div class="w-full lg:w-1/3 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-2xl font-bold">Placeholder Small</h3>
-                        </div>
-                        <div class="space-y-4">
+                        @if (auth()->user() && auth()->user()->hasRole('Admin'))
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-2xl font-bold">Placeholder Small</h3>
+                            </div>
+                            <div class="space-y-4">
 
-                        </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
 
             <!-- Maintenance Mode Toggle -->
-            <div class="mt-6 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
-                <form method="POST" action="{{ route('toggle.maintenance') }}">
-                    @csrf
-                    <label for="maintenance-toggle" class="flex items-center">
-                        <input type="checkbox" id="maintenance-toggle" name="maintenance_mode" value="1"
-                            class="mr-2" {{ $isMaintenanceMode ? 'checked' : '' }}>
-                        <span class="text-gray-900 dark:text-gray-100">Maintenance Mode</span>
-                    </label>
-                    <button type="submit"
-                        class="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
-                        Save
-                    </button>
-                </form>
-            </div>
+            @if (auth()->user() && auth()->user()->hasRole('Admin'))
+                <div class="mt-6 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
+                    <form method="POST" action="{{ route('toggle.maintenance') }}">
+                        @csrf
+                        <label for="maintenance-toggle" class="flex items-center">
+                            <input type="checkbox" id="maintenance-toggle" name="maintenance_mode" value="1"
+                                class="mr-2" {{ $isMaintenanceMode ? 'checked' : '' }}>
+                            <span class="text-gray-900 dark:text-gray-100">Maintenance Mode</span>
+                        </label>
+                        <button type="submit"
+                            class="mt-4 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
+                            Save
+                        </button>
+                    </form>
+                </div>
+            @endif
         </div>
     </div>
 
