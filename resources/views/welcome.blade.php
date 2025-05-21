@@ -29,9 +29,16 @@
 
 <body>
     @if ($isMaintenanceMode)
-        <main class="grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">
-            <div class="text-center">
-                <p class="text-9xl font-semibold text-indigo-600">404</p>
+        <main
+            class="fixed inset-0 z-50 grid min-h-screen min-w-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">
+            <!-- Preloader -->
+            <div id="preloader" class="fixed inset-0 z-50 flex items-center justify-center bg-white">
+                <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-indigo-600"></div>
+            </div>
+
+            <img src="{{ asset('svg/maintenance.svg') }}" alt="Onderhoud"
+                class="absolute inset-0 w-full h-full object-cover opacity-80 pointer-events-none" style="z-index:0;">
+            <div class="text-center relative z-10">
                 <h1 class="mt-4 text-5xl font-semibold tracking-tight text-balance text-gray-900 sm:text-7xl">
                     De website is momenteel in onderhoud.
                 </h1>
