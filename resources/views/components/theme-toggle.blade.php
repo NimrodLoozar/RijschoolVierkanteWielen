@@ -1,3 +1,4 @@
+{{-- Laravel project: \resources\views\components\theme-toggle.blade.php --}}
 <button id="theme-toggle" type="button"
     class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 bg-white dark:bg-gray-800"
     aria-label="Toggle dark mode">
@@ -16,24 +17,6 @@
     </svg>
 </button>
 
-{{-- <script>
-    // Toggle dark mode on button click
-    const toggleButton = document.getElementById('theme-toggle');
-    toggleButton.addEventListener('click', function() {
-        const darkIcon = document.getElementById('theme-toggle-dark-icon');
-        const lightIcon = document.getElementById('theme-toggle-light-icon');
-
-        if (document.documentElement.classList.contains('dark')) {
-            lightIcon.classList.remove('hidden');
-            darkIcon.classList.add('hidden');
-            localStorage.setItem('theme', 'light');
-        } else {
-            darkIcon.classList.remove('hidden');
-            lightIcon.classList.add('hidden');
-            localStorage.setItem('theme', 'dark');
-        }
-    });
-</script> --}}
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const toggleButton = document.getElementById('theme-toggle');

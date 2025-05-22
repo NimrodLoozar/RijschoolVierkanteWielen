@@ -1,3 +1,4 @@
+// Laravel project: \resources\js\theme-toggle.js
 // Simple dark mode toggle functionality
 document.addEventListener('DOMContentLoaded', function () {
   // Get the toggle button and icons

@@ -1,5 +1,5 @@
 <?php
-
+// Laravel project: app\View\Components/ThemeToggle.php
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
