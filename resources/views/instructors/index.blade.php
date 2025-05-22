@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="mb-4 flex justify-between items-center">
+        <div class="mb-4 flex justify-between items-center bg-white dark:bg-gray-800 shadow-md sm:rounded-lg p-4">
             <div>
                 <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                     {{ __('Instructeurs') }}
@@ -28,7 +28,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             @if (count($instructors) > 0)
-                <div id="dataContainer" class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div id="dataContainer" class="bg-white dark:bg-gray-800 overflow-hidden shadow-md sm:rounded-lg">
                     <div class="p-6 text-gray-900 dark:text-gray-100 hidden md:block">
                         <table class="w-full min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                             <thead class="bg-gray-50 dark:bg-gray-700">
@@ -65,9 +65,9 @@
                                             {{ $instructor->email ?? 'N/A' }}
                                         </td>
                                         <td
-                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-300 dark:text-gray-200">
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-100 dark:text-gray-200">
                                             <span
-                                                class="bg-green-500/70 py-1 px-2 rounded-xl">{{ $instructor->role_name ?? 'No Role Assigned' }}
+                                                class="bg-green-500 dark:bg-green-500/70 py-1 px-2 rounded-xl">{{ $instructor->role_name ?? 'No Role Assigned' }}
                                             </span>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
@@ -158,7 +158,7 @@
                 </div>
             @else
                 <div id="noinstructorsError"
-                    class="w-full bg-red-600 px-4 py-4 rounded relative dark:bg-red-800 dark:border-red-400"
+                    class="w-full bg-red-600 px-4 py-4 rounded relative dark:bg-red-800 dark:border-red-400 text-center shadow-2xl"
                     role="alert">
                     <span class="block sm:inline text-gray-100">Geen instructeurs gevonden. Probeer
                         later
@@ -167,7 +167,7 @@
                 </div>
             @endif
             <div id="errorContainer"
-                class="w-full hidden bg-red-600 px-4 py-4 rounded relative dark:bg-red-800 dark:border-red-400">
+                class="w-full hidden bg-red-600 px-4 py-4 rounded relative dark:bg-red-800 dark:border-red-400 text-center shadow-2xl">
                 <p class="text-gray-100">Geen instructeurs gevonden. Probeer later
                     opnieuw of voeg instructeurs
                     toe.</p>

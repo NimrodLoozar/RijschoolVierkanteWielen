@@ -42,7 +42,7 @@
 
         <!-- Page Heading -->
         @isset($header)
-            <header class="bg-gray-800 shadow">
+            <header class="bg-white dark:bg-gray-800">
                 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                     {{ $header }}
                 </div>
@@ -109,13 +109,13 @@
         });
     </script>
     <!-- Emergency direct toggle for testing -->
-    <div class="fixed bottom-5 right-5 z-50">
+    {{-- <div class="fixed bottom-5 right-5 z-50">
         <button
             onclick="document.documentElement.classList.toggle('dark'); localStorage.setItem('color-theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');"
             class="bg-white dark:bg-gray-800 p-2 rounded-full shadow-lg text-gray-500 dark:text-gray-400">
             Toggle Dark Mode
         </button>
-    </div>
+    </div> --}}
 </body>
 
 </html>
