@@ -78,7 +78,7 @@
                             </button>
                         </div>
                         <div class="hidden lg:flex lg:gap-x-12">
-                            <a href="#About" class="text-sm/6 font-semibold text-gray-100">About</a>
+                            <a href="#About" class="text-sm/6 font-semibold text-gray-100">Over ons</a>
                             <a href="#services" class="text-sm/6 font-semibold text-gray-100">Onze diensten</a>
                             <a href="#Contact" class="text-sm/6 font-semibold text-gray-100">Contact</a>
                             <a href="#instructors" class="text-sm/6 font-semibold text-gray-100">Instructeurs</a>
@@ -89,6 +89,7 @@
                                 <a href="{{ url('/dashboard') }}" class="text-sm/6 font-semibold text-gray-100">Dashboard
                                     <span aria-hidden="true">&rarr;</span>
                                 </a>
+                                <x-theme-toggle />
                             @else
                                 <a href="{{ route('login') }}" class="text-sm/6 font-semibold text-gray-100">Log in
                                     |</a>
@@ -98,9 +99,9 @@
                                         class="ml-1 text-sm/6 font-semibold text-gray-100">Registeer
                                     </a>
                                 @endif
+                                <x-theme-toggle />
                             @endauth
                         </div>
-
                     </nav>
                 @endif
                 <!-- Mobile menu, show/hide based on menu open state. -->
@@ -129,7 +130,8 @@
                             <div class="-my-6 divide-y divide-gray-500/10">
                                 <div class="space-y-2 py-6">
                                     <a href="#About"
-                                        class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-700 hover:bg-gray-900">About</a>
+                                        class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-700 hover:bg-gray-900">Over
+                                        ons</a>
                                     <a href="#services"
                                         class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-700 hover:bg-gray-900">Onze
                                         diensten</a>
@@ -906,6 +908,15 @@
                 }
             });
         });
+    </script>
+    <script>
+        // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia(
+                '(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
     </script>
 </body>
 

@@ -1,5 +1,6 @@
 <?php
 
+
 namespace Database\Factories;
 
 use App\Models\Student;
@@ -7,16 +8,8 @@ use App\Models\Package;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\DB;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Registration>
- */
 class RegistrationFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         $registrationDate = $this->faker->dateTimeBetween('-1 year', 'now');
@@ -50,11 +43,11 @@ class RegistrationFactory extends Factory
     {
         // Insert a basic package with correct column names
         DB::table('packages')->insert([
-            'type' => 'package1',
-            'lesson_count' => 20,
-            'price_per_lesson' => 59.75,
+            'type' => 'Proefles',
+            'lesson_count' => 1,
+            'price_per_lesson' => 40.00,
             'is_active' => true,
-            'note' => 'Standaardpakket',
+            'note' => 'Geen opmerking',
             'created_at' => now(),
             'updated_at' => now(),
         ]);

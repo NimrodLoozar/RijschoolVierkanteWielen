@@ -52,8 +52,16 @@ return new class extends Migration
                     u.logged_out_at,
                     u.is_active,
                     u.note,
-                    u.created_at
+                    u.created_at,
+                    c.street,
+                    c.house_number,
+                    c.addition,
+                    c.postal_code,
+                    c.city,
+                    c.mobile,
+                    c.email
                 FROM users u
+                LEFT JOIN contacts c ON u.id = c.user_id
                 WHERE u.id = accountId;
             END
         ');

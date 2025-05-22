@@ -12,17 +12,22 @@ return new class extends Migration
     {
         // Ophalen van alle facturen met volledige gegevens
         DB::unprepared('
-          DROP PROCEDURE IF EXISTS spGetInvoices;
-            CREATE PROCEDURE spGetInvoices()
+          DROP PROCEDURE IF EXISTS spGetAllInvoices;
+            CREATE PROCEDURE spGetAllInvoices()
             BEGIN
                 SELECT 
                     i.id, i.invoice_number, i.invoice_date, i.status,
                     i.amount_excl_vat, i.vat, i.amount_incl_vat, i.note,
-                    r.id AS registration_id, 
-                    r.student_id, r.package_id, r.created_at,
-                    i.is_active
+                    r.id AS registration_id, r.start_date, r.end_date,
+                    r.student_id, s.relation_number AS student_relation_number, s.is_active AS student_is_active,
+                    CONCAT(u.first_name, \' \', u.last_name) AS student_name,
+                    r.package_id, p.type AS package_type, p.lesson_count, p.price_per_lesson,
+                    i.created_at, i.updated_at, i.is_active
                 FROM invoices i
                 JOIN registrations r ON i.registration_id = r.id
+                JOIN students s ON r.student_id = s.id
+                JOIN users u ON s.user_id = u.id
+                JOIN packages p ON r.package_id = p.id
                 ORDER BY i.id DESC;
             END;
         ');
@@ -35,11 +40,16 @@ return new class extends Migration
                 SELECT 
                     i.id, i.invoice_number, i.invoice_date, i.status,
                     i.amount_excl_vat, i.vat, i.amount_incl_vat, i.note,
-                    r.id AS registration_id, 
-                    r.student_id, r.package_id, r.created_at,
-                    i.is_active
+                    r.id AS registration_id, r.start_date, r.end_date,
+                    r.student_id, s.relation_number AS student_relation_number, s.is_active AS student_is_active,
+                    CONCAT(u.first_name, \' \', u.last_name) AS student_name,
+                    r.package_id, p.type AS package_type, p.lesson_count, p.price_per_lesson,
+                    i.created_at, i.updated_at, i.is_active
                 FROM invoices i
                 JOIN registrations r ON i.registration_id = r.id
+                JOIN students s ON r.student_id = s.id
+                JOIN users u ON s.user_id = u.id
+                JOIN packages p ON r.package_id = p.id
                 WHERE i.id = invoice_id;
             END;
         ');
@@ -62,13 +72,33 @@ return new class extends Migration
                 INSERT INTO invoices (
                     invoice_number, invoice_date, status, 
                     amount_excl_vat, vat, amount_incl_vat, 
-                    note, registration_id, is_active
+                    note, registration_id, is_active,
+                    created_at, updated_at
                 )
                 VALUES (
                     p_invoice_number, p_invoice_date, p_status, 
                     p_amount_excl_vat, p_vat, p_amount_incl_vat, 
-                    p_note, p_registration_id, p_is_active
+                    p_note, p_registration_id, p_is_active,
+                    NOW(), NOW()
                 );
+                
+                -- Return the newly created invoice with all associated data
+                SELECT 
+                    i.id, i.invoice_number, i.invoice_date, i.status,
+                    i.amount_excl_vat, i.vat, i.amount_incl_vat, i.note,
+                    r.id AS registration_id, r.start_date, r.end_date,
+                    r.student_id, s.relation_number AS student_relation_number, s.is_active AS student_is_active,
+                    CONCAT(u.first_name, \' \', u.last_name) AS student_name,
+                    r.package_id, p.type AS package_type, p.lesson_count, p.price_per_lesson,
+                    i.created_at, i.updated_at, i.is_active
+                FROM invoices i
+                JOIN registrations r ON i.registration_id = r.id
+                JOIN students s ON r.student_id = s.id
+                JOIN users u ON s.user_id = u.id
+                JOIN packages p ON r.package_id = p.id
+                WHERE i.invoice_number = p_invoice_number
+                ORDER BY i.id DESC
+                LIMIT 1;
             END
         ');
 
@@ -95,8 +125,25 @@ return new class extends Migration
                     vat = p_vat, 
                     amount_incl_vat = p_amount_incl_vat, 
                     note = p_note,
-                    is_active = p_is_active
+                    is_active = p_is_active,
+                    updated_at = NOW()
                 WHERE id = p_invoice_id;
+                
+                -- Return the updated invoice with all associated data
+                SELECT 
+                    i.id, i.invoice_number, i.invoice_date, i.status,
+                    i.amount_excl_vat, i.vat, i.amount_incl_vat, i.note,
+                    r.id AS registration_id, r.start_date, r.end_date,
+                    r.student_id, s.relation_number AS student_relation_number, s.is_active AS student_is_active,
+                    CONCAT(u.first_name, \' \', u.last_name) AS student_name,
+                    r.package_id, p.type AS package_type, p.lesson_count, p.price_per_lesson,
+                    i.created_at, i.updated_at, i.is_active
+                FROM invoices i
+                JOIN registrations r ON i.registration_id = r.id
+                JOIN students s ON r.student_id = s.id
+                JOIN users u ON s.user_id = u.id
+                JOIN packages p ON r.package_id = p.id
+                WHERE i.id = p_invoice_id;
             END
         ');
 
@@ -115,7 +162,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        DB::unprepared('DROP PROCEDURE IF EXISTS spGetInvoices');
+        DB::unprepared('DROP PROCEDURE IF EXISTS spGetAllInvoices');
         DB::unprepared('DROP PROCEDURE IF EXISTS spGetInvoiceById');
         DB::unprepared('DROP PROCEDURE IF EXISTS spAddInvoice');
         DB::unprepared('DROP PROCEDURE IF EXISTS spUpdateInvoice');
