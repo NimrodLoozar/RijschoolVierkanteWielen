@@ -3,21 +3,25 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Payment;
+use App\Models\Invoice;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Payment>
- */
 class PaymentFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
-    {
-        return [
-            //
-        ];
-    }
+    protected $model = Payment::class;
+
+public function definition()
+{
+    // If 'invoice_id' was provided (like in your seeder), use that, else pick random
+    $invoiceId = $this->faker->randomElement(Invoice::pluck('id')->toArray());
+
+    return [
+        'invoice_id' => $this->invoice_id ?? $invoiceId,  // allow override
+        'date' => $this->faker->dateTimeBetween('-1 year', 'now')->format('Y-m-d'),
+        'status' => $this->faker->randomElement(['betaald', 'openstaand']),
+        'is_active' => 1,
+    ];
+}
+
+
 }

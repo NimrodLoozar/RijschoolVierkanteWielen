@@ -17,10 +17,19 @@
                     </x-nav-link>
                     @if (auth()->user() && auth()->user()->hasRole('Admin'))
                         <x-nav-link :href="route('students.index')" :active="request()->routeIs('students.*')">
-                            {{ __('Students') }}
+                            {{ __('Leerlingen') }}
                         </x-nav-link>
                         <x-nav-link :href="route('instructors.index')" :active="request()->routeIs('instructors.*')">
-                            {{ __('Instructors') }}
+                            {{ __('Instructeurs') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('autos.index')" :active="request()->routeIs('autos.*')">
+                            {{ __('Autos') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('packages.index')" :active="request()->routeIs('packages.*')">
+                            {{ __('Packages') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('betalingen.index')" :active="request()->routeIs('betalingen.*')">
+                            {{ __('Payments') }}
                         </x-nav-link>
                     @endif
                 </div>
@@ -62,6 +71,9 @@
                         </form>
                     </x-slot>
                 </x-dropdown>
+                <div class="ml-4">
+                    <x-theme-toggle />
+                </div>
             </div>
 
             <!-- Hamburger -->
@@ -86,6 +98,24 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+
+            @if (auth()->user() && auth()->user()->hasRole('Admin'))
+                <x-responsive-nav-link :href="route('students.index')" :active="request()->routeIs('students.*')">
+                    {{ __('Leerlingen') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('instructors.index')" :active="request()->routeIs('instructors.*')">
+                    {{ __('Instructeurs') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('autos.index')" :active="request()->routeIs('autos.*')">
+                    {{ __('Autos') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('packages.index')" :active="request()->routeIs('packages.*')">
+                    {{ __('Packages') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('betalingen.index')" :active="request()->routeIs('betalingen.*')">
+                    {{ __('Payments') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->

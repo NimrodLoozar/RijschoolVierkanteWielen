@@ -1,12 +1,15 @@
 <?php
 
-use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\MaintenanceController;
+use App\Http\Controllers\AutoController;
+use App\Http\Controllers\PackageController;
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\InvoiceController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\DB;
 
 Route::get('/', function () {
@@ -44,6 +47,13 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::patch('/instructors/{instructor}', [InstructorController::class, 'update'])->name('instructors.update');
     Route::delete('/instructors/{instructor}', [InstructorController::class, 'destroy'])->name('instructors.destroy');
 
+    Route::get('/autos', [AutoController::class, 'index'])->name('autos.index');
+    Route::get('/packages', [PackageController::class, 'index'])->name('packages.index');
+
+
+    Route::get('/betalingen', [PaymentController::class, 'index'])->name('betalingen.index');
+
+
     Route::get('/accounts', [AccountController::class, 'index'])->name('accounts.index');
     Route::get('/accounts/create', [AccountController::class, 'create'])->name('accounts.create');
     Route::post('/accounts', [AccountController::class, 'store'])->name('accounts.store');
@@ -59,6 +69,7 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::get('/invoices/{invoice}/edit', [InvoiceController::class, 'edit'])->name('invoices.edit');
     Route::patch('/invoices/{invoice}', [InvoiceController::class, 'update'])->name('invoices.update');
     Route::delete('/invoices/{invoice}', [InvoiceController::class, 'destroy'])->name('invoices.destroy');
+    Route::get('/invoices/{invoice}/mark-as-paid', [InvoiceController::class, 'markAsPaid'])->name('invoices.markAsPaid');
 });
 
 Route::post('/toggle-maintenance', [MaintenanceController::class, 'toggle'])->name('toggle.maintenance');
