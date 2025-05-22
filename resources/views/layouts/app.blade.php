@@ -36,9 +36,9 @@
         @include('layouts.navigation')
 
         <!-- Theme Toggle - moved to a better position in the navigation bar -->
-        <div class="fixed top-5 right-5 z-50">
+        {{-- <div class="fixed top-5 right-5 z-50">
             <x-theme-toggle />
-        </div>
+        </div> --}}
 
         <!-- Page Heading -->
         @isset($header)
