@@ -104,7 +104,7 @@
                                                 <th class="py-4 px-2 sm:px-6 text-left">Bedrag</th>
                                                 <th class="py-4 px-2 sm:px-6 text-left">Status</th>
                                                 <th class="py-4 px-2 sm:px-6 text-left hidden sm:table-cell">Lessen</th>
-                                                <th class="py-4 px-2 sm:px-6 text-left">Acties</th>
+                                                <th class="py-4 px-2 sm:px-6 text-center">Acties</th>
                                             </tr>
                                         </thead>
                                         <tbody class="text-gray-800 text-sm font-light">
@@ -120,7 +120,7 @@
                                                         </span>
                                                     </td>
                                                     <td class="py-3 px-2 sm:px-6 hidden sm:table-cell">{{ $invoice->lesson_count ?? 0 }}</td>
-                                                    <td class="py-3 px-2 sm:px-6 flex space-x-1 sm:space-x-2">
+                                                    <td class="py-3 px-2 sm:px-6 flex justify-center space-x-1 sm:space-x-2">
                                                         <a href="{{ route('invoices.show', $invoice->id) }}" class="text-blue-500 hover:underline p-1" title="Details bekijken">ⓘ</a>
                                                         <a href="{{ route('invoices.edit', $invoice->id) }}" class="text-yellow-500 hover:underline p-1" title="Bewerken">✎</a>
                                                         @if($invoice->status != 'paid')
