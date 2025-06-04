@@ -47,7 +47,11 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::delete('/instructors/{instructor}', [InstructorController::class, 'destroy'])->name('instructors.destroy');
 
     Route::get('/autos', [AutoController::class, 'index'])->name('autos.index');
+    Route::get('/autos/create', [AutoController::class, 'create'])->name('autos.create');
+    Route::post('/autos', [AutoController::class, 'store'])->name('autos.store');
     Route::get('/packages', [PackageController::class, 'index'])->name('packages.index');
+    Route::get('/packages/create', [PackageController::class, 'create'])->name('packages.create');
+    Route::post('/packages', [PackageController::class, 'store'])->name('packages.store');
 
     Route::get('/accounts', [AccountController::class, 'index'])->name('accounts.index');
     Route::get('/accounts/create', [AccountController::class, 'create'])->name('accounts.create');
