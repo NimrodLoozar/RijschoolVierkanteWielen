@@ -52,6 +52,8 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
 
 
     Route::get('/betalingen', [PaymentController::class, 'index'])->name('betalingen.index');
+    Route::get('/betalingen/create', [PaymentController::class, 'create'])->name('betalingen.create');
+    Route::post('/betalingen', [PaymentController::class, 'store'])->name('betalingen.store');
 
 
     Route::get('/accounts', [AccountController::class, 'index'])->name('accounts.index');
@@ -70,6 +72,7 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::patch('/invoices/{invoice}', [InvoiceController::class, 'update'])->name('invoices.update');
     Route::delete('/invoices/{invoice}', [InvoiceController::class, 'destroy'])->name('invoices.destroy');
     Route::get('/invoices/{invoice}/mark-as-paid', [InvoiceController::class, 'markAsPaid'])->name('invoices.markAsPaid');
+
 });
 
 Route::post('/toggle-maintenance', [MaintenanceController::class, 'toggle'])->name('toggle.maintenance');
