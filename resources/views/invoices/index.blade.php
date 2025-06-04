@@ -1,7 +1,14 @@
-<x-layout>
-    <h2 class="mt-24 ml-4 sm:ml-8 font-semibold text-xl text-gray-800 leading-tight">
-        {{ __('Facturen') }}
-    </h2>
+<x-app-layout>
+        <x-slot name="header">
+        <div class="flex justify-between items-center">
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                {{ __('Facturen') }}
+            </h2>
+            <span class="px-3 py-1 text-xs bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded-full">
+                {{ now()->format('d M Y') }}
+            </span>
+        </div>
+    </x-slot>
     <div class="py-6 sm:py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             @if (session('error'))
@@ -67,7 +74,7 @@
                 <div class="flex-grow"></div>
                 <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4">
                     <label class="flex items-center">
-                        <span class="mr-2 text-black !important" style="color: black !important;">Toon Data</span>
+                        <span class="mr-2 text-white !important" style="color: white !important;">Toon Data</span>
                         <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
                             <input type="checkbox" id="dataToggle"
                                 class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
@@ -119,6 +126,9 @@
                                                         @if($invoice->status != 'paid')
                                                             <a href="{{ route('invoices.markAsPaid', $invoice->id) }}" class="text-green-500 hover:underline p-1" title="Markeren als betaald">✓</a>
                                                         @endif
+                                                        @if($invoice->status != 'unpaid')
+                                                            <a href="{{ route('invoices.markAsUnpaid', $invoice->id) }}" class="text-red-500 hover:underline p-1" title="Markeren als onbetaald">✗</a>
+                                                        @endif
                                                         <form action="{{ route('invoices.destroy', $invoice->id) }}" method="POST" class="delete-form">
                                                             @csrf
                                                             @method('DELETE')
@@ -131,7 +141,7 @@
                                     </table>
                                 </div>
                             @else
-                                <p class="text-red-500 p-6 text-center mx-auto">Geen facturen gevonden die voldoen aan de zoekcriteria.</p>
+                                <p class="text-red-500 p-6 text-center mx-auto">Geen facturen gevonden.</p>
                             @endif
                         </div>
                     </div>
@@ -167,7 +177,7 @@
     document.querySelectorAll('.delete-form').forEach(form => {
         form.addEventListener('submit', function(e) {
             e.preventDefault();
-            if (confirm('Weet je zeker dat je deze factuur permanent wilt verwijderen? Dit kan niet ongedaan worden gemaakt!')) {
+            if (confirm('i.v.m. privacy mogen facturen binnen de 7 jaren niet verwijderd worden. Weet je zeker dat je deze factuur permanent wilt verwijderen? Dit kan niet ongedaan worden gemaakt!')) {
                 this.submit();
             }
         });

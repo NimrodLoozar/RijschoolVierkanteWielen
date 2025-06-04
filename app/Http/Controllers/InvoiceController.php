@@ -281,4 +281,42 @@ class InvoiceController extends Controller
                 ->with('error', 'Er is een fout opgetreden bij het markeren van de factuur als betaald.');
         }
     }
+
+    public function markAsUnpaid($id)
+    {
+        try {
+            // Check if invoice exists
+            $invoice = collect(DB::select('CALL spGetInvoiceById(?)', [$id]))->first();
+
+            if (!$invoice) {
+                return redirect()->route('invoices.index')
+                    ->with('error', 'Factuur niet gevonden.');
+            }
+
+            if ($invoice->status === 'unpaid') {
+                return redirect()->route('invoices.index')
+                    ->with('info', 'Deze factuur is al gemarkeerd als onbetaald.');
+            }
+
+            // Use the existing update stored procedure to change status to 'unpaid'
+            DB::select('CALL spUpdateInvoice(?, ?, ?, ?, ?, ?, ?, ?, ?)', [
+                $id,
+                $invoice->invoice_number,
+                $invoice->invoice_date,
+                'unpaid', // Change status to unpaid
+                $invoice->amount_excl_vat,
+                $invoice->vat,
+                $invoice->amount_incl_vat,
+                $invoice->note ?? null,
+                $invoice->is_active ?? true,
+            ]);
+
+            return redirect()->route('invoices.index')
+                ->with('success', 'Factuur is succesvol gemarkeerd als onbetaald.');
+        } catch (\Exception $e) {
+            Log::error('Error marking invoice as unpaid: ' . $e->getMessage());
+            return redirect()->route('invoices.index')
+                ->with('error', 'Er is een fout opgetreden bij het markeren van de factuur als onbetaald.');
+        }
+    }
 }
