@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Invoice;
+use App\Models\Registration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -88,6 +90,10 @@ class InvoiceController extends Controller
      */
     public function create()
     {
+        // Genereer het volgende factuurnummer
+        $latestInvoice = Invoice::orderBy('id', 'DESC')->first();
+        $nextInvoiceNumber = $latestInvoice ? 'INV-' . str_pad((intval(substr($latestInvoice->invoice_number, 4)) + 1), 6, '0', STR_PAD_LEFT) : 'INV-000001';
+
         // Get registrations for dropdown
         $registrations = DB::select('SELECT r.id, CONCAT(u.first_name, " ", u.last_name, " - ", p.type) AS description 
                                      FROM registrations r 
@@ -95,7 +101,7 @@ class InvoiceController extends Controller
                                      JOIN users u ON s.user_id = u.id 
                                      JOIN packages p ON r.package_id = p.id');
         
-        return view('invoices.create', compact('registrations'));
+        return view('invoices.create', compact('registrations', 'nextInvoiceNumber'));
     }
 
     /**
@@ -115,7 +121,15 @@ class InvoiceController extends Controller
             'is_active' => 'boolean',
         ]);
 
+        // Genereer een nieuw factuurnummer als er geen is opgegeven
+        if (empty($validated['invoice_number']) || $validated['invoice_number'] === 'AUTO') {
+            $latestInvoice = Invoice::orderBy('id', 'DESC')->first();
+            $validated['invoice_number'] = $latestInvoice ? 'INV-' . str_pad((intval(substr($latestInvoice->invoice_number, 4)) + 1), 6, '0', STR_PAD_LEFT) : 'INV-000001';
+        }
+
         try {
+            Log::info('Attempting to create invoice with number: ' . $validated['invoice_number']);
+            
             DB::select('CALL spAddInvoice(?, ?, ?, ?, ?, ?, ?, ?, ?)', [
                 $validated['invoice_number'],
                 $validated['invoice_date'],
@@ -127,13 +141,25 @@ class InvoiceController extends Controller
                 $validated['registration_id'],
                 isset($validated['is_active']) ? $validated['is_active'] : true,
             ]);
-
+            
+            Log::info('Invoice created successfully: ' . $validated['invoice_number']);
+            
             return redirect()->route('invoices.index')
                 ->with('success', 'Factuur succesvol aangemaakt.');
+                
         } catch (\Exception $e) {
+            // Check if the invoice was actually created despite the error
+            $invoiceExists = Invoice::where('invoice_number', $validated['invoice_number'])->exists();
+            
+            if ($invoiceExists) {
+                Log::warning('Exception occurred but invoice was created: ' . $e->getMessage());
+                return redirect()->route('invoices.index')
+                    ->with('success', 'Factuur succesvol aangemaakt.');
+            }
+            
             Log::error('Error creating invoice: ' . $e->getMessage());
             return back()->withInput()
-                ->with('error', 'Er is een fout opgetreden bij het aanmaken van de factuur.');
+                ->with('error', 'Er is een fout opgetreden bij het aanmaken van de factuur: ' . $e->getMessage());
         }
     }
 
