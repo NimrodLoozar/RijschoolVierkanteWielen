@@ -30,7 +30,7 @@
 
                             <form method="POST" action="{{ route('invoices.update', $invoice->id) }}">
                                 @csrf
-                                @method('PUT')
+                                @method('PATCH')
 
                                 <!-- Factuur informatie section -->
                                 <div class="mb-8 bg-gray-50 p-5 rounded-lg shadow-sm">
