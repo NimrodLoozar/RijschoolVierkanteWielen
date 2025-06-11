@@ -1,7 +1,14 @@
-<x-layout>
-    <h2 class="mt-16 ml-6 text-xl font-bold text-gray-800 leading-tight">
-        {{ __('Nieuw Account') }}
-    </h2>
+<x-app-layout>
+        <x-slot name="header">
+        <div class="flex justify-between items-center">
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                {{ __('Account aanmaken') }}
+            </h2>
+            <span class="px-3 py-1 text-xs bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded-full">
+                {{ now()->format('d M Y') }}
+            </span>
+        </div>
+    </x-slot>
     <div class="py-4">
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
             @if (session('error'))
@@ -197,4 +204,4 @@
             });
         });
     </script>
-</x-layout>
+</x-app-layout>

@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // In deze migration wordt alleen de tabelstructuur aangemaakt, geen data toegevoegd.
         Schema::create('packages', function (Blueprint $table) {
             $table->id();
-            $table->enum('type', ['package1', 'package2', 'package3']);
+            $table->string('type', 32);
             $table->integer('lesson_count');
             $table->decimal('price_per_lesson', 8, 2);
             $table->boolean('is_active')->default(true);
