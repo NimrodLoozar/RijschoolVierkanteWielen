@@ -48,6 +48,7 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::delete('/instructors/{instructor}', [InstructorController::class, 'destroy'])->name('instructors.destroy');
 
     Route::get('/autos', [AutoController::class, 'index'])->name('autos.index');
+    Route::get('/autos/create', [AutoController::class, 'create'])->name('autos.create');
     Route::get('/packages', [PackageController::class, 'index'])->name('packages.index');
 
 
