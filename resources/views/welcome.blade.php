@@ -89,6 +89,7 @@
                                 <a href="{{ url('/dashboard') }}" class="text-sm/6 font-semibold text-gray-100">Dashboard
                                     <span aria-hidden="true">&rarr;</span>
                                 </a>
+                                <x-theme-toggle />
                             @else
                                 <a href="{{ route('login') }}" class="text-sm/6 font-semibold text-gray-100">Log in
                                     |</a>
@@ -98,9 +99,9 @@
                                         class="ml-1 text-sm/6 font-semibold text-gray-100">Registeer
                                     </a>
                                 @endif
+                                <x-theme-toggle />
                             @endauth
                         </div>
-
                     </nav>
                 @endif
                 <!-- Mobile menu, show/hide based on menu open state. -->
@@ -907,6 +908,15 @@
                 }
             });
         });
+    </script>
+    <script>
+        // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia(
+                '(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
     </script>
 </body>
 

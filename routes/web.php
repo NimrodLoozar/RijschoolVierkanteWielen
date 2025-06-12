@@ -9,6 +9,7 @@ use App\Http\Controllers\PackageController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\InvoiceController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\DB;
 
 Route::get('/', function () {
@@ -48,6 +49,10 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
 
     Route::get('/autos', [AutoController::class, 'index'])->name('autos.index');
     Route::get('/packages', [PackageController::class, 'index'])->name('packages.index');
+
+
+    Route::get('/betalingen', [PaymentController::class, 'index'])->name('betalingen.index');
+
 
     Route::get('/accounts', [AccountController::class, 'index'])->name('accounts.index');
     Route::get('/accounts/create', [AccountController::class, 'create'])->name('accounts.create');

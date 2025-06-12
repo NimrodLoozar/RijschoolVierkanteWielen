@@ -47,6 +47,12 @@
                                 <span class="block text-m font-medium text-gray-500">Gebruikersnaam</span>
                                 <span class="block">{{ $account->username }}</span>
                             </div>
+                            @if(isset($account->note) && !empty($account->note))
+                            <div>
+                                <span class="block text-m font-medium text-gray-500">Notitie</span>
+                                <span class="block">{{ $account->note }}</span>
+                            </div>
+                            @endif
                         </div>
                     </div>
 
@@ -55,29 +61,41 @@
                         <h4 class="font-bold text-gray-700 mb-3">Contact informatie</h4>
                         <div class="grid grid-cols-1 gap-2">
                             <div>
- 				                <span class="block text-m font-medium text-gray-500">E-mail</span>
+                                <span class="block text-m font-medium text-gray-500">E-mail</span>
+                                @if($account->email)
                                 <a href="mailto:{{ $account->email }}" class="block text-blue-600 hover:underline">{{ $account->email }}</a>
+                                @else
+                                <span class="block text-gray-400">Niet geregistreerd</span>
+                                @endif
                             </div>
                             <div>
                                 <span class="block text-m font-medium text-gray-500">Mobiel</span>
+                                @if($account->mobile)
                                 <a href="tel:{{ $account->mobile }}" class="block text-blue-600 hover:underline">{{ $account->mobile }}</a>
+                                @else
+                                <span class="block text-gray-400">Niet geregistreerd</span>
+                                @endif
                             </div>
                         </div>
 
-                    <h4 class="font-bold text-gray-700 mb-3 mt-6">Adresgegevens</h4>
+                        <h4 class="font-bold text-gray-700 mb-3 mt-6">Adresgegevens</h4>
                         <div class="grid grid-cols-1 gap-2">
-                          @if($account->street || $account->house_number)
                             <div>
                                 <span class="block text-m font-medium text-gray-500">Straat en huisnummer</span>
+                                @if($account->street || $account->house_number)
                                 <span class="block">{{ $account->street ?? '' }} {{ $account->house_number ?? '' }}{{ $account->addition ? '-'.$account->addition : '' }}</span>
+                                @else
+                                <span class="block text-gray-400">Niet geregistreerd</span>
+                                @endif
                             </div>
-                            @endif
-                            @if($account->postal_code || $account->city)
                             <div>
                                 <span class="block text-m font-medium text-gray-500">Postcode en plaats</span>
+                                @if($account->postal_code || $account->city)
                                 <span class="block">{{ $account->postal_code ?? '' }} {{ $account->city ?? '' }}</span>
+                                @else
+                                <span class="block text-gray-400">Niet geregistreerd</span>
+                                @endif
                             </div>
-                            @endif
                         </div>
                     </div>
                 </div>
