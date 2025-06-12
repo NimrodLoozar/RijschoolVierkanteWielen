@@ -75,6 +75,92 @@
                             </div>
                         </div>
 
+                        <!-- Contact information section -->
+                        <div class="mb-4">
+                            <h3 class="text-base font-medium text-gray-700 mb-2 pb-1 border-b border-gray-200">{{ __('Contact informatie') }}</h3>
+                            
+                            <div class="md:flex md:space-x-3">
+                                <!-- Email -->
+                                <div class="mb-2 md:w-1/2">
+                                    <input id="email" type="email" name="email" value="{{ old('email') }}"
+                                        placeholder="{{ __('E-mail') }}"
+                                        class="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
+                                    @error('email')
+                                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <!-- Mobile -->
+                                <div class="mb-2 md:w-1/2">
+                                    <input id="mobile" type="tel" name="mobile" value="{{ old('mobile') }}"
+                                        placeholder="{{ __('Mobiel') }}"
+                                        class="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
+                                    @error('mobile')
+                                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Address section -->
+                        <div class="mb-4">
+                            <h3 class="text-base font-medium text-gray-700 mb-2 pb-1 border-b border-gray-200">{{ __('Adresgegevens') }}</h3>
+                            
+                            <div class="md:flex md:space-x-3">
+                                <!-- Street -->
+                                <div class="mb-2 md:w-2/3">
+                                    <input id="street" type="text" name="street" value="{{ old('street') }}"
+                                        placeholder="{{ __('Straat') }}"
+                                        class="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
+                                    @error('street')
+                                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <!-- House Number -->
+                                <div class="mb-2 md:w-1/6">
+                                    <input id="house_number" type="text" name="house_number" value="{{ old('house_number') }}"
+                                        placeholder="{{ __('Nummer') }}"
+                                        class="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
+                                    @error('house_number')
+                                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <!-- Addition -->
+                                <div class="mb-2 md:w-1/6">
+                                    <input id="addition" type="text" name="addition" value="{{ old('addition') }}"
+                                        placeholder="{{ __('Toevoeging') }}"
+                                        class="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
+                                    @error('addition')
+                                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="md:flex md:space-x-3">
+                                <!-- Postal Code -->
+                                <div class="mb-2 md:w-1/3">
+                                    <input id="postal_code" type="text" name="postal_code" value="{{ old('postal_code') }}"
+                                        placeholder="{{ __('Postcode') }}"
+                                        class="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
+                                    @error('postal_code')
+                                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <!-- City -->
+                                <div class="mb-2 md:w-2/3">
+                                    <input id="city" type="text" name="city" value="{{ old('city') }}"
+                                        placeholder="{{ __('Plaats') }}"
+                                        class="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
+                                    @error('city')
+                                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- Account gegevens section -->
                         <div class="mb-4">
                             <h3 class="text-base font-medium text-gray-700 mb-2 pb-1 border-b border-gray-200">{{ __('Account gegevens') }}</h3>
