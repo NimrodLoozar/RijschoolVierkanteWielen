@@ -76,20 +76,39 @@ class AccountController extends Controller
             'password' => 'required|string|min:8',
             'is_active' => 'boolean',
             'note' => 'nullable|string',
+            // Contact information validation
+            'email' => 'nullable|email|max:255',
+            'mobile' => 'nullable|string|max:20',
+            // Address information validation
+            'street' => 'nullable|string|max:255',
+            'house_number' => 'nullable|string|max:10',
+            'addition' => 'nullable|string|max:10',
+            'postal_code' => 'nullable|string|max:10',
+            'city' => 'nullable|string|max:255',
         ]);
 
         try {
-            DB::select('CALL spAddAccount(?, ?, ?, ?, ?, ?, ?, ?)', [
+            // Create user account and contact information using stored procedure
+            $result = DB::select('CALL spAddAccount(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
                 $validated['first_name'],
-                $validated['middle_name'],
+                $validated['middle_name'] ?? null,
                 $validated['last_name'],
-                $validated['birth_date'],
+                $validated['birth_date'] ?? null,
                 $validated['username'],
                 $validated['password'],
                 isset($validated['is_active']) ? $validated['is_active'] : false,
                 $validated['note'] ?? null,
+                $validated['email'] ?? null,
+                $validated['mobile'] ?? null,
+                $validated['street'] ?? null,
+                $validated['house_number'] ?? null,
+                $validated['addition'] ?? null,
+                $validated['postal_code'] ?? null,
+                $validated['city'] ?? null,
             ]);
-
+            
+            $userId = $result[0]->user_id;
+            
             return redirect()->route('accounts.index')
                 ->with('success', 'Account succesvol aangemaakt.');
         } catch (\Exception $e) {
@@ -153,9 +172,22 @@ class AccountController extends Controller
             'password' => 'nullable|string|min:8',
             'is_active' => 'boolean',
             'note' => 'nullable|string',
+            // Contact information validation
+            'email' => 'nullable|email|max:255',
+            'mobile' => 'nullable|string|max:20',
+            // Address information validation
+            'street' => 'nullable|string|max:255',
+            'house_number' => 'nullable|string|max:10',
+            'addition' => 'nullable|string|max:10',
+            'postal_code' => 'nullable|string|max:10',
+            'city' => 'nullable|string|max:255',
         ]);
 
         try {
+            // Begin transaction
+            DB::beginTransaction();
+            
+            // Update user account
             DB::select('CALL spUpdateAccount(?, ?, ?, ?, ?, ?, ?, ?, ?)', [
                 $id,
                 $validated['first_name'],
@@ -168,12 +200,50 @@ class AccountController extends Controller
                 $validated['note'] ?? null,
             ]);
 
+            // Check if contact exists
+            $contactExists = DB::table('contacts')->where('user_id', $id)->exists();
+            
+            $contactData = [
+                'email' => $validated['email'] ?? null,
+                'mobile' => $validated['mobile'] ?? null,
+                'street' => $validated['street'] ?? null,
+                'house_number' => $validated['house_number'] ?? null,
+                'addition' => $validated['addition'] ?? null,
+                'postal_code' => $validated['postal_code'] ?? null,
+                'city' => $validated['city'] ?? null,
+                'updated_at' => now(),
+            ];
+
+            if ($contactExists) {
+                // Update existing contact
+                DB::table('contacts')
+                    ->where('user_id', $id)
+                    ->update($contactData);
+            } else {
+                // Create new contact if any contact field is filled
+                if ($request->filled('email') || $request->filled('mobile') || 
+                    $request->filled('street') || $request->filled('house_number') || 
+                    $request->filled('postal_code') || $request->filled('city')) {
+                    
+                    $contactData['user_id'] = $id;
+                    $contactData['created_at'] = now();
+                    
+                    DB::table('contacts')->insert($contactData);
+                }
+            }
+            
+            // Commit transaction
+            DB::commit();
+
             return redirect()->route('accounts.index')
                 ->with('success', 'Account succesvol bijgewerkt.');
         } catch (\Exception $e) {
+            // Rollback transaction
+            DB::rollBack();
+            
             Log::error('Error updating account: ' . $e->getMessage());
             return back()->withInput()
-                ->with('error', 'Er is een fout opgetreden bij het bijwerken van het account.');
+                ->with('error', 'Er is een fout opgetreden bij het bijwerken van het account: ' . $e->getMessage());
         }
     }
 
