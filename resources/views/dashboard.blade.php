@@ -64,7 +64,18 @@
     </div>
 
     <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <script>
+        // Verify Chart.js loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof Chart === 'undefined') {
+                console.error('Chart.js failed to load!');
+                alert('Error: Chart.js could not be loaded. Some dashboard features may not work.');
+            } else {
+                console.log('Chart.js loaded successfully');
+            }
+        });
+    </script>
     
     @stack('scripts')
 </x-app-layout>

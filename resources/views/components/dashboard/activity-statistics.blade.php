@@ -78,6 +78,18 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log('Financial statistics component loaded');
             
+            // Check if Chart.js is loaded
+            if (typeof Chart === 'undefined') {
+                console.error('Chart.js is not loaded!');
+                document.getElementById('chartErrorContainer').textContent = 'Error: Chart.js library not found. Please check your internet connection and refresh.';
+                document.getElementById('chartErrorContainer').classList.remove('hidden');
+                document.getElementById('chartLoadingIndicator').classList.add('hidden');
+                document.getElementById('tableErrorContainer').textContent = 'Error: Required libraries not loaded.';
+                document.getElementById('tableErrorContainer').classList.remove('hidden');
+                document.getElementById('tableLoadingIndicator').classList.add('hidden');
+                return;
+            }
+            
             const chartElement = document.getElementById('monthlyStatsChart');
             const chartLoadingIndicator = document.getElementById('chartLoadingIndicator');
             const chartErrorContainer = document.getElementById('chartErrorContainer');
@@ -86,8 +98,12 @@
             const tableErrorContainer = document.getElementById('tableErrorContainer');
             const dataStatusElement = document.getElementById('dataStatus');
             
+            // Create fallback data in case PHP processing fails
+            const fallbackMonthLabels = ['Jan', 'Feb', 'Mrt', 'Apr', 'Mei', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec'];
+            const fallbackData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            
             try {
-                // Get data from PHP
+                // Direct PHP data retrieval (for debugging)
                 @php
                     try {
                         $currentYear = now()->year;
@@ -96,70 +112,147 @@
                         $monthlyVat = [];
                         $monthNames = ['Jan', 'Feb', 'Mrt', 'Apr', 'Mei', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dec'];
                         $errorMessage = null;
+                        $debugInfo = [];
                         
-                        // Check if Invoice model exists
+                        // Check if Invoice model exists and is accessible
                         if (!class_exists('\\App\\Models\\Invoice')) {
                             throw new Exception('Invoice model niet gevonden');
                         }
                         
-                        for ($month = 1; $month <= 12; $month++) {
-                            $startDate = \Carbon\Carbon::create($currentYear, $month, 1);
-                            $endDate = $startDate->copy()->endOfMonth();
+                        // Debug: Check table existence
+                        try {
+                            $tableExists = \Illuminate\Support\Facades\Schema::hasTable('invoices');
+                            $debugInfo[] = "Invoices table exists: " . ($tableExists ? 'Yes' : 'No');
                             
-                            try {
-                                $monthlyData[] = \App\Models\Invoice::whereBetween('invoice_date', [$startDate, $endDate])
-                                    ->sum('amount_incl_vat');
+                            if (!$tableExists) {
+                                throw new Exception('Invoices table does not exist');
+                            }
+                            
+                            // Get a count of invoices
+                            $invoiceCount = \App\Models\Invoice::count();
+                            $debugInfo[] = "Total invoice count: " . $invoiceCount;
+                            
+                            // Get a sample invoice to verify data structure
+                            if ($invoiceCount > 0) {
+                                $sampleInvoice = \App\Models\Invoice::first();
+                                $debugInfo[] = "Sample invoice: ID=" . $sampleInvoice->id . 
+                                    ", Number=" . $sampleInvoice->invoice_number . 
+                                    ", Date=" . $sampleInvoice->invoice_date . 
+                                    ", Amount=" . $sampleInvoice->amount_incl_vat;
+                            } else {
+                                $debugInfo[] = "No invoices found in database";
+                            }
+                            
+                        } catch (\Exception $e) {
+                            $debugInfo[] = "Error checking table: " . $e->getMessage();
+                        }
+                        
+                        // Initialize with zeros
+                        for ($i = 0; $i < 12; $i++) {
+                            $monthlyData[$i] = 0;
+                            $monthlyDataExclVat[$i] = 0;
+                            $monthlyVat[$i] = 0;
+                        }
+                        
+                        // Only attempt to query if table exists
+                        if (isset($tableExists) && $tableExists) {
+                            for ($month = 1; $month <= 12; $month++) {
+                                $startDate = \Carbon\Carbon::create($currentYear, $month, 1);
+                                $endDate = $startDate->copy()->endOfMonth();
+                                
+                                try {
+                                    // Get monthly data with detailed query logging
+                                    $monthlyQuery = \App\Models\Invoice::whereBetween('invoice_date', [$startDate, $endDate]);
+                                    $monthAmount = $monthlyQuery->sum('amount_incl_vat');
+                                    $monthExclVat = \App\Models\Invoice::whereBetween('invoice_date', [$startDate, $endDate])
+                                        ->sum('amount_excl_vat');
+                                    $monthVat = \App\Models\Invoice::whereBetween('invoice_date', [$startDate, $endDate])
+                                        ->sum('vat');
                                     
-                                $monthlyDataExclVat[] = \App\Models\Invoice::whereBetween('invoice_date', [$startDate, $endDate])
-                                    ->sum('amount_excl_vat');
+                                    $monthlyData[$month-1] = floatval($monthAmount);
+                                    $monthlyDataExclVat[$month-1] = floatval($monthExclVat);
+                                    $monthlyVat[$month-1] = floatval($monthVat);
                                     
-                                $monthlyVat[] = \App\Models\Invoice::whereBetween('invoice_date', [$startDate, $endDate])
-                                    ->sum('vat');
-                            } catch (\Exception $e) {
-                                throw new Exception('Fout bij ophalen gegevens voor maand ' . $month . ': ' . $e->getMessage());
+                                    // Debug info per month
+                                    $recordCount = \App\Models\Invoice::whereBetween('invoice_date', [$startDate, $endDate])->count();
+                                    if ($recordCount > 0) {
+                                        $debugInfo[] = "Month {$month}: {$recordCount} invoices, total: {$monthAmount}";
+                                    }
+                                } catch (\Exception $e) {
+                                    $debugInfo[] = "Error month {$month}: " . $e->getMessage();
+                                }
                             }
                         }
                     } catch (\Exception $e) {
                         $errorMessage = $e->getMessage();
-                        $monthlyData = array_fill(0, 12, 0);
-                        $monthlyDataExclVat = array_fill(0, 12, 0);
-                        $monthlyVat = array_fill(0, 12, 0);
+                        $debugInfo[] = "Main error: " . $e->getMessage();
                     }
                 @endphp
                 
+                console.log('PHP script executed');
+                
                 const errorMessage = {!! json_encode(isset($errorMessage) ? $errorMessage : null) !!};
+                const debugInfo = {!! json_encode(isset($debugInfo) ? $debugInfo : []) !!};
+                
+                console.log('Debug info:', debugInfo);
                 
                 if (errorMessage) {
                     console.error('PHP Error:', errorMessage);
                     throw new Error(errorMessage);
                 }
                 
-                const chartData = {{ json_encode($monthlyData) }};
-                const chartDataExclVat = {{ json_encode($monthlyDataExclVat) }};
-                const chartDataVat = {{ json_encode($monthlyVat) }};
-                const monthLabels = {{ json_encode($monthNames) }};
+                // Get data with fallback
+                let chartData;
+                let chartDataExclVat;
+                let chartDataVat;
+                let monthLabels;
                 
-                console.log('Chart data loaded:', {
+                try {
+                    chartData = {!! json_encode($monthlyData ?? []) !!};
+                    chartDataExclVat = {!! json_encode($monthlyDataExclVat ?? []) !!};
+                    chartDataVat = {!! json_encode($monthlyVat ?? []) !!};
+                    monthLabels = {!! json_encode($monthNames ?? []) !!};
+                    
+                    console.log('Raw data received:', {
+                        chartData,
+                        chartDataExclVat, 
+                        chartDataVat,
+                        monthLabels
+                    });
+                    
+                    // Validate data
+                    if (!Array.isArray(chartData) || chartData.length === 0) {
+                        throw new Error('No valid chart data received');
+                    }
+                } catch (e) {
+                    console.error('Error parsing data from PHP:', e);
+                    chartData = [...fallbackData];
+                    chartDataExclVat = [...fallbackData];
+                    chartDataVat = [...fallbackData];
+                    monthLabels = [...fallbackMonthLabels];
+                }
+                
+                console.log('Chart data prepared:', {
                     months: monthLabels,
                     inclVat: chartData,
                     exclVat: chartDataExclVat,
                     vat: chartDataVat
                 });
                 
-                // Validate data
-                if (!Array.isArray(chartData) || !Array.isArray(chartDataExclVat) || !Array.isArray(chartDataVat)) {
-                    throw new Error('Ongeldige gegevensstructuur ontvangen');
+                // Show data status with more details
+                const totalAmount = chartData.reduce((sum, val) => sum + parseFloat(val || 0), 0);
+                const monthsWithData = chartData.filter(val => parseFloat(val) > 0).length;
+                dataStatusElement.textContent = `Gegevens: ${totalAmount.toFixed(2)} EUR totaal over ${monthsWithData} maanden met data.`;
+                if (debugInfo && debugInfo.length > 0) {
+                    dataStatusElement.title = debugInfo.join('\n');
                 }
-                
-                // Show data status
-                dataStatusElement.textContent = `Gegevens: ${chartData.reduce((sum, val) => sum + parseFloat(val || 0), 0).toFixed(2)} EUR totaal over ${chartData.filter(val => parseFloat(val) > 0).length} maanden met data.`;
-                
-                let currentChart;
                 
                 // Format currency function
                 function formatCurrency(value) {
                     return '€' + parseFloat(value).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
                 }
+                
+                let currentChart = null;
                 
                 // Create and render chart
                 function createChart(type = 'bar') {
@@ -168,7 +261,14 @@
                             currentChart.destroy();
                         }
                         
-                        currentChart = new Chart(chartElement.getContext('2d'), {
+                        const ctx = chartElement.getContext('2d');
+                        if (!ctx) {
+                            throw new Error('Could not get canvas context');
+                        }
+                        
+                        console.log('Creating chart with type:', type);
+                        
+                        currentChart = new Chart(ctx, {
                             type: type,
                             data: {
                                 labels: monthLabels,
@@ -285,15 +385,22 @@
                 }
                 
                 // Initialize chart and table
-                setTimeout(() => {
-                    chartLoadingIndicator.classList.add('hidden');
-                    tableLoadingIndicator.classList.add('hidden');
-                    chartElement.classList.remove('hidden');
-                    tableElement.classList.remove('hidden');
-                    
+                console.log('Attempting to initialize chart and table...');
+                chartLoadingIndicator.classList.add('hidden');
+                tableLoadingIndicator.classList.add('hidden');
+                chartElement.classList.remove('hidden');
+                tableElement.classList.remove('hidden');
+                
+                // Try creating chart immediately instead of with setTimeout
+                try {
                     createChart('bar');
                     populateTable();
-                }, 500);
+                    console.log('Chart and table initialized successfully');
+                } catch (err) {
+                    console.error('Error initializing chart and table:', err);
+                    chartErrorContainer.textContent = `Er is een fout opgetreden bij initialisatie: ${err.message}`;
+                    chartErrorContainer.classList.remove('hidden');
+                }
                 
                 // Toggle chart type
                 document.getElementById('showBarChart').addEventListener('click', function() {
@@ -320,6 +427,22 @@
                 tableErrorContainer.textContent = `Er is een fout opgetreden: ${err.message}`;
                 chartErrorContainer.classList.remove('hidden');
                 tableErrorContainer.classList.remove('hidden');
+                
+                // Display any debug info in the error container
+                if (typeof debugInfo !== 'undefined' && debugInfo && debugInfo.length > 0) {
+                    const debugDetails = document.createElement('details');
+                    debugDetails.innerHTML = `<summary>Debug details</summary><pre>${debugInfo.join('\n')}</pre>`;
+                    chartErrorContainer.appendChild(debugDetails);
+                }
+                
+                // Add retry button
+                const retryButton = document.createElement('button');
+                retryButton.textContent = 'Probeer opnieuw';
+                retryButton.className = 'mt-3 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700';
+                retryButton.onclick = function() {
+                    location.reload();
+                };
+                chartErrorContainer.appendChild(retryButton);
             }
         });
     </script>
