@@ -5,8 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Rijschool Vierkantewielen</title>
-    <link rel="icon" href="/favicon.ico" sizes="any">
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <!-- favicon -->
+    <link rel="icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon">
     <link rel="apple-touch-icon" href="/apple-touch-icon.webp">
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -25,6 +25,7 @@
             transform: rotate(180deg);
         }
     </style>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body>
@@ -60,9 +61,7 @@
                         <div class="flex lg:flex-1">
                             <a href="#" class="-m-1.5 p-1.5">
                                 <span class="sr-only">Your Company</span>
-                                <img class="h-8 w-auto"
-                                    src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
-                                    alt="">
+                                <img class="h-8 w-auto" src="{{ asset('img/favicon.ico') }}" alt="">
                             </a>
                         </div>
                         <div class="flex lg:hidden">
@@ -70,11 +69,7 @@
                                 class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-100"
                                 aria-label="Open main menu">
                                 <span class="sr-only">Open main menu</span>
-                                <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                    stroke="currentColor" aria-hidden="true" data-slot="icon">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                                </svg>
+                                <img src="{{ asset('img/favicon.ico') }}" alt="">
                             </button>
                         </div>
                         <div class="hidden lg:flex lg:gap-x-12">
@@ -84,21 +79,23 @@
                             <a href="#instructors" class="text-sm/6 font-semibold text-gray-100">Instructeurs</a>
                             <a href="#FAQ" class="text-sm/6 font-semibold text-gray-100">FAQ</a>
                         </div>
-                        <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+                        <div class="hidden lg:flex lg:flex-1 lg:justify-end lg:items-center gap-x-3">
                             @auth
                                 <a href="{{ url('/dashboard') }}" class="text-sm/6 font-semibold text-gray-100">Dashboard
                                     <span aria-hidden="true">&rarr;</span>
                                 </a>
                                 <x-theme-toggle />
                             @else
-                                <a href="{{ route('login') }}" class="text-sm/6 font-semibold text-gray-100">Log in
-                                    |</a>
+                                <div>
+                                    <a href="{{ route('login') }}" class="text-sm/6 font-semibold text-gray-100">Log in
+                                        |</a>
 
-                                @if (Route::has('register'))
-                                    <a href="{{ route('register') }}"
-                                        class="ml-1 text-sm/6 font-semibold text-gray-100">Registeer
-                                    </a>
-                                @endif
+                                    @if (Route::has('register'))
+                                        <a href="{{ route('register') }}"
+                                            class="ml-1 text-sm/6 font-semibold text-gray-100">Registeer
+                                        </a>
+                                    @endif
+                                </div>
                                 <x-theme-toggle />
                             @endauth
                         </div>
@@ -113,9 +110,7 @@
                         <div class="flex items-center justify-between">
                             <a href="#" class="-m-1.5 p-1.5">
                                 <span class="sr-only">Your Company</span>
-                                <img class="h-8 w-auto"
-                                    src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
-                                    alt="">
+                                <img class="h-8 w-auto" src="{{ asset('img/favicon.ico') }}" alt="">
                             </a>
                             <button type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700"
                                 aria-label="Close menu">
