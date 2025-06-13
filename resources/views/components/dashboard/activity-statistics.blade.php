@@ -1,6 +1,6 @@
 <!-- Financial Overview -->
-<div class="w-full lg:w-2/3 bg-white dark:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg mb-8 lg:mb-0">
-    <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+<div class="w-full lg:w-2/3 mb-8 lg:mb-0">
+    <div class="flex items-center justify-between p-6 bg-white dark:bg-gray-800 rounded-t-lg shadow-xl border-b border-gray-200 dark:border-gray-700 cursor-pointer collapsible-header" data-target="financial-stats-content">
         <h3 class="text-lg font-bold text-gray-900 dark:text-gray-100">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2"
                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -9,65 +9,71 @@
             </svg>
             Financiële Statistieken
         </h3>
+        <svg class="h-5 w-5 transform transition-transform duration-200 collapsible-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
     </div>
-    <div class="p-6 text-gray-900 dark:text-gray-100">
-        <div class="mb-4 flex justify-between items-center">
-            <h4 class="text-lg font-semibold">Maandelijkse Inkomsten</h4>
-            <div class="flex space-x-2">
-                <button id="showBarChart" class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">Staafdiagram</button>
-                <button id="showLineChart" class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 text-sm">Lijndiagram</button>
+    
+    <div id="financial-stats-content" class="collapsible-content bg-white dark:bg-gray-800 shadow-xl rounded-b-lg">
+        <div class="p-6 text-gray-900 dark:text-gray-100">
+            <div class="mb-4 flex justify-between items-center">
+                <h4 class="text-lg font-semibold">Maandelijkse Inkomsten</h4>
+                <div class="flex space-x-2">
+                    <button id="showBarChart" class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">Staafdiagram</button>
+                    <button id="showLineChart" class="px-3 py-1 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 text-sm">Lijndiagram</button>
+                </div>
             </div>
-        </div>
-        <div class="mb-6">
-            <div id="chartLoadingIndicator" class="flex items-center justify-center p-6 text-blue-500">
-                <svg class="animate-spin -ml-1 mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                Gegevens laden...
-            </div>
-            <div id="chartErrorContainer" class="hidden bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4" role="alert"></div>
-            <canvas id="monthlyStatsChart" height="200" class="hidden"></canvas>
-        </div>
-        
-        <div class="mt-8">
-            <h4 class="text-lg font-semibold mb-3">Inkomsten Overzicht</h4>
-            <div class="overflow-x-auto">
-                <div id="tableLoadingIndicator" class="flex items-center justify-center p-6 text-blue-500">
+            <div class="mb-6">
+                <div id="chartLoadingIndicator" class="flex items-center justify-center p-6 text-blue-500">
                     <svg class="animate-spin -ml-1 mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
-                    Tabel laden...
+                    Gegevens laden...
                 </div>
-                <div id="tableErrorContainer" class="hidden bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4" role="alert"></div>
-                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 hidden" id="financialDataTable">
-                    <thead>
-                        <tr>
-                            <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Maand</th>
-                            <th class="px-3 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Incl. BTW</th>
-                            <th class="px-3 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Excl. BTW</th>
-                            <th class="px-3 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">BTW</th>
-                        </tr>
-                    </thead>
-                    <tbody id="monthlyDataTable" class="divide-y divide-gray-200 dark:divide-gray-700">
-                        <!-- Table data will be populated by JavaScript -->
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th class="px-3 py-2 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase tracking-wider">Totaal</th>
-                            <th id="totalInclVat" class="px-3 py-2 text-right text-xs font-medium text-gray-700 dark:text-gray-200 uppercase tracking-wider"></th>
-                            <th id="totalExclVat" class="px-3 py-2 text-right text-xs font-medium text-gray-700 dark:text-gray-200 uppercase tracking-wider"></th>
-                            <th id="totalVat" class="px-3 py-2 text-right text-xs font-medium text-gray-700 dark:text-gray-200 uppercase tracking-wider"></th>
-                        </tr>
-                    </tfoot>
-                </table>
+                <div id="chartErrorContainer" class="hidden bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4" role="alert"></div>
+                <canvas id="monthlyStatsChart" height="200" class="hidden"></canvas>
             </div>
-        </div>
-        
-        <div class="mt-6 text-xs text-gray-500 dark:text-gray-400">
-            <p id="lastUpdated">Laatst bijgewerkt: {{ now()->format('d-m-Y H:i:s') }}</p>
-            <p id="dataStatus"></p>
+            
+            <div class="mt-8">
+                <h4 class="text-lg font-semibold mb-3">Inkomsten Overzicht</h4>
+                <div class="overflow-x-auto">
+                    <div id="tableLoadingIndicator" class="flex items-center justify-center p-6 text-blue-500">
+                        <svg class="animate-spin -ml-1 mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Tabel laden...
+                    </div>
+                    <div id="tableErrorContainer" class="hidden bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4" role="alert"></div>
+                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 hidden" id="financialDataTable">
+                        <thead>
+                            <tr>
+                                <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Maand</th>
+                                <th class="px-3 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Incl. BTW</th>
+                                <th class="px-3 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Excl. BTW</th>
+                                <th class="px-3 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">BTW</th>
+                            </tr>
+                        </thead>
+                        <tbody id="monthlyDataTable" class="divide-y divide-gray-200 dark:divide-gray-700">
+                            <!-- Table data will be populated by JavaScript -->
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th class="px-3 py-2 text-left text-xs font-medium text-gray-700 dark:text-gray-200 uppercase tracking-wider">Totaal</th>
+                                <th id="totalInclVat" class="px-3 py-2 text-right text-xs font-medium text-gray-700 dark:text-gray-200 uppercase tracking-wider"></th>
+                                <th id="totalExclVat" class="px-3 py-2 text-right text-xs font-medium text-gray-700 dark:text-gray-200 uppercase tracking-wider"></th>
+                                <th id="totalVat" class="px-3 py-2 text-right text-xs font-medium text-gray-700 dark:text-gray-200 uppercase tracking-wider"></th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="mt-6 text-xs text-gray-500 dark:text-gray-400">
+                <p id="lastUpdated">Laatst bijgewerkt: {{ now()->format('d-m-Y H:i:s') }}</p>
+                <p id="dataStatus"></p>
+            </div>
         </div>
     </div>
 </div>
