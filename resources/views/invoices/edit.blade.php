@@ -126,10 +126,8 @@
                                             <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Status</label>
                                             <select name="status" id="status" 
                                                 class="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 @error('status') border-red-500 @enderror" required>
-                                                <option value="pending" {{ old('status', $invoice->status) == 'pending' ? 'selected' : '' }}>Nog niet betaald</option>
-                                                <option value="paid" {{ old('status', $invoice->status) == 'paid' ? 'selected' : '' }}>Betaald</option>
-                                                <option value="overdue" {{ old('status', $invoice->status) == 'overdue' ? 'selected' : '' }}>Te laat</option>
-                                                <option value="cancelled" {{ old('status', $invoice->status) == 'cancelled' ? 'selected' : '' }}>Geannuleerd</option>
+                                                <option value="Onbetaald" {{ old('status', $invoice->status) == 'Onbetaald' ? 'selected' : '' }}>Onbetaald</option>
+                                                <option value="Betaald" {{ old('status', $invoice->status) == 'Betaald' ? 'selected' : '' }}>Betaald</option>
                                             </select>
                                             @error('status')
                                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -198,14 +196,10 @@
                                                 </p>
                                                 <p class="mb-2 text-sm"><span class="font-medium text-gray-700">Status:</span> 
                                                     <span class="text-blue-700">
-                                                    @if($invoice->status == 'pending')
+                                                    @if($invoice->status == 'Onbetaald')
                                                         Nog niet betaald
-                                                    @elseif($invoice->status == 'paid')
+                                                    @elseif($invoice->status == 'Betaald')
                                                         Betaald
-                                                    @elseif($invoice->status == 'overdue')
-                                                        Te laat
-                                                    @elseif($invoice->status == 'cancelled')
-                                                        Geannuleerd
                                                     @else
                                                         {{ $invoice->status }}
                                                     @endif
