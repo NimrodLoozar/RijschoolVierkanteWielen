@@ -44,8 +44,8 @@
                         </svg>
                     </div>
                     <div>
-                        <p class="text-gray-500 dark:text-gray-400 text-sm">Actieve Lessen</p>
-                        <p class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ \App\Models\Lessons::where('start_date', '>=', now()->format('Y-m-d'))->count() }}</p>
+                        <p class="text-gray-500 dark:text-gray-400 text-sm">Actieve Pakketten</p>
+                        <p class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ \App\Models\Package::where('is_active', true)->count() }}</p>
                     </div>
                 </div>
             </div>
@@ -63,7 +63,7 @@
                     </div>
                     <div>
                         <p class="text-gray-500 dark:text-gray-400 text-sm">Openstaande Facturen</p>
-                        <p class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ \App\Models\Invoice::where('status', 'open')->count() }}</p>
+                        <p class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ \App\Models\Invoice::where('status', 'Onbetaald')->count() }}</p>
                     </div>
                 </div>
             </div>
