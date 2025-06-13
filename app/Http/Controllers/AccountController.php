@@ -18,6 +18,7 @@ class AccountController extends Controller
     {
         $searchName = $request->input('searchName', '');
         $searchUsername = $request->input('searchUsername', '');
+        $searchStatus = $request->input('searchStatus');
 
         // Call the stored procedure
         try {
@@ -32,11 +33,13 @@ class AccountController extends Controller
         $accountsCollection = collect($accounts);
 
         // Apply filters if search parameters are provided
-        if (!empty($searchName) || !empty($searchUsername)) {
-            $accountsCollection = $accountsCollection->filter(function ($account) use ($searchName, $searchUsername) {
+        if (!empty($searchName) || !empty($searchUsername) || $searchStatus !== null) {
+            $accountsCollection = $accountsCollection->filter(function ($account) use ($searchName, $searchUsername, $searchStatus) {
                 $nameMatch = empty($searchName) || stripos($account->full_name, $searchName) !== false;
                 $usernameMatch = empty($searchUsername) || stripos($account->username, $searchUsername) !== false;
-                return $nameMatch && $usernameMatch;
+                $statusMatch = $searchStatus === null || ($searchStatus == "1" && $account->is_active) || ($searchStatus == "0" && !$account->is_active);
+                
+                return $nameMatch && $usernameMatch && $statusMatch;
             });
         }
 
@@ -51,7 +54,7 @@ class AccountController extends Controller
             ['path' => request()->url(), 'query' => request()->query()]
         );
 
-        return view('account.index', compact('paginatedAccounts', 'searchName', 'searchUsername'));
+        return view('account.index', compact('paginatedAccounts', 'searchName', 'searchUsername', 'searchStatus'));
     }
 
     /**
