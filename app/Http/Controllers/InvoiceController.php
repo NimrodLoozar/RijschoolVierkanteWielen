@@ -281,17 +281,17 @@ class InvoiceController extends Controller
                     ->with('error', 'Factuur niet gevonden.');
             }
 
-            if ($invoice->status === 'paid') {
+            if ($invoice->status === 'Betaald') {
                 return redirect()->route('invoices.index')
                     ->with('info', 'Deze factuur is al gemarkeerd als betaald.');
             }
 
-            // Use the existing update stored procedure to change status to 'paid'
+            // Use the existing update stored procedure to change status to 'Betaald'
             DB::select('CALL spUpdateInvoice(?, ?, ?, ?, ?, ?, ?, ?, ?)', [
                 $id,
                 $invoice->invoice_number,
                 $invoice->invoice_date,
-                'paid', // Change status to paid
+                'Betaald', // Change status to Betaald
                 $invoice->amount_excl_vat,
                 $invoice->vat,
                 $invoice->amount_incl_vat,
@@ -319,17 +319,17 @@ class InvoiceController extends Controller
                     ->with('error', 'Factuur niet gevonden.');
             }
 
-            if ($invoice->status === 'unpaid') {
+            if ($invoice->status === 'Onbetaald') {
                 return redirect()->route('invoices.index')
                     ->with('info', 'Deze factuur is al gemarkeerd als onbetaald.');
             }
 
-            // Use the existing update stored procedure to change status to 'unpaid'
+            // Use the existing update stored procedure to change status to 'Onbetaald'
             DB::select('CALL spUpdateInvoice(?, ?, ?, ?, ?, ?, ?, ?, ?)', [
                 $id,
                 $invoice->invoice_number,
                 $invoice->invoice_date,
-                'unpaid', // Change status to unpaid
+                'Onbetaald', // Change status to Onbetaald
                 $invoice->amount_excl_vat,
                 $invoice->vat,
                 $invoice->amount_incl_vat,

@@ -45,8 +45,8 @@
                             <div>
                                 <select name="searchStatus" id="searchStatus" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-600 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                     <option value="">Alle statussen</option>
-                                    <option value="paid" {{ isset($searchStatus) && $searchStatus == 'paid' ? 'selected' : '' }}>Betaald</option>
-                                    <option value="unpaid" {{ isset($searchStatus) && $searchStatus == 'unpaid' ? 'selected' : '' }}>Onbetaald</option>
+                                    <option value="Betaald" {{ isset($searchStatus) && $searchStatus == 'Betaald' ? 'selected' : '' }}>Betaald</option>
+                                    <option value="Onbetaald" {{ isset($searchStatus) && $searchStatus == 'Onbetaald' ? 'selected' : '' }}>Onbetaald</option>
                                 </select>
                             </div>
                             <div>
@@ -115,18 +115,18 @@
                                                     <td class="py-3 px-2 sm:px-6 hidden sm:table-cell">{{ date('d-m-Y', strtotime($invoice->invoice_date)) }}</td>
                                                     <td class="py-3 px-2 sm:px-6">€ {{ number_format($invoice->amount_incl_vat, 2, ',', '.') }}</td>
                                                     <td class="py-3 px-2 sm:px-6">
-                                                        <span class="{{ $invoice->status == 'paid' ? 'text-green-500 bg-green-100' : 'text-red-500 bg-red-100' }} py-1 px-2 sm:px-3 rounded-full text-xs font-medium">
-                                                            {{ $invoice->status == 'paid' ? 'Betaald' : 'Onbetaald' }}
+                                                        <span class="{{ $invoice->status == 'Betaald' ? 'text-green-500 bg-green-100' : 'text-red-500 bg-red-100' }} py-1 px-2 sm:px-3 rounded-full text-xs font-medium">
+                                                            {{ $invoice->status }}
                                                         </span>
                                                     </td>
                                                     <td class="py-3 px-2 sm:px-6 hidden sm:table-cell">{{ $invoice->lesson_count ?? 0 }}</td>
                                                     <td class="py-3 px-2 sm:px-6 flex justify-center space-x-1 sm:space-x-2">
                                                         <a href="{{ route('invoices.show', $invoice->id) }}" class="text-blue-500 hover:underline p-1" title="Details bekijken">ⓘ</a>
                                                         <a href="{{ route('invoices.edit', $invoice->id) }}" class="text-yellow-500 hover:underline p-1" title="Bewerken">✎</a>
-                                                        @if($invoice->status != 'paid')
+                                                        @if($invoice->status != 'Betaald')
                                                             <a href="{{ route('invoices.markAsPaid', $invoice->id) }}" class="text-green-500 hover:underline p-1" title="Markeren als betaald">✓</a>
                                                         @endif
-                                                        @if($invoice->status != 'unpaid')
+                                                        @if($invoice->status != 'Onbetaald')
                                                             <a href="{{ route('invoices.markAsUnpaid', $invoice->id) }}" class="text-red-500 hover:underline p-1" title="Markeren als onbetaald">✗</a>
                                                         @endif
                                                         <form action="{{ route('invoices.destroy', $invoice->id) }}" method="POST" class="delete-form">
