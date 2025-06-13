@@ -84,7 +84,7 @@
                                 <a href="{{ url('/dashboard') }}" class="text-sm/6 font-semibold text-gray-100">Dashboard
                                     <span aria-hidden="true">&rarr;</span>
                                 </a>
-                                <x-theme-toggle />
+                                {{-- <x-theme-toggle /> --}}
                             @else
                                 <div>
                                     <a href="{{ route('login') }}" class="text-sm/6 font-semibold text-gray-100">Log in
@@ -96,7 +96,7 @@
                                         </a>
                                     @endif
                                 </div>
-                                <x-theme-toggle />
+                                {{-- <x-theme-toggle /> --}}
                             @endauth
                         </div>
                     </nav>
