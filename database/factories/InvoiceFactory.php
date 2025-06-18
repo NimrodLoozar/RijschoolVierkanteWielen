@@ -7,16 +7,8 @@ use App\Models\User;
 use App\Models\Invoice;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Invoice>
- */
 class InvoiceFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         $invoiceDate = $this->faker->dateTimeBetween('-6 months', 'now');
@@ -35,9 +27,8 @@ class InvoiceFactory extends Factory
             'amount_excl_vat' => $amountExclVat,
             'vat' => $vat,
             'amount_incl_vat' => $amountInclVat,
-            'status' => $isPaid ? 'betaald' : 'onbetaald',
+            'status' => $this->faker->randomElement(['Betaald', 'Onbetaald']),
             'is_active' => true,
-            'note' => $this->faker->optional(30)->sentence(),
             'created_at' => $invoiceDate,
             'updated_at' => $invoiceDate,
         ];
@@ -48,11 +39,11 @@ class InvoiceFactory extends Factory
      *
      * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
-    public function paid()
+    public function Betaald()
     {
         return $this->state(function (array $attributes) {
             return [
-                'status' => 'betaald',
+                'status' => 'paid',
             ];
         });
     }
@@ -62,11 +53,11 @@ class InvoiceFactory extends Factory
      *
      * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
-    public function onbetaald()
+    public function Onbetaald()
     {
         return $this->state(function (array $attributes) {
             return [
-                'status' => 'onbetaald',
+                'status' => 'unpaid',
             ];
         });
     }
