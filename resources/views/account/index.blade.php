@@ -1,7 +1,14 @@
-<x-layout>
-    <h2 class="mt-24 ml-4 sm:ml-8 font-semibold text-xl text-gray-800 leading-tight">
-        {{ __('Accounts') }}
-    </h2>
+<x-app-layout>
+        <x-slot name="header">
+        <div class="flex justify-between items-center">
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                {{ __('Accounts') }}
+            </h2>
+            <span class="px-3 py-1 text-xs bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded-full">
+                {{ now()->format('d M Y') }}
+            </span>
+        </div>
+    </x-slot>
     <div class="py-6 sm:py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             @if (session('error'))
@@ -14,27 +21,52 @@
                     {{ session('success') }}
                 </div>
             @endif
+            <br>
             <div class="flex flex-col space-y-4 md:space-y-0 md:flex-row md:items-center md:space-x-4">
-            <!-- Zoek form -->
-                <form method="GET" action="{{ route('accounts.index') }}" class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
-                    <input type="text" name="searchName" id="searchName" placeholder="Achternaam" value="{{ $searchName ?? '' }}"
-                        class="w-full sm:w-auto rounded-md border-gray-900 shadow-sm focus:border-indigo-600 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    <input type="text" name="searchUsername" id="searchUsername" placeholder="Gebruikersnaam" value="{{ $searchUsername ?? '' }}"
-                        class="w-full sm:w-auto rounded-md border-gray-900 shadow-sm focus:border-indigo-600 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-                        Zoeken
+                <!-- Compact Search Form -->
+                <div class="w-full md:w-auto">
+                    <button id="toggleFilters" class="flex items-center text-blue-600 mb-2 font-medium">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clip-rule="evenodd" />
+                        </svg>
+                        Filters {{ isset($searchName) || isset($searchUsername) ? '(Actief)' : '' }}
                     </button>
-                    @if($searchName || $searchUsername)
-                        <a href="{{ route('accounts.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 text-center sm:text-left">
-                            Reset
-                        </a>
-                    @endif
-                </form>
+                    
+                    <div id="filterSection" class="{{ isset($searchName) || isset($searchUsername) || isset($searchStatus) ? '' : 'hidden' }} bg-gray-50 p-3 rounded-md mb-3">
+                        <form method="GET" action="{{ route('accounts.index') }}" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                            <div>
+                                <input type="text" name="searchName" id="searchName" placeholder="Achternaam" value="{{ $searchName ?? '' }}"
+                                    class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-600 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            </div>
+                            <div>
+                                <input type="text" name="searchUsername" id="searchUsername" placeholder="Gebruikersnaam" value="{{ $searchUsername ?? '' }}"
+                                    class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-600 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            </div>
+                            <div>
+                                <select name="searchStatus" id="searchStatus" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-600 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                    <option value="">Alle statussen</option>
+                                    <option value="1" {{ isset($searchStatus) && $searchStatus == '1' ? 'selected' : '' }}>Actief</option>
+                                    <option value="0" {{ isset($searchStatus) && $searchStatus == '0' ? 'selected' : '' }}>Inactief</option>
+                                </select>
+                            </div>
+                            <div class="flex gap-2 items-center">
+                                <button type="submit" class="flex-1 bg-blue-500 text-white px-3 py-2 rounded-md hover:bg-blue-600">
+                                    Zoeken
+                                </button>
+                                @if($searchName || $searchUsername || isset($searchStatus))
+                                    <a href="{{ route('accounts.index') }}" class="flex-1 bg-gray-500 text-white px-3 py-2 rounded-md hover:bg-gray-600 text-center">
+                                        Reset
+                                    </a>
+                                @endif
+                            </div>
+                        </form>
+                    </div>
+                </div>
 
                 <div class="flex-grow"></div>
                 <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4">
                     <label class="flex items-center">
-                        <span class="mr-2 text-black !important" style="color: black !important;">Toon Data</span>
+                        <span class="mr-2 text-white !important" style="color: white !important;">Toon Data</span>
                         <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
                             <input type="checkbox" id="dataToggle"
                                 class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
@@ -62,7 +94,7 @@
                                             <th class="py-4 px-2 sm:px-6 text-left">Gebruikersnaam</th>
                                             <th class="py-4 px-2 sm:px-6 text-left hidden sm:table-cell">Geboortedatum</th>
                                             <th class="py-4 px-2 sm:px-6 text-left">Status</th>
-                                            <th class="py-4 px-2 sm:px-6 text-left">Acties</th>
+                                            <th class="py-4 px-2 sm:px-6 text-center">Acties</th>
                                         </tr>
                                     </thead>
                                     <tbody class="text-gray-800 text-sm font-light">
@@ -77,7 +109,7 @@
                                                         {{ $account->is_active ? 'Actief' : 'Inactief' }}
                                                     </span>
                                                 </td>
-                                                <td class="py-3 px-2 sm:px-6 flex space-x-1 sm:space-x-2">
+                                                <td class="py-3 px-2 sm:px-6 flex justify-center space-x-1 sm:space-x-2">
                                                     <a href="{{ route('accounts.show', $account->id) }}" class="text-blue-500 hover:underline p-1">ⓘ</a>
                                                     <a href="{{ route('accounts.edit', $account->id) }}" class="text-yellow-500 hover:underline p-1">✎</a>
                                                     <form action="{{ route('accounts.destroy', $account->id) }}" method="POST" class="delete-form">
@@ -108,7 +140,7 @@
         <p class="text-red-500">Geen accounts gevonden. Maak een nieuw account aan.</p>
     </div>
 </div>
-</x-layout>
+</x-app-layout>
 
 <script>
     document.getElementById('dataToggle').addEventListener('change', function() {
@@ -130,6 +162,12 @@
                 this.submit();
             }
         });
+    });
+
+    // Toggle filter section
+    document.getElementById('toggleFilters').addEventListener('click', function() {
+        const filterSection = document.getElementById('filterSection');
+        filterSection.classList.toggle('hidden');
     });
 </script>
 

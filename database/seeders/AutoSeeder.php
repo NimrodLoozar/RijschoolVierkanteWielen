@@ -36,17 +36,52 @@ class AutoSeeder extends Seeder
 
     public function run()
     {
-        $brandsWithModels = [
-            'Toyota' => ['Corolla', 'Yaris', 'Aygo', 'Prius', 'RAV4'],
-            'Ford' => ['Fiesta', 'Focus', 'Mondeo', 'Puma', 'Kuga'],
-            'BMW' => ['320i', 'X5', '2015 M5', 'i3', 'X1'],
-            'Mercedes' => ['A-Class', 'C-Class', 'E-Class', 'GLA', 'S-Class'],
-            'Volkswagen' => ['Golf', 'Polo', 'Passat', 'Tiguan', 'Up!'],
+        $brandsWithModelsAndFuel = [
+            "Toyota" => [
+                ["model" => "Corolla", "fuel" => ["gasoline"]],
+                ["model" => "Yaris", "fuel" => ["gasoline"]],
+                ["model" => "Aygo", "fuel" => ["gasoline"]],
+                ["model" => "Prius", "fuel" => ["gasoline", "electric"]],
+                ["model" => "RAV4", "fuel" => ["gasoline"]],
+            ],
+            "Ford" => [
+                ["model" => "Fiesta", "fuel" => ["gasoline"]],
+                ["model" => "Focus", "fuel" => ["gasoline"]],
+                ["model" => "Mondeo", "fuel" => ["gasoline"]],
+                ["model" => "Puma", "fuel" => ["gasoline"]],
+                ["model" => "Kuga", "fuel" => ["gasoline"]],
+            ],
+            "BMW" => [
+                ["model" => "320i", "fuel" => ["gasoline"]],
+                ["model" => "X5", "fuel" => ["gasoline"]],
+                ["model" => "2015 M5", "fuel" => ["gasoline"]],
+                ["model" => "i3", "fuel" => ["electric"]],
+                ["model" => "X1", "fuel" => ["gasoline"]],
+            ],
+            "Mercedes" => [
+                ["model" => "A-Class", "fuel" => ["gasoline"]],
+                ["model" => "C-Class", "fuel" => ["gasoline"]],
+                ["model" => "E-Class", "fuel" => ["gasoline"]],
+                ["model" => "GLA", "fuel" => ["gasoline"]],
+                ["model" => "S-Class", "fuel" => ["gasoline"]],
+            ],
+            "Volkswagen" => [
+                ["model" => "Golf", "fuel" => ["gasoline"]],
+                ["model" => "Polo", "fuel" => ["gasoline"]],
+                ["model" => "Passat", "fuel" => ["gasoline"]],
+                ["model" => "Tiguan", "fuel" => ["gasoline"]],
+                ["model" => "Up!", "fuel" => ["gasoline"]],
+            ],
+            "Tesla" => [
+                ["model" => "Model S", "fuel" => ["electric"]],
+                ["model" => "Model 3", "fuel" => ["electric"]],
+                ["model" => "Model X", "fuel" => ["electric"]],
+                ["model" => "Model Y", "fuel" => ["electric"]],
+            ],
         ];
-        $fuels = ['electric', 'gasoline'];
-        $usedLicensePlates = [];
 
-        $brands = array_keys($brandsWithModels);
+        $usedLicensePlates = [];
+        $brands = array_keys($brandsWithModelsAndFuel);
 
         for ($i = 1; $i <= 10; $i++) {
             do {
@@ -56,13 +91,15 @@ class AutoSeeder extends Seeder
             $usedLicensePlates[] = $licensePlate;
 
             $brand = $brands[array_rand($brands)];
-            $model = $brandsWithModels[$brand][array_rand($brandsWithModels[$brand])];
+            $modelData = $brandsWithModelsAndFuel[$brand][array_rand($brandsWithModelsAndFuel[$brand])];
+            $model = $modelData['model'];
+            $fuel = $modelData['fuel'][array_rand($modelData['fuel'])];
 
             Auto::create([
                 'brand' => $brand,
                 'model' => $model,
                 'license_plate' => $licensePlate,
-                'fuel' => $fuels[array_rand($fuels)],
+                'fuel' => $fuel,
                 'is_active' => (bool)rand(0, 1),
                 'photo' => 'photos/auto' . $i . '.jpg',
             ]);

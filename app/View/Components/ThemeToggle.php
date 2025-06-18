@@ -1,5 +1,5 @@
 <?php
-
+//  Laravel project: app\View\Components\ThemeToggle.php 
 namespace App\View\Components;
 
 use Illuminate\View\Component;
