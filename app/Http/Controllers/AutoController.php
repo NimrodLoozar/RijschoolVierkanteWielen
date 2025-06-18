@@ -125,7 +125,6 @@ class AutoController extends Controller
             'fuel' => [
                 'required',
                 'string',
-                // Let op: accepteer 'gasoline' en 'electric', niet 'benzine' of 'elektrisch'
                 function ($attribute, $value, $fail) use ($request, $fuelPerBrandModel) {
                     $brand = $request->input('brand');
                     $model = $request->input('model');
@@ -134,10 +133,23 @@ class AutoController extends Controller
                     }
                 }
             ],
+            'license_plate' => [
+                'nullable',
+                'string',
+                'max:16',
+                'regex:/^[A-Z0-9\-]+$/',
+                function ($attribute, $value, $fail) {
+                    if ($value && \App\Models\Auto::where('license_plate', $value)->exists()) {
+                        $fail('Er bestaat al een auto met dit kenteken.');
+                    }
+                }
+            ],
             'is_active' => 'nullable|boolean',
+        ], [
+            'license_plate.regex' => 'Het kenteken mag alleen hoofdletters, cijfers en streepjes bevatten.',
         ]);
 
-        $license_plate = $this->generateDutchLicensePlate();
+        $license_plate = $request->license_plate ?: $this->generateDutchLicensePlate();
 
         \App\Models\Auto::create([
             'brand' => $request->brand,

@@ -135,6 +135,7 @@ class DatabaseSeeder extends Seeder
      */
     private function ensurePackagesExist(): void
     {
+        /*
         // Check if packages already exist
         if (DB::table('packages')->count() === 0) {
             // Create default packages with the columns that exist in the packages table
@@ -186,6 +187,7 @@ class DatabaseSeeder extends Seeder
                 ],
             ]);
         }
+        */
 
         $this->call(AutoSeeder::class);
         $this->call(PackageSeeder::class);
