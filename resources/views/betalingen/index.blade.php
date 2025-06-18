@@ -3,14 +3,17 @@
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             Betalingen Overzicht
         </h2>
-        <label class="flex items-center">
-            <span class="mr-2 text-gray-900 dark:text-gray-200">Toon Data</span>
-            <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
-                <input type="checkbox" id="dataToggle"
-                    class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
-                    checked />
-                <label for="dataToggle"
-                    class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                <div class="flex-grow"></div>
+                <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4">
+                    <label class="flex items-center">
+                        <span class="mr-2 text-white !important" style="color: white !important;">Toon Data</span>
+                        <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+                            <input type="checkbox" id="dataToggle"
+                                class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"
+                                checked />
+                            <label for="dataToggle"
+                                class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer"></label>
+                        </div>
             </div>
         </label>
     </x-slot>
@@ -89,7 +92,7 @@
             @endif
 
             <div id="errorContainer"
-                class="hidden ml-64 bg-red-600 px-4 py-4 rounded relative dark:bg-red-800 dark:border-red-400 text-red-100 mt-4">
+                class="hidden bg-red-600 px-4 py-4 rounded relative dark:bg-red-800 dark:border-red-400 text-red-100 mt-4 text-center">
                 Er is een fout opgetreden bij het laden van de betalingen.
             </div>
 
@@ -97,10 +100,16 @@
     </div>
 
     <script>
-        document.getElementById('dataToggle').addEventListener('change', function () {
-            const dataContainer = document.getElementById('dataContainer');
-            const noPaymentsError = document.getElementById('noPaymentsError');
-            const errorContainer = document.getElementById('errorContainer');
+    document.getElementById('dataToggle').addEventListener('change', function() {
+        const dataContainer = document.getElementById('dataContainer');
+        const errorContainer = document.getElementById('errorContainer');
+        if (this.checked) {
+            dataContainer.classList.remove('hidden');
+            errorContainer.classList.add('hidden');
+        } else {
+            dataContainer.classList.add('hidden');
+            errorContainer.classList.remove('hidden');
+        }
 
             if (this.checked) {
                 if (dataContainer) dataContainer.classList.remove('hidden');
@@ -108,9 +117,52 @@
                 errorContainer.classList.add('hidden');
             } else {
                 if (dataContainer) dataContainer.classList.add('hidden');
-                if (noPaymentsError) noPaymentsError.classList.remove('hidden');
-                errorContainer.classList.add('hidden');
+                if (noPaymentsError) noPaymentsError.classList.add('hidden');
+                errorContainer.classList.remove('hidden');
             }
         });
     </script>
 </x-app-layout>
+
+<style>
+    h2 {
+        color: #fff;
+    }
+
+    .toon {
+        color: #fff;
+    }
+
+    .toggle-checkbox:checked {
+        right: 0;
+        border-color: #38A169;
+    }
+
+    .toggle-checkbox:checked+.toggle-label {
+        background-color: #38A169;
+    }
+
+    .overflow-x-auto {
+        overflow-x: auto;
+    }
+    
+    @media (max-width: 640px) {
+        table {
+            font-size: 0.8rem;
+        }
+        
+        .toggle-checkbox {
+            transform: scale(0.9);
+        }
+        
+        input[type="text"], input[type="date"], select {
+            padding: 0.4rem;
+            min-width: unset;
+            width: 100%;
+        }
+    }
+    
+    input[type="text"], input[type="date"], select {
+        padding: 0.5rem;
+    }
+</style>

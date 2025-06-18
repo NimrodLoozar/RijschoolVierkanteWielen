@@ -48,6 +48,7 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::delete('/instructors/{instructor}', [InstructorController::class, 'destroy'])->name('instructors.destroy');
 
     Route::get('/autos', [AutoController::class, 'index'])->name('autos.index');
+    Route::get('/autos/create', [AutoController::class, 'create'])->name('autos.create');
     Route::get('/packages', [PackageController::class, 'index'])->name('packages.index');
 
 
@@ -72,6 +73,7 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::patch('/invoices/{invoice}', [InvoiceController::class, 'update'])->name('invoices.update');
     Route::delete('/invoices/{invoice}', [InvoiceController::class, 'destroy'])->name('invoices.destroy');
     Route::get('/invoices/{invoice}/mark-as-paid', [InvoiceController::class, 'markAsPaid'])->name('invoices.markAsPaid');
+    Route::get('/invoices/{invoice}/mark-as-unpaid', [InvoiceController::class, 'markAsUnpaid'])->name('invoices.markAsUnpaid');
 
 });
 

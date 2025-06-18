@@ -66,7 +66,7 @@ return new class extends Migration
             END
         ');
 
-        // Add new account
+        // Add new account - Updated to handle both user and contact info
         DB::unprepared('
         DROP PROCEDURE IF EXISTS spAddAccount;
             CREATE PROCEDURE spAddAccount(
@@ -77,9 +77,19 @@ return new class extends Migration
                 IN p_username VARCHAR(255),
                 IN p_password VARCHAR(255),
                 IN p_is_active BOOLEAN,
-                IN p_note TEXT
+                IN p_note TEXT,
+                IN p_email VARCHAR(255),
+                IN p_mobile VARCHAR(20),
+                IN p_street VARCHAR(255),
+                IN p_house_number VARCHAR(10),
+                IN p_addition VARCHAR(10),
+                IN p_postal_code VARCHAR(10),
+                IN p_city VARCHAR(255)
             )
-            BEGIN                
+            BEGIN
+                DECLARE last_user_id INT;
+                
+                -- Insert user account
                 INSERT INTO users (
                     first_name, 
                     middle_name, 
@@ -104,6 +114,42 @@ return new class extends Migration
                     NOW(),
                     NOW()
                 );
+                
+                -- Get the inserted user ID
+                SET last_user_id = LAST_INSERT_ID();
+                
+                -- Insert contact information if any provided
+                IF p_email IS NOT NULL OR p_mobile IS NOT NULL OR p_street IS NOT NULL OR 
+                   p_house_number IS NOT NULL OR p_postal_code IS NOT NULL OR p_city IS NOT NULL THEN
+                    
+                    INSERT INTO contacts (
+                        user_id,
+                        email,
+                        mobile,
+                        street,
+                        house_number,
+                        addition,
+                        postal_code,
+                        city,
+                        created_at,
+                        updated_at
+                    )
+                    VALUES (
+                        last_user_id,
+                        p_email,
+                        p_mobile,
+                        p_street,
+                        p_house_number,
+                        p_addition,
+                        p_postal_code,
+                        p_city,
+                        NOW(),
+                        NOW()
+                    );
+                END IF;
+                
+                -- Return the user ID
+                SELECT last_user_id AS user_id;
             END
         ');
 
@@ -141,6 +187,10 @@ return new class extends Migration
         DROP PROCEDURE IF EXISTS spDeleteAccount;
             CREATE PROCEDURE spDeleteAccount(IN accountId INT)
             BEGIN                
+                -- Delete contact information first to maintain referential integrity
+                DELETE FROM contacts WHERE user_id = accountId;
+                
+                -- Then delete the user account
                 DELETE FROM users WHERE id = accountId;
             END
         ');
