@@ -3,7 +3,7 @@ import './bootstrap';
 
 import Alpine from 'alpinejs';
 
-import './theme-toggle';
+// import './theme-toggle';
 
 window.Alpine = Alpine;
 
