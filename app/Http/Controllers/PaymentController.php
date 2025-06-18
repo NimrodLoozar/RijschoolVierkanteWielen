@@ -60,7 +60,6 @@ class PaymentController extends Controller
         $validated = $request->validate([
             'invoice_id' => 'required|exists:invoices,id',
             'invoice_number' => 'required|string|max:255',
-            'amount' => 'required|numeric|min:0',
             'date' => 'required|date',
             'status' => 'required|in:open,paid,cancelled',
             'description' => 'nullable|string|max:255',
@@ -71,7 +70,6 @@ class PaymentController extends Controller
                 $payment = new Payment();
                 $payment->invoice_id = $validated['invoice_id'];
                 $payment->invoice_number = $validated['invoice_number'];
-                $payment->amount = $validated['amount'];
                 $payment->date = $validated['date'];
                 $payment->status = $validated['status'];
                 $payment->description = $validated['description'];

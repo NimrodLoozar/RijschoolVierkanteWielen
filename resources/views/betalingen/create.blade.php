@@ -21,7 +21,7 @@
 
                     <form method="POST" action="{{ route('betalingen.store') }}" class="space-y-6">
                         @csrf
-                        
+
                         <div>
                             <label for="invoice_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
                                 Selecteer Factuur*
@@ -32,7 +32,6 @@
                                 <option value="">Kies een factuur</option>
                                 @foreach($unpaidInvoices as $invoice)
                                     <option value="{{ $invoice->id }}" 
-                                            data-amount="{{ $invoice->amount_incl_vat }}"
                                             data-number="{{ $invoice->invoice_number }}">
                                         {{ $invoice->invoice_number }} - €{{ number_format($invoice->amount_incl_vat, 2) }}
                                     </option>
@@ -41,18 +40,6 @@
                         </div>
 
                         <input type="hidden" name="invoice_number" id="invoice_number">
-
-                        <div>
-                            <label for="amount" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                Bedrag*
-                            </label>
-                            <div class="relative mt-1">
-                                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">€</span>
-                                <input type="number" step="0.01" name="amount" id="amount" 
-                                    class="pl-7 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600"
-                                    required readonly>
-                            </div>
-                        </div>
 
                         <div>
                             <label for="date" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -98,18 +85,13 @@
                         </div>
                     </form>
 
-                    <!-- Add this JavaScript to auto-fill amount when invoice is selected -->
                     <script>
                     document.getElementById('invoice_id').addEventListener('change', function() {
                         const selectedOption = this.options[this.selectedIndex];
                         if (selectedOption.value) {
-                            const amount = selectedOption.dataset.amount;
                             const invoiceNumber = selectedOption.dataset.number;
-                            
-                            document.getElementById('amount').value = amount;
                             document.getElementById('invoice_number').value = invoiceNumber;
                         } else {
-                            document.getElementById('amount').value = '';
                             document.getElementById('invoice_number').value = '';
                         }
                     });
