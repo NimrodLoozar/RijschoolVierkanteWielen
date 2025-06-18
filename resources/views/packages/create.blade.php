@@ -14,13 +14,16 @@
                         <label for="type" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Type*</label>
                         <input type="text" name="type" id="type"
                             class="bg-gray-200 text-gray-900 p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            placeholder="Type pakket" required>
+                            placeholder="Type pakket" required pattern="^[\pL\s]+$" inputmode="text" autocomplete="off">
+                        @error('type')
+                            <div class="text-red-600 mt-1 text-sm">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="mb-4">
                         <label for="lesson_count" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Aantal lessen*</label>
                         <input type="number" name="lesson_count" id="lesson_count"
                             class="bg-gray-200 text-gray-900 p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            placeholder="Aantal lessen" min="0" required>
+                            placeholder="Aantal lessen" min="0" max="100" required>
                     </div>
                     <div class="mb-4">
                         <label for="price_per_lesson" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Prijs per les*</label>
@@ -39,7 +42,10 @@
                         <label for="note" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Opmerking</label>
                         <textarea name="note" id="note" rows="2"
                             class="bg-gray-200 text-gray-900 p-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                            placeholder="Opmerking"></textarea>
+                            placeholder="Opmerking" pattern="^[\pL\s]*$" inputmode="text" autocomplete="off"></textarea>
+                        @error('note')
+                            <div class="text-red-600 mt-1 text-sm">{{ $message }}</div>
+                        @enderror
                     </div>
                     <div class="flex justify-end">
                         <button type="submit"

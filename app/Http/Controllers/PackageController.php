@@ -20,20 +20,33 @@ class PackageController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'type' => 'required|string|max:32',
-            'lesson_count' => 'required|integer|min:0',
-            'price_per_lesson' => 'required|numeric|min:0',
+        $request->validate([
+            'type' => [
+                'required',
+                'string',
+                'max:32',
+                'regex:/^[\pL\s]+$/u'
+            ],
+            'lesson_count' => ['required', 'integer', 'min:0', 'max:100'],
+            'price_per_lesson' => ['required', 'numeric', 'min:0'],
             'is_active' => 'nullable|boolean',
-            'note' => 'nullable|string',
+            'note' => [
+                'nullable',
+                'string',
+                'max:1000',
+                'regex:/^[\pL\s]*$/u'
+            ],
+        ], [
+            'type.regex' => 'Het type mag alleen letters en spaties bevatten (geen cijfers of andere tekens).',
+            'note.regex' => 'De opmerking mag alleen letters en spaties bevatten (geen cijfers of andere tekens).',
         ]);
 
-        Package::create([
-            'type' => $validated['type'],
-            'lesson_count' => $validated['lesson_count'],
-            'price_per_lesson' => $validated['price_per_lesson'],
+        \App\Models\Package::create([
+            'type' => $request->type,
+            'lesson_count' => $request->lesson_count,
+            'price_per_lesson' => $request->price_per_lesson,
             'is_active' => $request->has('is_active'),
-            'note' => $validated['note'] ?? null,
+            'note' => $request->note,
         ]);
 
         return redirect()->route('packages.index')->with('success', 'Pakket succesvol toegevoegd.');
