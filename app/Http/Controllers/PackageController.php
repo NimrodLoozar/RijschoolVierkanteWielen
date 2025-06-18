@@ -25,7 +25,12 @@ class PackageController extends Controller
                 'required',
                 'string',
                 'max:32',
-                'regex:/^[\pL\s]+$/u'
+                'regex:/^[\pL\s]+$/u',
+                function ($attribute, $value, $fail) {
+                    if (\App\Models\Package::where('type', $value)->exists()) {
+                        $fail('Er bestaat al een lesrijpakket met dit type.');
+                    }
+                }
             ],
             'lesson_count' => ['required', 'integer', 'min:0', 'max:100'],
             'price_per_lesson' => ['required', 'numeric', 'min:0'],
