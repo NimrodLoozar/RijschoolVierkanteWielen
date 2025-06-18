@@ -33,8 +33,8 @@ class PaymentController extends Controller
             $query->whereDate('date', '<=', $toDate);
         }
 
-        // Get payments ordered by date descending
-        $payments = $query->orderBy('date', 'desc')->get();
+        // Gebruik paginate(3) in plaats van get()
+        $payments = $query->orderBy('date', 'desc')->paginate(3);
 
         return view('betalingen.index', [
             'payments' => $payments,
@@ -64,6 +64,18 @@ class PaymentController extends Controller
             'status' => 'required|in:open,paid,cancelled',
             'description' => 'nullable|string|max:255',
         ]);
+
+        // Controleer op dubbele betaling
+        $exists = \App\Models\Payment::where('invoice_id', $validated['invoice_id'])
+            ->where('date', $validated['date'])
+            ->where('status', $validated['status'])
+            ->exists();
+
+        if ($exists) {
+            return back()
+                ->withInput()
+                ->withErrors(['duplicate' => 'Deze betaling bestaat al.']);
+        }
 
         try {
             DB::transaction(function() use ($validated) {

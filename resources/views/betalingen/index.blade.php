@@ -96,6 +96,8 @@
                 Er is een fout opgetreden bij het laden van de betalingen.
             </div>
 
+            {{ $payments->links() }}
+
         </div>
     </div>
 

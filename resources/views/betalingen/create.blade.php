@@ -19,6 +19,12 @@
                         </div>
                     @endif
 
+                    @if ($errors->has('duplicate'))
+                        <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
+                            {{ $errors->first('duplicate') }}
+                        </div>
+                    @endif
+
                     <form method="POST" action="{{ route('betalingen.store') }}" class="space-y-6">
                         @csrf
 
