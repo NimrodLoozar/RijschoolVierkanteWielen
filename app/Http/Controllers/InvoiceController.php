@@ -121,6 +121,13 @@ class InvoiceController extends Controller
             'is_active' => 'boolean',
         ]);
 
+         // Check if we should simulate an error
+        if ($request->input('simulate_error') === '1') {
+            Log::info('Simulating technical error during account creation');
+            return back()->withInput()
+                ->with('error', 'Factuur kon niet worden opgeslagen door een technische fout. Probeer het later opnieuw of neem contact op met support.');
+        }
+
         // Genereer een nieuw factuurnummer als er geen is opgegeven
         if (empty($validated['invoice_number']) || $validated['invoice_number'] === 'AUTO') {
             $latestInvoice = Invoice::orderBy('id', 'DESC')->first();

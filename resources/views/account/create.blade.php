@@ -22,10 +22,21 @@
                 </div>
             @endif
             
+            <!-- Test error toggle -->
+            <div class="mb-4 bg-gray-100 p-3 rounded flex items-center justify-between">
+                <span class="text-sm text-gray-700">Test technische fout:</span>
+                <button type="button" id="errorToggle" class="px-3 py-1 text-sm font-medium rounded focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-blue-500 transition-colors">
+                    Uit
+                </button>
+            </div>
+            
             <div class="bg-white overflow-hidden shadow-sm rounded-lg">
                 <div class="p-5 bg-white">
                     <form method="POST" action="{{ route('accounts.store') }}">
                         @csrf
+                        
+                        <!-- Hidden field for simulate error -->
+                        <input type="hidden" name="simulate_error" id="simulateError" value="0">
 
                         <!-- Persoonlijke gegevens section -->
                         <div class="mb-4">
@@ -256,11 +267,12 @@
         </div>
     </div>
     
-    <!-- Password visibility toggle script -->
+    <!-- Password visibility and error toggle script -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const toggleButtons = document.querySelectorAll('.toggle-password');
             
+            // Password visibility toggle
             toggleButtons.forEach(button => {
                 button.addEventListener('click', function() {
                     const targetId = this.getAttribute('data-target');
@@ -288,6 +300,32 @@
                     }
                 });
             });
+            
+            // Error toggle functionality
+            const errorToggle = document.getElementById('errorToggle');
+            const simulateErrorField = document.getElementById('simulateError');
+            let isErrorActive = false;
+            
+            // Set initial button style
+            updateErrorToggleButton();
+            
+            errorToggle.addEventListener('click', function() {
+                isErrorActive = !isErrorActive;
+                simulateErrorField.value = isErrorActive ? '1' : '0';
+                updateErrorToggleButton();
+            });
+            
+            function updateErrorToggleButton() {
+                if (isErrorActive) {
+                    errorToggle.textContent = 'Aan';
+                    errorToggle.classList.remove('bg-gray-200', 'text-gray-700');
+                    errorToggle.classList.add('bg-blue-500', 'text-white');
+                } else {
+                    errorToggle.textContent = 'Uit';
+                    errorToggle.classList.remove('bg-blue-500', 'text-white');
+                    errorToggle.classList.add('bg-gray-200', 'text-gray-700');
+                }
+            }
         });
     </script>
 </x-app-layout>

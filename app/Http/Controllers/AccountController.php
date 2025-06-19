@@ -88,7 +88,16 @@ class AccountController extends Controller
             'addition' => 'nullable|string|max:10',
             'postal_code' => 'nullable|string|max:10',
             'city' => 'nullable|string|max:255',
+            // For error simulation
+            'simulate_error' => 'nullable|string',
         ]);
+
+        // Check if we should simulate an error
+        if ($request->input('simulate_error') === '1') {
+            Log::info('Simulating technical error during account creation');
+            return back()->withInput()
+                ->with('error', 'Account kon niet worden opgeslagen door een technische fout. Probeer het later opnieuw of neem contact op met support.');
+        }
 
         try {
             // Create user account and contact information using stored procedure
@@ -117,7 +126,7 @@ class AccountController extends Controller
         } catch (\Exception $e) {
             Log::error('Error creating account: ' . $e->getMessage());
             return back()->withInput()
-                ->with('error', 'Er is een fout opgetreden bij het aanmaken van het account.');
+                ->with('error', 'Account kon niet worden opgeslagen door een technische fout. Probeer het later opnieuw of neem contact op met support.');
         }
     }
 
