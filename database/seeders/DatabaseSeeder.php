@@ -7,7 +7,6 @@ use App\Models\Student;
 use App\Models\Instructor;
 use App\Models\Registration;
 use App\Models\Invoice;
-use App\Models\Payment;
 use Illuminate\Support\Facades\DB;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -126,8 +125,6 @@ class DatabaseSeeder extends Seeder
 
         // Create instructors
         Instructor::factory(5)->create();
-
-        Payment::factory(5)->create();
     }
 
     /**
@@ -135,6 +132,7 @@ class DatabaseSeeder extends Seeder
      */
     private function ensurePackagesExist(): void
     {
+        /*
         // Check if packages already exist
         if (DB::table('packages')->count() === 0) {
             // Create default packages with the columns that exist in the packages table
@@ -186,6 +184,7 @@ class DatabaseSeeder extends Seeder
                 ],
             ]);
         }
+        */
 
         $this->call(AutoSeeder::class);
         $this->call(PackageSeeder::class);

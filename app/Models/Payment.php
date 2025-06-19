@@ -19,10 +19,11 @@ class Payment extends Model
     // Allow mass assignment on these fields (adjust as needed)
     protected $fillable = [
         'invoice_id',
+        'invoice_number',
         'date',
         'status',
-        'is_active',
-        'note',
+        'description',
+        'is_active'
     ];
 
     // Cast 'date' to a Carbon instance for date handling in views/controllers
