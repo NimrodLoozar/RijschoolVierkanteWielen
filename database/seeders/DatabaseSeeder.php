@@ -7,7 +7,6 @@ use App\Models\Student;
 use App\Models\Instructor;
 use App\Models\Registration;
 use App\Models\Invoice;
-use App\Models\Payment;
 use Illuminate\Support\Facades\DB;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -126,8 +125,6 @@ class DatabaseSeeder extends Seeder
 
         // Create instructors
         Instructor::factory(5)->create();
-
-        Payment::factory(5)->create();
     }
 
     /**
