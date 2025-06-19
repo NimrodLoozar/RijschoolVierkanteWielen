@@ -129,7 +129,7 @@
 
                                 <!-- Addition -->
                                 <div class="mb-2 md:w-1/6">
-                                    <input id="addition" type="text" name="addition" value="{{ old('addition') }}"
+                                    <input id="addition" type="text" name="addition" value="{{ old('addition') }}" maxlength="10"
                                         placeholder="{{ __('Toevoeging') }}"
                                         class="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
                                     @error('addition')
@@ -141,7 +141,7 @@
                             <div class="md:flex md:space-x-3">
                                 <!-- Postal Code -->
                                 <div class="mb-2 md:w-1/3">
-                                    <input id="postal_code" type="text" name="postal_code" value="{{ old('postal_code') }}"
+                                    <input id="postal_code" type="text" name="postal_code" value="{{ old('postal_code') }}" maxlength="6"
                                         placeholder="{{ __('Postcode') }}"
                                         class="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500">
                                     @error('postal_code')
